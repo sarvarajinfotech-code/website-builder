@@ -183,7 +183,7 @@ export default function HomePage() {
           </main>
         </div>
       </div>
-      {/* <FloatingIcon /> */}
+      <FloatingIcon />
       <TrustedBy />
       <Team />
       <Testimonials />
