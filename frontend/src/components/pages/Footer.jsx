@@ -159,7 +159,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 pt-8 mt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <div className="mb-4 md:mb-0">
               <h3 className="text-lg font-semibold mb-2">
                 Subscribe to our newsletter
@@ -169,26 +169,28 @@ export default function Footer() {
                 weekly.
               </p>
             </div>
-            <form onSubmit={handleSubmit} className="flex w-full md:w-auto">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="bg-gray-800 text-white px-2 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-purple-500 flex-grow md:w-64"
-                required
-              />
-              <button
-                type="submit"
-                className="bg-purple-600 text-white px-2 py-2 rounded-r-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              >
-                Subscribe
-              </button>
+            <form onSubmit={handleSubmit} className="w-full md:w-auto">
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="bg-gray-800 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-64"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-auto"
+                >
+                  Subscribe
+                </button>
+              </div>
             </form>
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-gray-800 flex justify-center items-center">
+        <div className="mt-8 pt-8 border-t border-gray-800">
           <p className="text-sm text-gray-400">
             &copy; 2024 Your Company, Inc. All rights reserved.
           </p>
