@@ -47,13 +47,13 @@ export default function Example() {
         </a>
       </div>
       <div className="flex flex-1 justify-end">
-        <button
+        {/* <button
           type="button"
           className="-m-3 p-3 focus-visible:outline-offset-[-4px]"
         >
           <span className="sr-only">Dismiss</span>
           <img src={XIcon} alt="Dismiss" className="h-5 w-5 text-gray-900" />
-        </button>
+        </button> */}
       </div>
     </div>
   );
