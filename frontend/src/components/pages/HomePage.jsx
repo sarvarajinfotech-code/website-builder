@@ -5,7 +5,9 @@ import Pricing from "./Pricing";
 import Testimonials from "./Testimonials";
 import TrustedBy from "./TrustedBy";
 import Team from "./Team";
+import Products from "./Products";
 import Footer from "./Footer";
+import FloatingIcon from "./Floating";
 
 export default function HomePage() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -41,7 +43,7 @@ export default function HomePage() {
                   href="#"
                   className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
                 >
-                  Product
+                  Home
                 </a>
               </li>
               <li>
@@ -49,7 +51,7 @@ export default function HomePage() {
                   href="#"
                   className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
                 >
-                  Features
+                  Products
                 </a>
               </li>
               <li>
@@ -57,7 +59,7 @@ export default function HomePage() {
                   href="#"
                   className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
                 >
-                  Marketplace
+                  Pricing
                 </a>
               </li>
               <li>
@@ -65,7 +67,15 @@ export default function HomePage() {
                   href="#"
                   className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
                 >
-                  Company
+                  Team
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+                >
+                  Blogs
                 </a>
               </li>
             </ul>
@@ -104,7 +114,7 @@ export default function HomePage() {
                     href="#"
                     className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
                   >
-                    Product
+                    Home
                   </a>
                 </li>
                 <li>
@@ -112,7 +122,7 @@ export default function HomePage() {
                     href="#"
                     className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
                   >
-                    Features
+                    Products
                   </a>
                 </li>
                 <li>
@@ -120,7 +130,7 @@ export default function HomePage() {
                     href="#"
                     className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
                   >
-                    Marketplace
+                    Pricing
                   </a>
                 </li>
                 <li>
@@ -128,7 +138,15 @@ export default function HomePage() {
                     href="#"
                     className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
                   >
-                    Company
+                    Team
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+                  >
+                    Blogs
                   </a>
                 </li>
               </ul>
@@ -165,10 +183,12 @@ export default function HomePage() {
           </main>
         </div>
       </div>
+      {/* <FloatingIcon /> */}
       <TrustedBy />
       <Team />
       <Testimonials />
       <Pricing />
+      <Products />
       <Footer />
     </div>
   );
