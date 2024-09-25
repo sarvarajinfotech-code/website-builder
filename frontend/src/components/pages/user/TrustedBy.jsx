@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import vercelIcon from "../../assets/vercel.svg";
-import adobeIcon from "../../assets/adobe.svg";
-import awsIcon from "../../assets/aws.svg";
-import disneyIcon from "../../assets/disney.svg";
-import microsoftIcon from "../../assets/microsoft.svg";
-import netflixIcon from "../../assets/netflix.svg";
+import vercelIcon from "../../../assets/vercel.svg";
+import adobeIcon from "../../../assets/adobe.svg";
+import awsIcon from "../../../assets/aws.svg";
+import disneyIcon from "../../../assets/disney.svg";
+import microsoftIcon from "../../../assets/microsoft.svg";
+import netflixIcon from "../../../assets/netflix.svg";
 
 const logos = [
   { name: "Vercel", src: vercelIcon },
