@@ -1,25 +1,24 @@
 import { useEffect, useRef, useState } from "react";
+import vercelIcon from "../../assets/vercel.svg";
+import adobeIcon from "../../assets/adobe.svg";
+import awsIcon from "../../assets/aws.svg";
+import disneyIcon from "../../assets/disney.svg";
+import microsoftIcon from "../../assets/microsoft.svg";
+import netflixIcon from "../../assets/netflix.svg";
 
 const logos = [
-  { name: "Vercel", src: "https://avatars.githubusercontent.com/u/124599?v=4" },
-  { name: "AWS", src: "https://avatars.githubusercontent.com/u/124599?v=4" },
+  { name: "Vercel", src: vercelIcon },
+  { name: "AWS", src: awsIcon },
   {
     name: "Microsoft",
-    src: "https://avatars.githubusercontent.com/u/124599?v=4",
+    src: microsoftIcon,
   },
   {
     name: "Netflix",
-    src: "https://avatars.githubusercontent.com/u/124599?v=4",
+    src: netflixIcon,
   },
-  { name: "Disney", src: "https://avatars.githubusercontent.com/u/124599?v=4" },
-  { name: "Adobe", src: "https://avatars.githubusercontent.com/u/124599?v=4" },
-  { name: "Vercel", src: "https://avatars.githubusercontent.com/u/124599?v=4" },
-  { name: "AWS", src: "https://avatars.githubusercontent.com/u/124599?v=4" },
-  {
-    name: "Microsoft",
-    src: "https://avatars.githubusercontent.com/u/124599?v=4",
-  },
-  // Add more logos as needed
+  { name: "Disney", src: disneyIcon },
+  { name: "Adobe", src: adobeIcon },
 ];
 
 export default function TrustedBy() {
@@ -41,21 +40,21 @@ export default function TrustedBy() {
   }, []);
 
   return (
-    <section className="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-8 bg-gray-50 dark:bg-gray-800 transition-colors duration-200">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <h2 className="text-2xl font-semibold text-center text-gray-800 dark:text-gray-200 mb-8">
           TRUSTED BY TEAMS FROM AROUND THE WORLD
         </h2>
         <div
           ref={containerRef}
-          className={`flex items-center space-x-8 overflow-hidden ${
+          className={`flex items-center justify-center space-x-8 overflow-x-auto ${
             isOverflowing ? "animate-scroll" : " "
           }`}
         >
-          {logos.concat(logos).map((logo, index) => (
+          {logos.map((logo, index) => (
             <div
               key={index}
-              className="flex-shrink-0 h-12 w-32 flex items-center justify-center"
+              className="flex-shrink-0 h-12 w-32 flex items-center justify-center bg-white border border-gray-300 rounded-md"
             >
               <img
                 src={logo.src}
