@@ -25,13 +25,13 @@ export default function HomePage() {
     <div className={`min-h-screen ${isDarkMode ? "dark" : ""}`}>
       <Banner />
       <div className="relative bg-white dark:bg-gray-900 min-h-screen">
-        <div className="absolute inset-0 z-0">
+        {/* <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1500&q=80"
             alt="Office background"
             className="w-full h-full object-cover opacity-20 dark:opacity-5"
           />
-        </div>
+        </div> */}
         <div className="relative z-10">
           <nav className="flex justify-between items-center p-4">
             <div className="text-purple-600 dark:text-purple-400 text-2xl font-bold">
