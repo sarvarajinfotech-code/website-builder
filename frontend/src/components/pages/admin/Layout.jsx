@@ -22,6 +22,8 @@ import {
   Dock,
   MessageSquareDiff,
   ClipboardMinus,
+  UserPlus,
+  CircleFadingPlus,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -38,15 +40,33 @@ const menuItems = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/" },
   { name: "Settings", icon: Settings, path: "/settings" },
   { name: "Home Page", icon: HousePlus, path: "/home-page" },
-  { name: "Clients", icon: Users, path: "/clients" },
+  { name: "Clients", icon: UserPlus, path: "/clients" },
   { name: "Team", icon: Users, path: "/team" },
   { name: "Testimonials", icon: MessageSquare, path: "/testimonials" },
   { name: "Pricing", icon: HandCoins, path: "/pricing" },
-  { name: "Products", icon: Package, path: "/products" },
-  { name: "Blogs", icon: Rss, path: "/blogs" },
+  {
+    name: "Products",
+    icon: Package,
+    expandable: true,
+    path: "/products",
+    list: [
+      { name: "Product Category", icon: Package, path: "/products/category" },
+      { name: "Products", icon: Package, path: "/products" },
+    ],
+  },
+  {
+    name: "Blogs",
+    icon: Rss,
+    path: "/blogs",
+    expandable: true,
+    list: [
+      { name: "Blog Category", icon: Rss, path: "/blogs/category" },
+      { name: "Blogs", icon: Rss, path: "/blogs" },
+    ],
+  },
+  { name: "Social Media", icon: CircleFadingPlus, path: "/social-media" },
   { name: "Footer", icon: Dock, path: "/footer" },
   { name: "Meetings", icon: MessageSquareDiff, path: "/meetings" },
-  { name: "Reports", icon: ClipboardMinus, path: "/reports", expandable: true },
 ];
 
 export default function Layout() {
@@ -67,7 +87,7 @@ export default function Layout() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex bg-gray-100">
       {/* Hamburger Menu for Small Screens */}
       <header className="bg-white shadow-sm border-b border-gray-200 w-full md:hidden">
         <div className="flex justify-between items-center px-4 py-2">
@@ -90,7 +110,7 @@ export default function Layout() {
       <aside
         className={`${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed inset-y-0 left-0 w-64 bg-white shadow-md flex flex-col transform transition-transform duration-300 md:translate-x-0 md:static`}
+        } fixed h-screen inset-y-0 left-0 w-64 bg-white shadow-md flex flex-col transform transition-transform duration-300 md:translate-x-0 md:static`}
       >
         <div className="p-4 border-b border-gray-200 ">
           <h1 className="text-2xl font-bold text-blue-600">VirtualBal</h1>
@@ -98,24 +118,24 @@ export default function Layout() {
         <nav className="flex-grow py-4 overflow-y-auto ">
           {menuItems.map((item) => (
             <div key={item.name}>
-              <Link
-                to={item.path}
-                className={`flex items-center justify-between w-full px-4 py-2 text-sm transition-colors duration-200 ${
-                  location.pathname === item.path
-                    ? "text-blue-600 bg-blue-50"
-                    : "text-gray-700 hover:bg-gray-100"
-                }`}
-              >
-                <div className="flex items-center">
-                  <item.icon className="w-5 h-5 mr-3" />
-                  {item.name}
-                </div>
-                {item.expandable && (
+              {item.expandable ? (
+                <div
+                  className={`flex items-center justify-between w-full px-4 py-2 text-sm transition-colors duration-200 cursor-pointer ${
+                    expandedItems.includes(item.name)
+                      ? "bg-blue-50"
+                      : "hover:bg-gray-100"
+                  }`}
+                  onClick={() => toggleExpand(item.name)}
+                >
+                  <div className="flex items-center">
+                    <item.icon className="w-5 h-5 mr-3" />
+                    {item.name}
+                  </div>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={(e) => {
-                      e.preventDefault();
+                      e.stopPropagation(); // Prevent event from propagating and causing navigation
                       toggleExpand(item.name);
                     }}
                   >
@@ -125,22 +145,34 @@ export default function Layout() {
                       }`}
                     />
                   </Button>
-                )}
-              </Link>
+                </div>
+              ) : (
+                <Link
+                  to={item.path}
+                  className={`flex items-center justify-between w-full px-4 py-2 text-sm transition-colors duration-200 ${
+                    location.pathname === item.path
+                      ? "text-blue-600 bg-blue-50"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <item.icon className="w-5 h-5 mr-3" />
+                    {item.name}
+                  </div>
+                </Link>
+              )}
+
               {item.expandable && expandedItems.includes(item.name) && (
                 <div className="ml-6 mt-1">
-                  <Link
-                    to={`${item.path}/sub1`}
-                    className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
-                  >
-                    Subitem 1
-                  </Link>
-                  <Link
-                    to={`${item.path}/sub2`}
-                    className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
-                  >
-                    Subitem 2
-                  </Link>
+                  {item.list.map((subItem) => (
+                    <Link
+                      key={subItem.name}
+                      to={subItem.path}
+                      className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                    >
+                      {subItem.name}
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>
@@ -174,7 +206,7 @@ export default function Layout() {
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src="https://avatars.githubusercontent.com/u/124599?v=4" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>

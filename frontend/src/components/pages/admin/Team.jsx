@@ -1,8 +1,184 @@
+"use client";
+
+import React, { useState, useRef } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 export default function Team() {
+  const [activeTab, setActiveTab] = useState("header");
+  const [headerText, setHeaderText] = useState("");
+  const [tagline, setTagline] = useState("");
+  const fileInputRef = useRef(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+
+  const handlePhotoChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const [teamMember, setTeamMember] = useState({
+    name: "",
+    designation: "",
+    linkedin: "",
+    twitter: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setTeamMember((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleHeaderSubmit = (e) => {
+    e.preventDefault();
+    console.log("Header submitted:", { headerText, tagline });
+    // Add your header submission logic here
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Team member submitted:", {
+      ...teamMember,
+      photo: photoPreview,
+    });
+    // Add your team member submission logic here
+  };
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-semibold mb-4">Team</h2>
-      <p className="text-gray-600"></p>
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="w-full max-w-3xl mx-auto"
+      >
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="header">Team Header</TabsTrigger>
+          <TabsTrigger value="team">Add Team</TabsTrigger>
+        </TabsList>
+        <TabsContent value="header" className="mt-6">
+          <form
+            onSubmit={handleHeaderSubmit}
+            className="space-y-6 max-w-md mx-auto"
+          >
+            <div>
+              <Label htmlFor="headerText">Header Text</Label>
+              <Input
+                id="headerText"
+                value={headerText}
+                onChange={(e) => setHeaderText(e.target.value)}
+                placeholder="Enter header text"
+              />
+            </div>
+            <div>
+              <Label htmlFor="tagline">Tagline</Label>
+              <Input
+                id="tagline"
+                value={tagline}
+                onChange={(e) => setTagline(e.target.value)}
+                placeholder="Enter tagline"
+              />
+            </div>
+            <Button type="submit" className="w-full">
+              Save Header
+            </Button>
+          </form>
+        </TabsContent>
+        <TabsContent value="team" className="mt-6">
+          <form onSubmit={handleSubmit} className="space-y-6 max-w-md mx-auto">
+            <div className="space-y-2">
+              <Label htmlFor="name">Employee Name</Label>
+              <Input
+                id="name"
+                name="name"
+                value={teamMember.name}
+                onChange={handleInputChange}
+                placeholder="Enter employee name"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="designation">Designation</Label>
+              <Input
+                id="designation"
+                name="designation"
+                value={teamMember.designation}
+                onChange={handleInputChange}
+                placeholder="Enter employee designation"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="linkedin">LinkedIn Profile</Label>
+              <Input
+                id="linkedin"
+                name="linkedin"
+                value={teamMember.linkedin}
+                onChange={handleInputChange}
+                placeholder="Enter LinkedIn profile URL"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="twitter">Twitter Profile</Label>
+              <Input
+                id="twitter"
+                name="twitter"
+                value={teamMember.twitter}
+                onChange={handleInputChange}
+                placeholder="Enter Twitter profile URL"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="clientLogo">Photo</Label>
+              <Input
+                id="photo"
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className="hidden"
+                ref={fileInputRef}
+              />
+              <Button
+                type="button"
+                onClick={() => fileInputRef.current.click()}
+                className="w-full"
+              >
+                Select Photo
+              </Button>
+              <div className="mt-2 h-40 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center">
+                {photoPreview ? (
+                  <img
+                    src={photoPreview}
+                    alt="Team Member phto Preview"
+                    className="max-h-full max-w-full object-contain"
+                  />
+                ) : (
+                  <p className="text-gray-500">Select a photo to preview</p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex justify-between">
+              <Button
+                type="button"
+                onClick={() => console.log("Cancelled")}
+                className="w-1/2"
+              >
+                Cancel
+              </Button>
+
+              <Button type="submit" className="w-1/2 ml-1">
+                Add Member
+              </Button>
+            </div>
+          </form>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

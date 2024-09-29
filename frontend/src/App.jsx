@@ -15,13 +15,17 @@ import Products from "./components/pages/admin/Products";
 import Blogs from "./components/pages/admin/Blogs";
 import Footer from "./components/pages/admin/Footer";
 import Meetings from "./components/pages/admin/Meetings";
-import Reports from "./components/pages/admin/Reports";
-
+import ProductCategory from "./components/pages/admin/ProductCategory";
+import BlogCategory from "./components/pages/admin/BlogCategory";
+import BlogSection from "./components/pages/user/BlogSection";
+import SocialMedia from "./components/pages/admin/SocialMedia";
 function App() {
   return (
     <>
-      <ClientHomePage />
       <Router>
+        {/* <ClientHomePage /> */}
+        {/* <BlogSection /> */}
+
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
@@ -32,10 +36,12 @@ function App() {
             <Route path="testimonials" element={<Testimonials />} />
             <Route path="pricing" element={<Pricing />} />
             <Route path="products" element={<Products />} />
+            <Route path="products/category" element={<ProductCategory />} />
             <Route path="blogs" element={<Blogs />} />
+            <Route path="blogs/category" element={<BlogCategory />} />
+            <Route path="social-media" element={<SocialMedia />} />
             <Route path="footer" element={<Footer />} />
             <Route path="meetings" element={<Meetings />} />
-            <Route path="reports" element={<Reports />} />
           </Route>
         </Routes>
       </Router>
