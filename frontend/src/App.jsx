@@ -23,7 +23,7 @@ function App() {
   return (
     <>
       <Router>
-        {/* <ClientHomePage /> */}
+        <ClientHomePage />
         {/* <BlogSection /> */}
 
         <Routes>

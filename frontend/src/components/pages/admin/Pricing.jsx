@@ -16,14 +16,18 @@ export default function Pricing() {
   const [activeTab, setActiveTab] = useState("header");
   const [headerText, setHeaderText] = useState("");
   const [tagline, setTagline] = useState("");
+  const [planType, setPlanType] = useState("");
   const [pricingData, setPricingData] = useState({
-    priceName: "",
+    priceTagLine: "",
     currencyType: "",
     price: "",
     featuresIncluded: "",
     featuresNotIncluded: "",
     ctaButtonText: "",
     ctaButtonLink: "",
+    offer: "",
+    offerPrice: "",
+    planType: "",
   });
 
   const handleInputChange = (e) => {
@@ -38,6 +42,12 @@ export default function Pricing() {
   const handleHeaderSubmit = (e) => {
     e.preventDefault();
     console.log("Header submitted:", { headerText, tagline });
+    // Add your header submission logic here
+  };
+
+  const handlePlanSubmit = (e) => {
+    e.preventDefault();
+    console.log("Plan type submitted:", { planType });
     // Add your header submission logic here
   };
 
@@ -67,8 +77,9 @@ export default function Pricing() {
         onValueChange={setActiveTab}
         className="w-full max-w-3xl mx-auto"
       >
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="header">Pricing Header</TabsTrigger>
+          <TabsTrigger value="plan">Add Plan</TabsTrigger>
           <TabsTrigger value="price">Add Price</TabsTrigger>
         </TabsList>
         <TabsContent value="header" className="mt-6">
@@ -99,16 +110,55 @@ export default function Pricing() {
             </Button>
           </form>
         </TabsContent>
+        <TabsContent value="plan" className="mt-6">
+          <form
+            onSubmit={handlePlanSubmit}
+            className="space-y-6 max-w-md mx-auto"
+          >
+            <div>
+              <Label htmlFor="headerText">Plan Type</Label>
+              <Input
+                id="planType"
+                value={planType}
+                onChange={(e) => setPlanType(e.target.value)}
+                placeholder="Enter Plan type"
+              />
+            </div>
+
+            <Button type="submit" className="w-full">
+              Save Plan
+            </Button>
+          </form>
+        </TabsContent>
         <TabsContent value="price" className="mt-6">
           <form onSubmit={handleSubmit} className="space-y-6 max-w-md mx-auto">
             <div className="space-y-2">
-              <Label htmlFor="priceName">Price Name</Label>
+              <Label htmlFor="planType">Plan Type</Label>
+              <Select
+                id="planType"
+                value={pricingData.planType}
+                onValueChange={(value) =>
+                  handleInputChange({ target: { name: "planType", value } })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select plan type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="basic">Basic</SelectItem>
+                  <SelectItem value="premium">Premium</SelectItem>
+                  <SelectItem value="enterprise">Enterprise</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="priceTagLine">Price TagLine</Label>
               <Input
-                id="priceName"
-                name="priceName"
-                value={pricingData.priceName}
+                id="priceTagLine"
+                name="priceTagLine"
+                value={pricingData.priceTagLine}
                 onChange={handleInputChange}
-                placeholder="Enter price name"
+                placeholder="Enter price Tagline"
               />
             </div>
 
@@ -122,6 +172,7 @@ export default function Pricing() {
                   <SelectValue placeholder="Select currency" />
                 </SelectTrigger>
                 <SelectContent>
+                  {/* Add currency options here */}
                   <SelectItem value="ARS">Argentine Peso ($)</SelectItem>
                   <SelectItem value="AUD">Australian Dollar (A$)</SelectItem>
                   <SelectItem value="BRL">Brazilian Real (R$)</SelectItem>
@@ -151,9 +202,6 @@ export default function Pricing() {
                   <SelectItem value="THB">Thai Baht (฿)</SelectItem>
                   <SelectItem value="TRY">Turkish Lira (₺)</SelectItem>
                   <SelectItem value="USD">United States Dollar ($)</SelectItem>
-                  <SelectItem value="AED">
-                    United Arab Emirates Dirham (د.إ)
-                  </SelectItem>
                   <SelectItem value="VND">Vietnamese Dong (₫)</SelectItem>
                   <SelectItem value="ZAR">South African Rand (R)</SelectItem>
                 </SelectContent>
@@ -171,6 +219,43 @@ export default function Pricing() {
                 type="number"
               />
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="offer">Do you want to give an offer?</Label>
+              <Select
+                id="offer"
+                value={pricingData.offer}
+                onValueChange={(value) => {
+                  handleInputChange({ target: { name: "offer", value } });
+                  // Reset offerPrice if the offer is not selected
+                  if (value === "No") {
+                    setPricingData({ ...pricingData, offerPrice: "" });
+                  }
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select yes or no" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {pricingData.offer === "Yes" && (
+              <div className="space-y-2">
+                <Label htmlFor="offerPrice">Offer Price</Label>
+                <Input
+                  id="offerPrice"
+                  name="offerPrice"
+                  value={pricingData.offerPrice}
+                  onChange={handleInputChange}
+                  placeholder="Enter offer price"
+                  type="number"
+                />
+              </div>
+            )}
 
             <div className="space-y-2">
               <Label htmlFor="featuresIncluded">

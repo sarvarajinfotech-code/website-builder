@@ -1,0 +1,41 @@
+from fastapi import FastAPI
+from app.controllers import user_controller
+from app.controllers import header_controller
+from app.controllers import price_plan_type_controller
+from app.controllers import price_controller
+from app.controllers import product_category_controller
+from app.controllers import blog_category_controller
+from app.controllers import product_controller
+from app.controllers import social_media_controller
+from app.controllers import footer_header_controller
+from app.controllers import footer_section_controller
+from app.controllers import email_settings_controller
+from app.controllers import banner_controller
+from app.controllers import color_theme_controller
+from app.controllers import favicon_settings_controller
+from app.controllers import navigation_settings_controller
+from app.utils.database import engine, Base
+
+# Create database tables
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI()
+
+# Include routers
+app.include_router(user_controller.router)
+app.include_router(header_controller.router)
+app.include_router(price_plan_type_controller.router)
+app.include_router(price_controller.router)
+app.include_router(product_category_controller.router)
+app.include_router(blog_category_controller.router)
+app.include_router(product_controller.router)
+app.include_router(social_media_controller.router)
+app.include_router(footer_header_controller.router)
+app.include_router(footer_section_controller.router)
+app.include_router(email_settings_controller.router)
+app.include_router(banner_controller.router)
+app.include_router(color_theme_controller.router)
+app.include_router(favicon_settings_controller.router)
+app.include_router(navigation_settings_controller.router)
+
+
