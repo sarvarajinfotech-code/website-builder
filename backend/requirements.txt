@@ -1,8 +1,0 @@
-fastapi
-uvicorn
-sqlalchemy
-pymysql
-passlib
-python-dotenv
-pydantic-settings
-python-multipart
