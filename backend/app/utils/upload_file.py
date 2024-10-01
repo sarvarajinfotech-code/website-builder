@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Read the upload folder path from the environment variables
-UPLOAD_FOLDER = os.getenv("PUBLIC_FOLDER_PATH")
+UPLOAD_FOLDER = "/home/babu_reddy/Videos/Personal Projects/client/websitebuilder/frontend/public"
 
 def save_file(file: UploadFile, file_name: str) -> str:
     """

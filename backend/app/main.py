@@ -14,6 +14,11 @@ from app.controllers import banner_controller
 from app.controllers import color_theme_controller
 from app.controllers import favicon_settings_controller
 from app.controllers import navigation_settings_controller
+from app.controllers import home_page_settings_controller
+from app.controllers import client_controller
+from app.controllers import team_controller
+from app.controllers import testimonial_controller
+from app.controllers import blog_controller
 from app.utils.database import engine, Base
 
 # Create database tables
@@ -37,5 +42,11 @@ app.include_router(banner_controller.router)
 app.include_router(color_theme_controller.router)
 app.include_router(favicon_settings_controller.router)
 app.include_router(navigation_settings_controller.router)
+app.include_router(home_page_settings_controller.router)
+app.include_router(client_controller.router)
+app.include_router(team_controller.router)
+app.include_router(testimonial_controller.router)
+app.include_router(blog_controller.router)
+
 
 
