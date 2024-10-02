@@ -1,24 +1,22 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import api from "@/utility/admin/api";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import Constants from "@/utility/admin/Constants";
 
 export default function SettingsTabs() {
+  const faviconInputRef = useRef(null);
+
   const [activeTab, setActiveTab] = useState("favicon");
   const [faviconPreview, setFaviconPreview] = useState(null);
   const [title, setTitle] = useState("");
+  const [favId, setFavId] = useState(null);
   const [faviconImage, setFaviconImage] = useState(null);
+  const [favButtonText, setFavButtonText] = useState("Update Favicon Settings");
   const [emailSettings, setEmailSettings] = useState({
     from: "",
     to: "",
@@ -27,18 +25,29 @@ export default function SettingsTabs() {
     smtpUsername: "",
     smtpPassword: "",
   });
+  const [emailSettingsId, setEmailSettingsId] = useState(null);
+  const [emailSettingsButtonText, setEmailSettingsButtonText] = useState(
+    "Save Email Settings"
+  );
   const [bannerSettings, setBannerSettings] = useState({
     text: "",
     buttonText: "",
     buttonLink: "",
   });
+  const [bannerID, setBannerID] = useState(null);
+  const [bannerButtonText, setBannerButtonText] = useState(
+    "Save Banner Settings"
+  );
+  const [colors, setColors] = useState(["#ffffff", "#ffffff", "#ffffff"]);
+  const [colorsButtonText, setColorsButtonText] =
+    useState("Save Color Palette");
+  const [colorsID, setColorsId] = useState(null);
+
   const handleColorChange = (index, color) => {
     const newColors = [...colors];
     newColors[index] = color;
     setColors(newColors);
   };
-  const [colors, setColors] = useState(["#ffffff", "#ffffff", "#ffffff"]);
-  const faviconInputRef = useRef(null);
 
   const handleFaviconChange = (event) => {
     const file = event.target.files[0];
@@ -52,26 +61,50 @@ export default function SettingsTabs() {
     }
   };
 
-  const handleFaviconSubmit = (e) => {
+  const handleFaviconSubmit = async (e) => {
     e.preventDefault();
     if (title === "") {
       alert("enter the title");
       return;
-    } else if (!faviconImage) {
+    } else if (!faviconPreview) {
       alert("please select a image");
     } else {
+      let formdata = new FormData();
+      formdata.set("title", title);
+      formdata.set("file", faviconImage);
+
+      if (favButtonText === "Save Favicon Settings") {
+        const response = await api.saveFaviconSettings(formdata);
+        console.log(response);
+      } else if (favButtonText === "Update Favicon Settings") {
+        const response = await api.updateFaviconSettings(formdata, favId);
+        console.log(response);
+      }
     }
   };
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = async (e) => {
     const { name, value } = e.target;
     setEmailSettings((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleEmailSubmit = (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email settings submitted:", emailSettings);
-    // Add your email settings submission logic here
+    const payload = {
+      from_mail: emailSettings.from,
+      to_mail: emailSettings.to,
+      smtp_host: emailSettings.smtpHost,
+      smtp_port: emailSettings.smtpPort,
+      smtp_username: emailSettings.smtpUsername,
+      smtp_password: emailSettings.smtpPassword,
+    };
+    if (emailSettingsButtonText === "Save Email Settings") {
+      const response = await api.saveEmailSettings(payload);
+      console.log(response);
+    } else if (emailSettingsButtonText === "Update Email Settings") {
+      const response = await api.updateEmailSettings(payload, emailSettingsId);
+      console.log(response);
+    }
   };
 
   const handleBannerChange = (e) => {
@@ -79,31 +112,106 @@ export default function SettingsTabs() {
     setBannerSettings((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleBannerSubmit = (e) => {
+  const handleBannerSubmit = async (e) => {
     e.preventDefault();
-    console.log("Banner settings submitted:", bannerSettings);
-    // Add your banner settings submission logic here
+    const payload = {
+      banner_text: bannerSettings.text,
+      banner_button_text: bannerSettings.buttonText,
+      button_link: bannerSettings.buttonLink,
+    };
+    if (bannerButtonText === "Save Banner Settings") {
+      const response = await api.saveBannerSettings(payload);
+      console.log(response);
+    } else if (bannerButtonText === "Update Banner Settings") {
+      const response = await api.updateBannerSettings(payload, bannerID);
+      console.log(response);
+    }
   };
 
-  const handleColorThemeSubmit = (e) => {
+  const handleColorThemeSubmit = async (e) => {
     e.preventDefault();
-    console.log("Color palette submitted:", colors);
-    // Add your color theme submission logic here
+    const payload = {
+      color1: colors[0],
+      color2: colors[1],
+      color3: colors[2],
+    };
+
+    if (colorsButtonText === "Save Color Palette") {
+      const response = await api.saveColorsSettings(payload);
+      console.log(response);
+    } else if (colorsButtonText === "Update Color Palette") {
+      const response = await api.updateColorsSettings(payload, colorsID);
+      console.log(response);
+    }
   };
 
   useEffect(() => {
-    async function getFavDEtails() {
-      try {
-        const response = await axios.get(
-          Constants.BASE_URL + Constants.FAVICON
-        );
-        console.log(response);
-      } catch (error) {
-        console.log("error getting fav details");
-        console.log(Constants.BASE_URL + Constants.FAVICON);
+    async function fetchFaviconDetails() {
+      const faviconDetails = await api.getFaviconDetails();
+      if (faviconDetails.length > 0) {
+        const image = await api.getImage(faviconDetails[0].FAVICON_PATH);
+        setTitle(faviconDetails[0].TITLE);
+        setFaviconPreview(faviconDetails[0].FAVICON_PATH);
+        setFaviconImage(image);
+        setFavId(faviconDetails[0].ID);
+        setFavButtonText("Update Favicon Settings");
+      } else {
+        setFavButtonText("Save Favicon Settings");
       }
     }
-    getFavDEtails();
+
+    async function fetchEmailSettings() {
+      const emailSettings = await api.getEmailSettingsDetails();
+      if (emailSettings.length > 0) {
+        setEmailSettings({
+          from: emailSettings[0].FROM_MAIL,
+          to: emailSettings[0].TO_MAIL,
+          smtpHost: emailSettings[0].SMTP_HOST,
+          smtpPort: emailSettings[0].SMTP_PORT,
+          smtpUsername: emailSettings[0].SMTP_USERNAME,
+          smtpPassword: emailSettings[0].SMTP_PASSWORD,
+        });
+        setEmailSettingsId(emailSettings[0].ID);
+        setEmailSettingsButtonText("Update Email Settings");
+      } else {
+        setEmailSettingsButtonText("Save Email Settings");
+      }
+    }
+
+    async function fetchBannerSettings() {
+      const bannerSettings = await api.getBannerSettingsDetails();
+      if (bannerSettings.length > 0) {
+        setBannerSettings({
+          text: bannerSettings[0].BANNER_TEXT,
+          buttonText: bannerSettings[0].BANNER_BUTTON_TEXT,
+          buttonLink: bannerSettings[0].BUTTON_LINK,
+        });
+        setBannerID(bannerSettings[0].ID);
+        setBannerButtonText("Update Banner Settings");
+      } else {
+        setBannerButtonText("Save Banner Settings");
+      }
+    }
+
+    async function fetchColorsSettings() {
+      const colorsSettings = await api.getColorsSettingsDetails();
+      if (colorsSettings.length > 0) {
+        setColors([
+          colorsSettings[0].COLOR1,
+          colorsSettings[0].COLOR2,
+          colorsSettings[0].COLOR3,
+        ]);
+        setColorsId(colorsSettings[0].ID);
+        setColorsButtonText("Update Color Palette");
+      } else {
+        setColorsButtonText("Save Color Palette");
+      }
+    }
+
+    fetchFaviconDetails();
+    fetchEmailSettings();
+    fetchBannerSettings();
+    fetchColorsSettings();
   }, []);
 
   return (
@@ -131,6 +239,7 @@ export default function SettingsTabs() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Enter title"
+                required
               />
             </div>
             <div>
@@ -163,7 +272,7 @@ export default function SettingsTabs() {
               </div>
             </div>
             <Button type="submit" className="w-full">
-              Save Favicon Settings
+              {favButtonText}
             </Button>
           </form>
         </TabsContent>
@@ -180,6 +289,7 @@ export default function SettingsTabs() {
                 value={emailSettings.from}
                 onChange={handleEmailChange}
                 placeholder="Enter from email"
+                required
               />
             </div>
             <div>
@@ -190,6 +300,7 @@ export default function SettingsTabs() {
                 value={emailSettings.to}
                 onChange={handleEmailChange}
                 placeholder="Enter to email"
+                required
               />
             </div>
             <div>
@@ -200,6 +311,7 @@ export default function SettingsTabs() {
                 value={emailSettings.smtpHost}
                 onChange={handleEmailChange}
                 placeholder="Enter SMTP host"
+                required
               />
             </div>
             <div>
@@ -210,6 +322,7 @@ export default function SettingsTabs() {
                 value={emailSettings.smtpPort}
                 onChange={handleEmailChange}
                 placeholder="Enter SMTP port"
+                required
               />
             </div>
             <div>
@@ -220,6 +333,7 @@ export default function SettingsTabs() {
                 value={emailSettings.smtpUsername}
                 onChange={handleEmailChange}
                 placeholder="Enter SMTP username"
+                required
               />
             </div>
             <div>
@@ -231,10 +345,11 @@ export default function SettingsTabs() {
                 value={emailSettings.smtpPassword}
                 onChange={handleEmailChange}
                 placeholder="Enter SMTP password"
+                required
               />
             </div>
             <Button type="submit" className="w-full">
-              Save Email Settings
+              {emailSettingsButtonText}
             </Button>
           </form>
         </TabsContent>
@@ -251,6 +366,7 @@ export default function SettingsTabs() {
                 value={bannerSettings.text}
                 onChange={handleBannerChange}
                 placeholder="Enter banner text"
+                required
               />
             </div>
             <div>
@@ -261,6 +377,7 @@ export default function SettingsTabs() {
                 value={bannerSettings.buttonText}
                 onChange={handleBannerChange}
                 placeholder="Enter banner button text"
+                required
               />
             </div>
             <div>
@@ -271,10 +388,11 @@ export default function SettingsTabs() {
                 value={bannerSettings.buttonLink}
                 onChange={handleBannerChange}
                 placeholder="Enter banner button link"
+                required
               />
             </div>
             <Button type="submit" className="w-full">
-              Save Banner Settings
+              {bannerButtonText}
             </Button>
           </form>
         </TabsContent>
@@ -321,7 +439,7 @@ export default function SettingsTabs() {
               </div>
             </div>
             <Button type="submit" className="w-full">
-              Save Color Palette
+              {colorsButtonText}
             </Button>
           </form>
         </TabsContent>
