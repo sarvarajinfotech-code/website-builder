@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,11 +12,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Constants from "@/utility/admin/Constants";
 
 export default function SettingsTabs() {
   const [activeTab, setActiveTab] = useState("favicon");
   const [faviconPreview, setFaviconPreview] = useState(null);
   const [title, setTitle] = useState("");
+  const [faviconImage, setFaviconImage] = useState(null);
   const [emailSettings, setEmailSettings] = useState({
     from: "",
     to: "",
@@ -41,6 +43,7 @@ export default function SettingsTabs() {
   const handleFaviconChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setFaviconImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setFaviconPreview(reader.result);
@@ -51,8 +54,13 @@ export default function SettingsTabs() {
 
   const handleFaviconSubmit = (e) => {
     e.preventDefault();
-    console.log("Favicon submitted:", { title, faviconPreview });
-    // Add your favicon submission logic here
+    if (title === "") {
+      alert("enter the title");
+      return;
+    } else if (!faviconImage) {
+      alert("please select a image");
+    } else {
+    }
   };
 
   const handleEmailChange = (e) => {
@@ -82,6 +90,21 @@ export default function SettingsTabs() {
     console.log("Color palette submitted:", colors);
     // Add your color theme submission logic here
   };
+
+  useEffect(() => {
+    async function getFavDEtails() {
+      try {
+        const response = await axios.get(
+          Constants.BASE_URL + Constants.FAVICON
+        );
+        console.log(response);
+      } catch (error) {
+        console.log("error getting fav details");
+        console.log(Constants.BASE_URL + Constants.FAVICON);
+      }
+    }
+    getFavDEtails();
+  }, []);
 
   return (
     <div className="bg-white shadow-md rounded-lg p-4">
