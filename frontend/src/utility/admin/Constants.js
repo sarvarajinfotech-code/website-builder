@@ -7,6 +7,7 @@ const Constants = Object.freeze({
   //pages
   CLIENT_PAGE: "client",
   TEAM_PAGE: "team",
+  TESTIMONIALS: "testimonials",
 
   //header text
   HEADER_TEXT: "/headers/",
@@ -34,6 +35,9 @@ const Constants = Object.freeze({
 
   //team page
   TEAM_SETTINGS: "/team/",
+
+  //testimonial page
+  TESTIMONIAL_PAGE: "/testimonials/",
 });
 
 export default Constants;

@@ -422,6 +422,58 @@ const api = {
       throw error;
     }
   },
+
+  //testimonials
+  getTestimonialsDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.TESTIMONIAL_PAGE}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while getting the Testimonials data", error);
+    }
+  },
+
+  saveTestimonialsDetails: async (formdata) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.TESTIMONIAL_PAGE}`,
+        formdata,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while creating Testimonials details", error);
+      throw error;
+    }
+  },
+
+  updateTestimonialsDetails: async (formdata, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.TESTIMONIAL_PAGE}${id}`,
+        formdata,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while updating Testimonials details", error);
+      throw error;
+    }
+  },
+
+  deleteTestimonialsDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.TESTIMONIAL_PAGE}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while deleteing Testimonials details", error);
+      throw error;
+    }
+  },
 };
 
 export default api;

@@ -15,7 +15,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -294,9 +293,9 @@ export default function Team() {
         <TabsContent value="team" className="mt-6">
           {teamList.length === 0 && !showForm && (
             <EmptyState
-              heading="No Clients"
-              subheading="Add a client"
-              buttonText="New Client"
+              heading="No members"
+              subheading="Add a member"
+              buttonText="New Member"
               onClick={() => {
                 setShowForm(true);
               }}
@@ -389,8 +388,11 @@ export default function Team() {
               <div className="flex justify-between">
                 <Button
                   type="button"
-                  onClick={() => setShowForm(false)}
-                  className="w-1/2"
+                  onClick={() => {
+                    setShowForm(false);
+                    reloadPage();
+                  }}
+                  className=" w-1/2"
                 >
                   Cancel
                 </Button>
