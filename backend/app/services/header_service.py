@@ -11,6 +11,9 @@ def create_header_info(db: Session, header_text: str, tagline: str, page: str):
 def get_header_info(db: Session, header_id: int):
     return db.query(HeaderInfo).filter(HeaderInfo.ID == header_id).first()
 
+def get_header_info_by_page(db: Session, page: str):
+    return db.query(HeaderInfo).filter(HeaderInfo.PAGE == page).all()
+
 def get_all_headers(db: Session):
     return db.query(HeaderInfo).all()
 
