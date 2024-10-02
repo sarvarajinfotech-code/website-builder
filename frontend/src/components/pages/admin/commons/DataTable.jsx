@@ -31,7 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export function DataTable({ columns, data, icon, onClickButton, buttonText }) {
+export function DataTable({ columns, data, icon, onButtonClick, buttonText }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -64,14 +64,14 @@ export function DataTable({ columns, data, icon, onClickButton, buttonText }) {
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={table.getColumn("email")?.getFilterValue() ?? ""}
+        {/* <Input
+          placeholder="Filter header text..."
+          value={table.getColumn("HEADER_TEXT")?.getFilterValue() ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("HEADER_TEXT")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
-        />
+        /> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -102,7 +102,7 @@ export function DataTable({ columns, data, icon, onClickButton, buttonText }) {
         {/* Added button */}
         <button
           className="flex items-center px-4 py-2 ml-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
-          onClick={onClickButton}
+          onClick={onButtonClick}
         >
           {icon && <span className="mr-2">{icon}</span>}
           {buttonText}
@@ -128,7 +128,7 @@ export function DataTable({ columns, data, icon, onClickButton, buttonText }) {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="text-center">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow

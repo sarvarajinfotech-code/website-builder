@@ -4,10 +4,36 @@ const API_PORT = import.meta.env.VITE_APP_API_PORT;
 const Constants = Object.freeze({
   BASE_URL: `${API_HOST}:${API_PORT}`,
 
-  //dashboard
+  //pages
+  CLIENT_PAGE: "client",
+  TEAM_PAGE: "team",
+
+  //header text
+  HEADER_TEXT: "/headers/",
 
   //favicon settings
   FAVICON: "/favicon-settings/",
+
+  //email settings
+  EMAIL_SETTINGS: "/email_settings/",
+
+  //banner settings
+  BANNER_SETTINGS: "/banners/",
+
+  //colors settings
+  COLORS_SETTINGS: "/color-themes/",
+
+  //navigation settings
+  NAVIGATION_SETTINGS: "/navigation-settings/",
+
+  //home page
+  HOME_PAGE_SETTINGS: "/home-page-settings/",
+
+  //client page
+  CLIENT_SETTINGS: "/clients/",
+
+  //team page
+  TEAM_SETTINGS: "/team/",
 });
 
 export default Constants;
