@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   ArrowUpDown,
   MoreHorizontal,
@@ -7,6 +7,17 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,249 +52,7 @@ import {
 } from "@/components/ui/card";
 import EmptyState from "./commons/EmptyState";
 import { DataTable } from "./commons/DataTable";
-
-const data = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
-];
-
-export const columns = [
-  {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "amount",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Amount
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-white">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
+import api from "@/utility/admin/api";
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("navigation");
@@ -291,6 +60,10 @@ export default function HomePage() {
     logo: null,
     darkTheme: false,
   });
+  const [showAlert, setShowAlert] = useState(true);
+  const [navigationButtonText, setNavigationButtonText] =
+    useState("Save Configuration");
+  const [naviagationID, setNavigationID] = useState(null);
   const [homePageFormData, setHomePageFormData] = useState({
     backgroundImage: null,
     backgroundOpacity: 100,
@@ -304,18 +77,254 @@ export default function HomePage() {
     secondaryButtonText: "",
     secondaryButtonType: "link",
     secondaryButtonLink: "",
-    inSlider: "no",
+    inSlider: "true",
   });
+  const [homePageButtonText, setHomePageButtonText] = useState(
+    "Save Home Page Configuration"
+  );
+  const [homePageID, setHomePageID] = useState(null);
+  const [homePageList, setHomePageList] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   const [imagePreview, setImagePreview] = useState(null);
   const [backgroundPreview, setBackgroundPreview] = useState(null);
+
   const logoInputRef = useRef(null);
   const backgroundInputRef = useRef(null);
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   console.log(navigationFormData);
-  // };
+  const [editHomePageInfo, setEditHomePageInfo] = useState(false);
+  const [deleteHomePageInfo, setDeleteHomePageInfo] = useState(false);
+
+  const columns = [
+    {
+      accessorKey: "HEADER_TEXT",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Header
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "HEADER_TEXT_ALIGNMENT",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Header Allignment
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "TAGLINE_TEXT",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Tagline
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "TAGLINE_ALIGNMENT",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Tagline Allignment
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "PRIMARY_BUTTON_TEXT",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Primary Button
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "PRIMARY_BUTTON_TYPE",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            PRimary Button type
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "PRIMARY_BUTTON_LINK",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Primary Button Link
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "SECONDARY_BUTTON_TEXT",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Secondary Button Text
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "SECONDARY_BUTTON_TYPE",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Secondary Button Type
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "SECONDARY_BUTTON_LINK",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Secondary Button Link
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+
+    {
+      accessorKey: "SHOW_IN_SLIDER",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Show in slider
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "OPACITY",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Opacity
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "BACKGROUND_IMAGE_PATH",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Image
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+
+    // {
+    //   accessorKey: "amount",
+    //   header: () => <div className="text-right">Amount</div>,
+    //   cell: ({ row }) => {
+    //     const amount = parseFloat(row.getValue("amount"));
+    //     const formatted = new Intl.NumberFormat("en-US", {
+    //       style: "currency",
+    //       currency: "USD",
+    //     }).format(amount);
+
+    //     return <div className="text-right font-medium">{formatted}</div>;
+    //   },
+    // },
+
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        const payment = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="bg-white">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => handleHomePageEdit(row.original)}
+              >
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handleHomePageDelete(row.original.ID)}
+              >
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
 
   const handleLogoChange = (event) => {
     const file = event.target.files[0];
@@ -347,53 +356,137 @@ export default function HomePage() {
     setHomePageFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (event, formType) => {
+  const handleSubmit = async (event, formType) => {
     event.preventDefault();
     if (formType === "navigation") {
-      console.log("Navigation Form Data:", navigationFormData);
-    } else {
-      console.log("Home Page Form Data:", homePageFormData);
+      let formdata = new FormData();
+      formdata.set("dark_mode", navigationFormData.darkTheme);
+      formdata.set("file", navigationFormData.logo);
+      if (navigationButtonText === "Save Configuration") {
+        const response = await api.saveNavigationSettings(formdata);
+        console.log(response);
+      } else if (navigationButtonText === "Update Configuration") {
+        const response = await api.updateNavigationSettings(
+          formdata,
+          naviagationID
+        );
+        console.log(response);
+      }
+    } else if (formType === "homepage") {
+      let formdata = new FormData();
+      formdata.set("header_text", homePageFormData.headerText);
+      formdata.set("header_text_alignment", homePageFormData.headerAlignment);
+      formdata.set("tagline_text", homePageFormData.taglineText);
+      formdata.set("tagline_alignment", homePageFormData.taglineAlignment);
+      formdata.set("primary_button_text", homePageFormData.primaryButtonText);
+      formdata.set("primary_button_type", homePageFormData.primaryButtonType);
+      formdata.set("primary_button_link", homePageFormData.primaryButtonLink);
+      formdata.set(
+        "secondary_button_text",
+        homePageFormData.secondaryButtonText
+      );
+      formdata.set(
+        "secondary_button_type",
+        homePageFormData.secondaryButtonType
+      );
+      formdata.set(
+        "secondary_button_link",
+        homePageFormData.secondaryButtonLink
+      );
+      formdata.set("show_in_slider", homePageFormData.inSlider);
+      formdata.set("opacity", homePageFormData.backgroundOpacity);
+      formdata.set("file", homePageFormData.backgroundImage);
+
+      if (homePageButtonText === "Save Home Page Configuration") {
+        const response = await api.saveHomePageSettings(formdata);
+        console.log(response);
+      } else if (homePageButtonText === "Update Home Page Configuration") {
+        const response = await api.updateHomePageSettings(formdata, homePageID);
+        console.log(response);
+      }
     }
+    reloadPage();
+    setShowForm(false);
   };
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    setFile(selectedFile);
-    setShowWarning(false);
+  const handleHomePageEdit = async (row) => {
+    const image = await api.getImage(row.BACKGROUND_IMAGE_PATH);
+    setBackgroundPreview(row.BACKGROUND_IMAGE_PATH);
+    setHomePageFormData({
+      backgroundImage: image,
+      backgroundOpacity: row.OPACITY,
+      headerText: row.HEADER_TEXT,
+      headerAlignment: row.HEADER_TEXT_ALIGNMENT,
+      taglineText: row.TAGLINE_TEXT,
+      taglineAlignment: row.TAGLINE_ALIGNMENT,
+      primaryButtonText: row.PRIMARY_BUTTON_TEXT,
+      primaryButtonType: row.PRIMARY_BUTTON_TYPE,
+      primaryButtonLink: row.PRIMARY_BUTTON_LINK,
+      secondaryButtonText: row.SECONDARY_BUTTON_TEXT,
+      secondaryButtonType: row.SECONDARY_BUTTON_TYPE,
+      secondaryButtonLink: row.SECONDARY_BUTTON_LINK,
+      inSlider: row.SHOW_IN_SLIDER ? "true" : "false",
+    });
+    setHomePageID(row.ID);
+    setShowForm(true);
+    setHomePageButtonText("Update Home Page Configuration");
+  };
 
-    if (selectedFile) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result);
-      };
-      reader.readAsDataURL(selectedFile);
+  const handleHomePageDelete = async (id) => {
+    const resposne = await api.deleteHomePageSettings(id);
+    console.log(resposne);
+    reloadPage();
+  };
+
+  const reloadPage = () => {
+    fetchHomePageDetails();
+    setHomePageFormData({
+      backgroundImage: null,
+      backgroundOpacity: 100,
+      headerText: "",
+      headerAlignment: "left",
+      taglineText: "",
+      taglineAlignment: "left",
+      primaryButtonText: "",
+      primaryButtonType: "link",
+      primaryButtonLink: "",
+      secondaryButtonText: "",
+      secondaryButtonType: "link",
+      secondaryButtonLink: "",
+      inSlider: "true",
+    });
+  };
+
+  async function fetchNavigationDetails() {
+    const navigationDetails = await api.getNavigationSettingsDetails();
+    if (navigationDetails.length > 0) {
+      const image = await api.getImage(navigationDetails[0].LOGO);
+      setNavigationFormData(() => ({
+        logo: image,
+        darkTheme: navigationDetails[0].DARK_MODE,
+      }));
+      setImagePreview(navigationDetails[0].LOGO);
+      setNavigationButtonText("Update Configuration");
+      setNavigationID(navigationDetails[0].ID);
     } else {
-      setPreviewUrl(null);
+      setNavigationButtonText("Save Configuration");
     }
-  };
+  }
+  async function fetchHomePageDetails() {
+    const homepageDetails = await api.getHomePageDetails();
+    if (homepageDetails.length > 0) {
+      setHomePageList(homepageDetails);
+    } else {
+      setHomePageList([]);
+    }
+  }
 
-  const handleNewSlide = () => {
-    // Logic to create a new project
-    console.log("Creating a new project");
-  };
+  useEffect(() => {
+    fetchNavigationDetails();
+    fetchHomePageDetails();
+  }, []);
   return (
     <div className="bg-white shadow-md rounded-lg p-4">
-      {/* <EmptyState
-        heading="No Images"
-        subheading="Add a image to home page"
-        buttonText="New Image"
-        onClick={handleNewSlide}
-        icon={<FolderPlus className="w-8 h-8" />}
-      /> */}
-      {/* <div className="container mx-auto">
-        <DataTable
-          columns={columns}
-          data={data}
-          icon={<Plus />} // Pass the icon here
-          buttonText="Add New Item" // Button text
-          onButtonClick={() => console.log("Button clicked")} // Click handler
-        />
-      </div> */}
       <Tabs
         value={activeTab}
         onValueChange={setActiveTab}
@@ -414,6 +507,7 @@ export default function HomePage() {
                 id="logo"
                 type="file"
                 accept="image/*"
+                name="logo"
                 onChange={handleLogoChange}
                 className="hidden"
                 ref={logoInputRef}
@@ -459,277 +553,329 @@ export default function HomePage() {
             </p>
 
             <Button type="submit" className="w-full">
-              Save Configuration
+              {navigationButtonText}
             </Button>
           </form>
         </TabsContent>
         <TabsContent value="homepage">
-          <form
-            onSubmit={(e) => handleSubmit(e, "homepage")}
-            className="space-y-6 "
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="headerText">Header Text</Label>
-                  <Input
-                    id="headerText"
-                    value={homePageFormData.headerText}
-                    onChange={(e) =>
-                      handleHomePageInputChange("headerText", e.target.value)
-                    }
-                    placeholder="Enter header text"
-                  />
+          {homePageList.length === 0 && !showForm && (
+            <EmptyState
+              heading="No Images"
+              subheading="Add a image to home page"
+              buttonText="New Image"
+              onClick={() => {
+                setShowForm(true);
+              }}
+              icon={<FolderPlus className="w-8 h-8" />}
+            />
+          )}
+          {showForm && (
+            <form
+              onSubmit={(e) => handleSubmit(e, "homepage")}
+              className="space-y-6 "
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="headerText">Header Text</Label>
+                    <Input
+                      id="headerText"
+                      value={homePageFormData.headerText}
+                      onChange={(e) =>
+                        handleHomePageInputChange("headerText", e.target.value)
+                      }
+                      placeholder="Enter header text"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label>Header Text Alignment</Label>
+                    <RadioGroup
+                      value={homePageFormData.headerAlignment}
+                      onValueChange={(value) =>
+                        handleHomePageInputChange("headerAlignment", value)
+                      }
+                      className="flex space-x-4"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="left" id="headerLeft" />
+                        <Label htmlFor="headerLeft">Left</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="center" id="headerCenter" />
+                        <Label htmlFor="headerCenter">Center</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="right" id="headerRight" />
+                        <Label htmlFor="headerRight">Right</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
                 </div>
-                <div>
-                  <Label>Header Text Alignment</Label>
-                  <RadioGroup
-                    value={homePageFormData.headerAlignment}
-                    onValueChange={(value) =>
-                      handleHomePageInputChange("headerAlignment", value)
-                    }
-                    className="flex space-x-4"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="left" id="headerLeft" />
-                      <Label htmlFor="headerLeft">Left</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="center" id="headerCenter" />
-                      <Label htmlFor="headerCenter">Center</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="right" id="headerRight" />
-                      <Label htmlFor="headerRight">Right</Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-              </div>
 
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="taglineText">Tagline Text</Label>
-                  <Input
-                    id="taglineText"
-                    value={homePageFormData.taglineText}
-                    onChange={(e) =>
-                      handleHomePageInputChange("taglineText", e.target.value)
-                    }
-                    placeholder="Enter tagline text"
-                  />
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="taglineText">Tagline Text</Label>
+                    <Input
+                      id="taglineText"
+                      value={homePageFormData.taglineText}
+                      onChange={(e) =>
+                        handleHomePageInputChange("taglineText", e.target.value)
+                      }
+                      placeholder="Enter tagline text"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label>Tagline Text Alignment</Label>
+                    <RadioGroup
+                      value={homePageFormData.taglineAlignment}
+                      onValueChange={(value) =>
+                        handleHomePageInputChange("taglineAlignment", value)
+                      }
+                      className="flex space-x-4"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="left" id="taglineLeft" />
+                        <Label htmlFor="taglineLeft">Left</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="center" id="taglineCenter" />
+                        <Label htmlFor="taglineCenter">Center</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="right" id="taglineRight" />
+                        <Label htmlFor="taglineRight">Right</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
                 </div>
-                <div>
-                  <Label>Tagline Text Alignment</Label>
-                  <RadioGroup
-                    value={homePageFormData.taglineAlignment}
-                    onValueChange={(value) =>
-                      handleHomePageInputChange("taglineAlignment", value)
-                    }
-                    className="flex space-x-4"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="left" id="taglineLeft" />
-                      <Label htmlFor="taglineLeft">Left</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="center" id="taglineCenter" />
-                      <Label htmlFor="taglineCenter">Center</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="right" id="taglineRight" />
-                      <Label htmlFor="taglineRight">Right</Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-              </div>
 
-              {/* Primary Button Fields */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Primary Button</h3>
-                <div>
-                  <Label htmlFor="primaryButtonText">Primary Button Text</Label>
-                  <Input
-                    id="primaryButtonText"
-                    value={homePageFormData.primaryButtonText}
-                    onChange={(e) =>
-                      handleHomePageInputChange(
-                        "primaryButtonText",
-                        e.target.value
-                      )
-                    }
-                    placeholder="Enter primary button text"
-                  />
+                {/* Primary Button Fields */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Primary Button</h3>
+                  <div>
+                    <Label htmlFor="primaryButtonText">
+                      Primary Button Text
+                    </Label>
+                    <Input
+                      id="primaryButtonText"
+                      value={homePageFormData.primaryButtonText}
+                      onChange={(e) =>
+                        handleHomePageInputChange(
+                          "primaryButtonText",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Enter primary button text"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="primaryButtonType">
+                      Primary Button Type
+                    </Label>
+                    <Select
+                      value={homePageFormData.primaryButtonType}
+                      onValueChange={(value) =>
+                        handleHomePageInputChange("primaryButtonType", value)
+                      }
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select button type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="link">Link</SelectItem>
+                        <SelectItem value="video">Video</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="primaryButtonLink">
+                      Primary Button Link
+                    </Label>
+                    <Input
+                      id="primaryButtonLink"
+                      value={homePageFormData.primaryButtonLink}
+                      onChange={(e) =>
+                        handleHomePageInputChange(
+                          "primaryButtonLink",
+                          e.target.value
+                        )
+                      }
+                      placeholder={
+                        homePageFormData.primaryButtonType === "link"
+                          ? "Enter URL"
+                          : "Enter video URL"
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Secondary Button Fields */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Secondary Button</h3>
+                  <div>
+                    <Label htmlFor="secondaryButtonText">
+                      Secondary Button Text
+                    </Label>
+                    <Input
+                      id="secondaryButtonText"
+                      value={homePageFormData.secondaryButtonText}
+                      onChange={(e) =>
+                        handleHomePageInputChange(
+                          "secondaryButtonText",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Enter secondary button text"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="secondaryButtonType">
+                      Secondary Button Type
+                    </Label>
+                    <Select
+                      value={homePageFormData.secondaryButtonType}
+                      onValueChange={(value) =>
+                        handleHomePageInputChange("secondaryButtonType", value)
+                      }
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select button type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="link">Link</SelectItem>
+                        <SelectItem value="video">Video</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="secondaryButtonLink">
+                      Secondary Button Link
+                    </Label>
+                    <Input
+                      id="secondaryButtonLink"
+                      value={homePageFormData.secondaryButtonLink}
+                      onChange={(e) =>
+                        handleHomePageInputChange(
+                          "secondaryButtonLink",
+                          e.target.value
+                        )
+                      }
+                      placeholder={
+                        homePageFormData.secondaryButtonType === "link"
+                          ? "Enter URL"
+                          : "Enter video URL"
+                      }
+                      required
+                    />
+                  </div>
                 </div>
                 <div>
-                  <Label htmlFor="primaryButtonType">Primary Button Type</Label>
+                  <Label htmlFor="showImageInSlider">
+                    Show Background Image in Slider
+                  </Label>
                   <Select
-                    value={homePageFormData.primaryButtonType}
+                    value={homePageFormData.inSlider}
                     onValueChange={(value) =>
-                      handleHomePageInputChange("primaryButtonType", value)
+                      handleHomePageInputChange("inSlider", value)
                     }
+                    required
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select button type" />
+                      <SelectValue placeholder="Select option" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="link">Link</SelectItem>
-                      <SelectItem value="video">Video</SelectItem>
+                      <SelectItem value="true">Yes</SelectItem>
+                      <SelectItem value="false">No</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                <div>
-                  <Label htmlFor="primaryButtonLink">Primary Button Link</Label>
-                  <Input
-                    id="primaryButtonLink"
-                    value={homePageFormData.primaryButtonLink}
-                    onChange={(e) =>
-                      handleHomePageInputChange(
-                        "primaryButtonLink",
-                        e.target.value
-                      )
-                    }
-                    placeholder={
-                      homePageFormData.primaryButtonType === "link"
-                        ? "Enter URL"
-                        : "Enter video URL"
-                    }
-                  />
-                </div>
               </div>
 
-              {/* Secondary Button Fields */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Secondary Button</h3>
-                <div>
-                  <Label htmlFor="secondaryButtonText">
-                    Secondary Button Text
-                  </Label>
-                  <Input
-                    id="secondaryButtonText"
-                    value={homePageFormData.secondaryButtonText}
-                    onChange={(e) =>
-                      handleHomePageInputChange(
-                        "secondaryButtonText",
-                        e.target.value
-                      )
-                    }
-                    placeholder="Enter secondary button text"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="secondaryButtonType">
-                    Secondary Button Type
-                  </Label>
-                  <Select
-                    value={homePageFormData.secondaryButtonType}
-                    onValueChange={(value) =>
-                      handleHomePageInputChange("secondaryButtonType", value)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select button type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="link">Link</SelectItem>
-                      <SelectItem value="video">Video</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="secondaryButtonLink">
-                    Secondary Button Link
-                  </Label>
-                  <Input
-                    id="secondaryButtonLink"
-                    value={homePageFormData.secondaryButtonLink}
-                    onChange={(e) =>
-                      handleHomePageInputChange(
-                        "secondaryButtonLink",
-                        e.target.value
-                      )
-                    }
-                    placeholder={
-                      homePageFormData.secondaryButtonType === "link"
-                        ? "Enter URL"
-                        : "Enter video URL"
-                    }
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="showImageInSlider">
-                  Show Background Image in Slider
-                </Label>
-                <Select
-                  value={homePageFormData.inSlider}
+              <div className="space-y-2">
+                <Label htmlFor="backgroundOpacity">Background Opacity</Label>
+                <Slider
+                  id="backgroundOpacity"
+                  min={0}
+                  max={100}
+                  step={5}
+                  value={[homePageFormData.backgroundOpacity]}
                   onValueChange={(value) =>
-                    handleHomePageInputChange("inSlider", value)
+                    handleHomePageInputChange("backgroundOpacity", value[0])
                   }
+                />
+                <p className="text-sm text-muted-foreground">
+                  {homePageFormData.backgroundOpacity}%
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <Label htmlFor="backgroundImage">Background Image</Label>
+                <Input
+                  id="backgroundImage"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleBackgroundChange}
+                  className="hidden"
+                  ref={backgroundInputRef}
+                />
+                <Button
+                  type="button"
+                  onClick={() => backgroundInputRef.current.click()}
+                  className="w-full"
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="true">Yes</SelectItem>
-                    <SelectItem value="false">No</SelectItem>
-                  </SelectContent>
-                </Select>
+                  Select Background Image
+                </Button>
+                <div className="mt-2 h-40 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center">
+                  {backgroundPreview ? (
+                    <img
+                      src={backgroundPreview}
+                      alt="Background Preview"
+                      className="max-h-full max-w-full object-cover"
+                    />
+                  ) : (
+                    <p className="text-gray-500">
+                      Select a background image to preview
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="backgroundOpacity">Background Opacity</Label>
-              <Slider
-                id="backgroundOpacity"
-                min={0}
-                max={100}
-                step={5}
-                value={[homePageFormData.backgroundOpacity]}
-                onValueChange={(value) =>
-                  handleHomePageInputChange("backgroundOpacity", value[0])
-                }
-              />
-              <p className="text-sm text-muted-foreground">
-                {homePageFormData.backgroundOpacity}%
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <Label htmlFor="backgroundImage">Background Image</Label>
-              <Input
-                id="backgroundImage"
-                type="file"
-                accept="image/*"
-                onChange={handleBackgroundChange}
-                className="hidden"
-                ref={backgroundInputRef}
-              />
-              <Button
-                type="button"
-                onClick={() => backgroundInputRef.current.click()}
-                className="w-full"
-              >
-                Select Background Image
-              </Button>
-              <div className="mt-2 h-40 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center">
-                {backgroundPreview ? (
-                  <img
-                    src={backgroundPreview}
-                    alt="Background Preview"
-                    className="max-h-full max-w-full object-cover"
-                  />
-                ) : (
-                  <p className="text-gray-500">
-                    Select a background image to preview
-                  </p>
-                )}
+              <div className="flex justify-between">
+                <Button
+                  type="outline"
+                  className="w-1/2 mt-6"
+                  onClick={() => {
+                    reloadPage();
+                    setShowForm(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" className="w-1/2 mt-6 ml-1">
+                  {homePageButtonText}
+                </Button>
               </div>
+            </form>
+          )}
+          {homePageList.length > 0 && !showForm && (
+            <div className="container mx-auto">
+              <DataTable
+                columns={columns}
+                data={homePageList}
+                icon={<Plus />}
+                buttonText="Add New Item"
+                onButtonClick={() => {
+                  setShowForm(true);
+                }}
+              />
             </div>
-
-            <Button type="submit" className="w-full mt-6">
-              Save Home Page Configuration
-            </Button>
-          </form>
+          )}
         </TabsContent>
       </Tabs>
     </div>
