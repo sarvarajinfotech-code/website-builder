@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.controllers import user_controller
 from app.controllers import header_controller
 from app.controllers import price_plan_type_controller
@@ -25,6 +26,16 @@ from app.utils.database import engine, Base
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+origins =['*']
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Include routers
 app.include_router(user_controller.router)
