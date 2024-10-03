@@ -30,12 +30,12 @@ class PriceUpdate(PriceCreate):
     pass
 
 # Create a new price
-@router.post("/price/")
+@router.post("/prices/")
 async def create_new_price(price: PriceCreate, db: Session = Depends(get_db)):
     return create_price(db, price.dict())
 
 # Get a specific price by ID
-@router.get("/price/{price_id}")
+@router.get("/prices/{price_id}")
 async def read_price(price_id: int, db: Session = Depends(get_db)):
     price = get_price(db, price_id)
     if not price:
@@ -48,7 +48,7 @@ async def read_all_prices(db: Session = Depends(get_db)):
     return get_all_prices(db)
 
 # Update a price by ID
-@router.put("/price/{price_id}")
+@router.put("/prices/{price_id}")
 async def update_existing_price(price_id: int, price: PriceUpdate, db: Session = Depends(get_db)):
     updated_price = update_price(db, price_id, price.dict())
     if not updated_price:
@@ -56,7 +56,7 @@ async def update_existing_price(price_id: int, price: PriceUpdate, db: Session =
     return updated_price
 
 # Delete a price by ID
-@router.delete("/price/{price_id}")
+@router.delete("/prices/{price_id}")
 async def delete_existing_price(price_id: int, db: Session = Depends(get_db)):
     price = delete_price(db, price_id)
     if not price:

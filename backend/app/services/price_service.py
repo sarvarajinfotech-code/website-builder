@@ -47,16 +47,6 @@ def get_price(db: Session, price_id: int):
 def get_all_prices(db: Session):
     return db.query(PriceModel).all()
 
-def update_price(db: Session, price_id: int, price_data: dict):
-    price = db.query(PriceModel).filter(PriceModel.ID == price_id).first()
-    if price:
-        for key, value in price_data.items():
-            setattr(price, key, value)
-        db.commit()
-        db.refresh(price)
-        return price
-    return None
-
 def delete_price(db: Session, price_id: int):
     price = db.query(PriceModel).filter(PriceModel.ID == price_id).first()
     if price:
