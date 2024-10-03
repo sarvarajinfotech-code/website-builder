@@ -209,7 +209,7 @@ export default function Layout() {
             <div className="flex items-center space-x-2 ">
               <Button>
                 <a href="/" target="_blank" rel="noopener noreferrer">
-                  Visit Page
+                  Visit Website
                 </a>
               </Button>
               <DropdownMenu>
