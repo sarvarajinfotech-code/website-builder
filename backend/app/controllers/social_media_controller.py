@@ -19,7 +19,7 @@ class SocialMediaCreate(BaseModel):
     link: str
 
 # Create a new social media entry
-@router.post("/social_media/")
+@router.post("/social-media/")
 async def create_new_social_media(social_media: SocialMediaCreate, db: Session = Depends(get_db)):
     return create_social_media(
         db,
@@ -29,7 +29,7 @@ async def create_new_social_media(social_media: SocialMediaCreate, db: Session =
     )
 
 # Get a social media entry by ID
-@router.get("/social_media/{media_id}")
+@router.get("/social-media/{media_id}")
 async def read_social_media(media_id: int, db: Session = Depends(get_db)):
     media = get_social_media(db, media_id)
     if not media:
@@ -37,12 +37,12 @@ async def read_social_media(media_id: int, db: Session = Depends(get_db)):
     return media
 
 # Get all social media entries
-@router.get("/social_media/")
+@router.get("/social-media/")
 async def read_all_social_media(db: Session = Depends(get_db)):
     return get_all_social_media(db)
 
 # Update a social media entry by ID
-@router.put("/social_media/{media_id}")
+@router.put("/social-media/{media_id}")
 async def update_social_media_entry(media_id: int, social_media: SocialMediaCreate, db: Session = Depends(get_db)):
     updated_media = update_social_media(
         db,
@@ -56,7 +56,7 @@ async def update_social_media_entry(media_id: int, social_media: SocialMediaCrea
     return updated_media
 
 # Delete a social media entry by ID
-@router.delete("/social_media/{media_id}")
+@router.delete("/social-media/{media_id}")
 async def delete_social_media_entry(media_id: int, db: Session = Depends(get_db)):
     deleted_media = delete_social_media(db, media_id)
     if not deleted_media:
