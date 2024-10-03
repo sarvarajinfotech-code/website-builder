@@ -37,36 +37,40 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const menuItems = [
-  { name: "Dashboard", icon: LayoutDashboard, path: "/" },
-  { name: "Settings", icon: Settings, path: "/settings" },
-  { name: "Home Page", icon: HousePlus, path: "/home-page" },
-  { name: "Clients", icon: UserPlus, path: "/clients" },
-  { name: "Team", icon: Users, path: "/team" },
-  { name: "Testimonials", icon: MessageSquare, path: "/testimonials" },
-  { name: "Pricing", icon: HandCoins, path: "/pricing" },
+  { name: "Dashboard", icon: LayoutDashboard, path: "/admin" },
+  { name: "Settings", icon: Settings, path: "/admin/settings" },
+  { name: "Home Page", icon: HousePlus, path: "/admin/home-page" },
+  { name: "Clients", icon: UserPlus, path: "/admin/clients" },
+  { name: "Team", icon: Users, path: "/admin/team" },
+  { name: "Testimonials", icon: MessageSquare, path: "/admin/testimonials" },
+  { name: "Pricing", icon: HandCoins, path: "/admin/pricing" },
   {
     name: "Products",
     icon: Package,
     expandable: true,
-    path: "/products",
+    path: "/admin/products",
     list: [
-      { name: "Product Category", icon: Package, path: "/products/category" },
-      { name: "Products", icon: Package, path: "/products" },
+      {
+        name: "Product Category",
+        icon: Package,
+        path: "/admin/products/category",
+      },
+      { name: "Products", icon: Package, path: "/admin/products" },
     ],
   },
   {
     name: "Blogs",
     icon: Rss,
-    path: "/blogs",
+    path: "/admin/blogs",
     expandable: true,
     list: [
-      { name: "Blog Category", icon: Rss, path: "/blogs/category" },
-      { name: "Blogs", icon: Rss, path: "/blogs" },
+      { name: "Blog Category", icon: Rss, path: "/admin/blogs/category" },
+      { name: "Blogs", icon: Rss, path: "/admin/blogs" },
     ],
   },
-  { name: "Social Media", icon: CircleFadingPlus, path: "/social-media" },
-  { name: "Footer", icon: Dock, path: "/footer" },
-  { name: "Meetings", icon: MessageSquareDiff, path: "/meetings" },
+  { name: "Social Media", icon: CircleFadingPlus, path: "/admin/social-media" },
+  { name: "Footer", icon: Dock, path: "/admin/footer" },
+  { name: "Meetings", icon: MessageSquareDiff, path: "/admin/meetings" },
 ];
 
 export default function Layout() {

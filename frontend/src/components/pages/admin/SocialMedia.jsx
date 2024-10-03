@@ -44,8 +44,8 @@ export default function SocialMedia() {
         mediaId
       );
       console.log(resposne);
-      reloadPage();
     }
+    reloadPage();
   };
   const columns = [
     {

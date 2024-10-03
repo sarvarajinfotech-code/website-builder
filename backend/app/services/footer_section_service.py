@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import distinct
 from app.models.footer_section_model import FooterSectionModel
 
 # Create a new footer section entry
@@ -45,3 +46,8 @@ def delete_footer_section(db: Session, footer_section_id: int):
         db.commit()
         return footer_section
     return None
+
+# Get all distinct SECTION_HEADER entries
+def get_distinct_section_headers(db: Session):
+    result = db.query(FooterSectionModel.SECTION_HEADER).distinct().all()
+    return [row[0] for row in result]

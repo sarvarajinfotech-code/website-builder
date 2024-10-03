@@ -27,7 +27,7 @@ function App() {
         {/* <BlogSection /> */}
 
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route path="/admin" element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path="settings" element={<Settings />} />
             <Route path="home-page" element={<HomePage />} />

@@ -6,7 +6,8 @@ from app.services.footer_section_service import (
     get_footer_section,
     get_all_footer_sections,
     update_footer_section,
-    delete_footer_section
+    delete_footer_section,
+    get_distinct_section_headers
 )
 from pydantic import BaseModel
 
@@ -20,7 +21,7 @@ class FooterSectionCreate(BaseModel):
     link: str
 
 # Create a new footer section entry
-@router.post("/footer_section/")
+@router.post("/footer-section/")
 async def create_new_footer_section(footer_section: FooterSectionCreate, db: Session = Depends(get_db)):
     return create_footer_section(
         db,
@@ -31,7 +32,7 @@ async def create_new_footer_section(footer_section: FooterSectionCreate, db: Ses
     )
 
 # Get a footer section entry by ID
-@router.get("/footer_section/{footer_section_id}")
+@router.get("/footer-section/{footer_section_id}")
 async def read_footer_section(footer_section_id: int, db: Session = Depends(get_db)):
     footer_section = get_footer_section(db, footer_section_id)
     if not footer_section:
@@ -39,12 +40,12 @@ async def read_footer_section(footer_section_id: int, db: Session = Depends(get_
     return footer_section
 
 # Get all footer section entries
-@router.get("/footer_section/")
+@router.get("/footer-section/")
 async def read_all_footer_sections(db: Session = Depends(get_db)):
     return get_all_footer_sections(db)
 
 # Update a footer section entry by ID
-@router.put("/footer_section/{footer_section_id}")
+@router.put("/footer-section/{footer_section_id}")
 async def update_footer_section_entry(footer_section_id: int, footer_section: FooterSectionCreate, db: Session = Depends(get_db)):
     updated_footer_section = update_footer_section(
         db,
@@ -59,9 +60,17 @@ async def update_footer_section_entry(footer_section_id: int, footer_section: Fo
     return updated_footer_section
 
 # Delete a footer section entry by ID
-@router.delete("/footer_section/{footer_section_id}")
+@router.delete("/footer-section/{footer_section_id}")
 async def delete_footer_section_entry(footer_section_id: int, db: Session = Depends(get_db)):
     deleted_footer_section = delete_footer_section(db, footer_section_id)
     if not deleted_footer_section:
         raise HTTPException(status_code=404, detail="Footer section entry not found")
     return {"detail": "Footer section entry deleted successfully"}
+
+@router.get("/footer-section/headers/")
+async def get_footer_section_headers(db: Session = Depends(get_db)):
+    distinct_headers = get_distinct_section_headers(db)
+    print("========================>",distinct_headers)
+    if not distinct_headers:
+        raise HTTPException(status_code=404, detail="Footer section headers are not found")
+    return distinct_headers

@@ -15,6 +15,9 @@ const Constants = Object.freeze({
   //header text
   HEADER_TEXT: "/headers/",
 
+  //footer header
+  FOOTER_HEADER: "/footer-header/",
+
   //category
   PRODUCT_CATEGORY: "/product-categories/",
   BLOG_CATEGORY: "/blog-categories/",
@@ -55,8 +58,17 @@ const Constants = Object.freeze({
   //products page
   PRODUCTS_PAGE: "/products/",
 
+  //blogs page
+  BLOGS_PAGE: "/blogs/",
+
   //social media page
   SOCIAL_MEDIA: "/social-media/",
+
+  //footer section
+  FOOTER_SECTION: "/footer-section/",
+
+  //footer section headers
+  FOOTER_SECTION_HEADERS: "headers/",
 });
 
 export default Constants;

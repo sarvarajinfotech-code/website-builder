@@ -66,6 +66,107 @@ const api = {
     }
   },
 
+  //footer header info
+  getFooterHeaderInfo: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.FOOTER_HEADER}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error getting footer header info", error);
+      throw error;
+    }
+  },
+
+  saveFooterHeaderInfo: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.FOOTER_HEADER}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error saving footer header info", error);
+      throw error;
+    }
+  },
+
+  updateFooterHeaderInfo: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.FOOTER_HEADER}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error updating footer header info", error);
+      throw error;
+    }
+  },
+
+  //footer sections
+  getSectionHeaders: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.FOOTER_SECTION}${Constants.FOOTER_SECTION_HEADERS}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error getting FooterSection info", error);
+      throw error;
+    }
+  },
+  getFooterSectionInfo: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.FOOTER_SECTION}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error getting FooterSection info", error);
+      throw error;
+    }
+  },
+
+  saveFooterSectionInfo: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.FOOTER_SECTION}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error saving FooterSection info", error);
+      throw error;
+    }
+  },
+
+  updateFooterSectionInfo: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.FOOTER_SECTION}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error updating FooterSection info", error);
+      throw error;
+    }
+  },
+
+  deleteFooterSectionInfo: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.FOOTER_SECTION}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error updating FooterSection info", error);
+      throw error;
+    }
+  },
+
   //Favicon settings
   getFaviconDetails: async () => {
     try {
@@ -769,6 +870,58 @@ const api = {
       return response.data;
     } catch (error) {
       console.log("error deleting the Product details", error);
+      throw error;
+    }
+  },
+
+  //blog details
+  getBlogDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.BLOGS_PAGE}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while getting the Blog data", error);
+    }
+  },
+
+  saveBlogDetails: async (formdata) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.BLOGS_PAGE}`,
+        formdata,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while creating Blog details", error);
+      throw error;
+    }
+  },
+
+  updateBlogDetails: async (formdata, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.BLOGS_PAGE}${id}`,
+        formdata,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while updating Blog details", error);
+      throw error;
+    }
+  },
+
+  deleteBlogDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.BLOGS_PAGE}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while deleteing Blog details", error);
       throw error;
     }
   },

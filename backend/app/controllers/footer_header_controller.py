@@ -21,7 +21,7 @@ class FooterHeaderCreate(BaseModel):
     copyright_text: str
 
 # Create a new footer header entry
-@router.post("/footer_header/")
+@router.post("/footer-header/")
 async def create_new_footer_header(footer_header: FooterHeaderCreate, db: Session = Depends(get_db)):
     return create_footer_header(
         db,
@@ -33,7 +33,7 @@ async def create_new_footer_header(footer_header: FooterHeaderCreate, db: Sessio
     )
 
 # Get a footer header entry by ID
-@router.get("/footer_header/{footer_header_id}")
+@router.get("/footer-header/{footer_header_id}")
 async def read_footer_header(footer_header_id: int, db: Session = Depends(get_db)):
     footer_header = get_footer_header(db, footer_header_id)
     if not footer_header:
@@ -41,12 +41,12 @@ async def read_footer_header(footer_header_id: int, db: Session = Depends(get_db
     return footer_header
 
 # Get all footer header entries
-@router.get("/footer_header/")
+@router.get("/footer-header/")
 async def read_all_footer_headers(db: Session = Depends(get_db)):
     return get_all_footer_headers(db)
 
 # Update a footer header entry by ID
-@router.put("/footer_header/{footer_header_id}")
+@router.put("/footer-header/{footer_header_id}")
 async def update_footer_header_entry(footer_header_id: int, footer_header: FooterHeaderCreate, db: Session = Depends(get_db)):
     updated_footer_header = update_footer_header(
         db,
@@ -62,7 +62,7 @@ async def update_footer_header_entry(footer_header_id: int, footer_header: Foote
     return updated_footer_header
 
 # Delete a footer header entry by ID
-@router.delete("/footer_header/{footer_header_id}")
+@router.delete("/footer-header/{footer_header_id}")
 async def delete_footer_header_entry(footer_header_id: int, db: Session = Depends(get_db)):
     deleted_footer_header = delete_footer_header(db, footer_header_id)
     if not deleted_footer_header:
