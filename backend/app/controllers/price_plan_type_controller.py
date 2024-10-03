@@ -20,12 +20,12 @@ class PricePlanUpdate(BaseModel):
     plan_type: str
 
 # Create a new price plan
-@router.post("/price-plan/")
+@router.post("/price-plans/")
 async def create_price_plan(plan: PricePlanCreate, db: Session = Depends(get_db)):
     return create_price_plan_type(db, plan.plan_type)
 
 # Get a specific price plan by ID
-@router.get("/price-plan/{plan_id}")
+@router.get("/price-plans/{plan_id}")
 async def read_price_plan(plan_id: int, db: Session = Depends(get_db)):
     plan = get_price_plan_type(db, plan_id)
     if not plan:
@@ -38,7 +38,7 @@ async def read_all_price_plans(db: Session = Depends(get_db)):
     return get_all_price_plans(db)
 
 # Update a price plan by ID
-@router.put("/price-plan/{plan_id}")
+@router.put("/price-plans/{plan_id}")
 async def update_price_plan(plan_id: int, plan: PricePlanUpdate, db: Session = Depends(get_db)):
     updated_plan = update_price_plan_type(db, plan_id, plan.plan_type)
     if not updated_plan:
@@ -46,7 +46,7 @@ async def update_price_plan(plan_id: int, plan: PricePlanUpdate, db: Session = D
     return updated_plan
 
 # Delete a price plan by ID
-@router.delete("/price-plan/{plan_id}")
+@router.delete("/price-plans/{plan_id}")
 async def delete_price_plan(plan_id: int, db: Session = Depends(get_db)):
     plan = delete_price_plan_type(db, plan_id)
     if not plan:
