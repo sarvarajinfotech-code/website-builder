@@ -474,6 +474,107 @@ const api = {
       throw error;
     }
   },
+
+  //price plan
+  getPricingPlanDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.PRICE_PLAN}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while getting the PricingPlan data", error);
+    }
+  },
+
+  savePricingPlanDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.PRICE_PLAN}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while creating PricingPlan details", error);
+      throw error;
+    }
+  },
+
+  updatePricingPlanDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.PRICE_PLAN}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while updating PricingPlan details", error);
+      throw error;
+    }
+  },
+
+  deletePricingPlanDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.PRICE_PLAN}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while deleteing Testimonials details", error);
+      throw error;
+    }
+  },
+
+  //pricing settings
+
+  getPricingDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.PRICING_PAGE}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while getting the Pricing data", error);
+    }
+  },
+
+  savePricingDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.PRICING_PAGE}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while creating Pricing details", error);
+      throw error;
+    }
+  },
+
+  updatePricingDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.PRICING_PAGE}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while updating Pricing details", error);
+      throw error;
+    }
+  },
+
+  deletePricingDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.PRICING_PAGE}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while deleteing Pricing details", error);
+      throw error;
+    }
+  },
 };
 
 export default api;

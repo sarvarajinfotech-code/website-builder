@@ -147,6 +147,7 @@ export default function Testimonials() {
       const response = await api.updateHeaderInfo(payload, headerId);
     }
   };
+
   const handlePhotoChange = (event) => {
     const file = event.target.files?.[0];
     setPhoto(file);
@@ -223,6 +224,7 @@ export default function Testimonials() {
       setTestimonialList([]);
     }
   }
+
   useEffect(() => {
     async function fetchHeaderDetails() {
       const response = await api.getHeaderInfo(Constants.TESTIMONIAL_PAGE);

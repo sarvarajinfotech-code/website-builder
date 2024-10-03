@@ -8,6 +8,8 @@ const Constants = Object.freeze({
   CLIENT_PAGE: "client",
   TEAM_PAGE: "team",
   TESTIMONIALS: "testimonials",
+  PRODUCTS: "products",
+  PRICING: "pricing",
 
   //header text
   HEADER_TEXT: "/headers/",
@@ -38,6 +40,15 @@ const Constants = Object.freeze({
 
   //testimonial page
   TESTIMONIAL_PAGE: "/testimonials/",
+
+  //pricing page
+  PRICING_PAGE: "/prices/",
+
+  //price plan
+  PRICE_PLAN: "/price-plans/",
+
+  //products page
+  PRODUCTS_PAGE: "/products/",
 });
 
 export default Constants;
