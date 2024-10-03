@@ -613,6 +613,116 @@ const api = {
       throw error;
     }
   },
+
+  deleteSocialMediaDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.SOCIAL_MEDIA}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error deleting the social media details", error);
+      throw error;
+    }
+  },
+  //product category page
+  getProductCategoryDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.PRODUCT_CATEGORY}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error getting the product category details", error);
+      throw error;
+    }
+  },
+  saveProductCategoryDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.PRODUCT_CATEGORY}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error saving the product category details", error);
+      throw error;
+    }
+  },
+  updateProductCategoryDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.PRODUCT_CATEGORY}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error updating the product category details", error);
+      throw error;
+    }
+  },
+
+  deleteProductCategoryDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.PRODUCT_CATEGORY}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error deleting the product category details", error);
+      throw error;
+    }
+  },
+
+  //blog categories
+
+  getBlogCategoryDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.BLOG_CATEGORY}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error getting the Blog category details", error);
+      throw error;
+    }
+  },
+  saveBlogCategoryDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.BLOG_CATEGORY}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error saving the Blog category details", error);
+      throw error;
+    }
+  },
+  updateBlogCategoryDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.BLOG_CATEGORY}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error updating the Blog category details", error);
+      throw error;
+    }
+  },
+
+  deleteBlogCategoryDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.BLOG_CATEGORY}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error deleting the Blog category details", error);
+      throw error;
+    }
+  },
 };
 
 export default api;

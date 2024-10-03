@@ -10,9 +10,14 @@ const Constants = Object.freeze({
   TESTIMONIALS: "testimonials",
   PRODUCTS: "products",
   PRICING: "pricing",
+  Blog: "blogs",
 
   //header text
   HEADER_TEXT: "/headers/",
+
+  //category
+  PRODUCT_CATEGORY: "/product-categories/",
+  BLOG_CATEGORY: "/blog-categories/",
 
   //favicon settings
   FAVICON: "/favicon-settings/",

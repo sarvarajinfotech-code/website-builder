@@ -288,7 +288,8 @@ export default function Clients() {
                 <Button
                   type="button"
                   onClick={() => {
-                    showForm(false);
+                    setShowForm(false);
+                    reloadPage();
                   }}
                   className="w-1/2"
                 >
