@@ -31,7 +31,7 @@ async def create_new_navigation_settings(
     logo_path = save_file(file, f"logo_{new_navigation_settings.ID}.png")
     
     # Update navigation settings with the logo path
-    update_navigation_settings(db, new_navigation_settings.ID, logo_path, dark_mode)
+    update_navigation_settings(db, new_navigation_settings.ID, "/"+logo_path, dark_mode)
 
     return {"detail": "Navigation settings created successfully", "logo_path": logo_path}
 
@@ -65,7 +65,7 @@ async def update_navigation_settings_entry(
         logo_path = save_file(file, f"logo_{navigation_id}.png")
 
     # Update navigation settings in the database
-    updated_navigation_settings = update_navigation_settings(db, navigation_id, logo_path, dark_mode)
+    updated_navigation_settings = update_navigation_settings(db, navigation_id, "/"+logo_path, dark_mode)
 
     return {"detail": "Navigation settings updated successfully", "navigation_settings": updated_navigation_settings}
 

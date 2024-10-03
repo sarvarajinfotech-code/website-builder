@@ -27,7 +27,7 @@ async def create_new_favicon_settings(
     logo_path = save_file(file, f"favicon_{new_favicon_settings.ID}.png")
     
     # Update favicon settings with the logo path
-    update_favicon_settings(db, new_favicon_settings.ID,title ,logo_path)
+    update_favicon_settings(db, new_favicon_settings.ID,title ,"/"+logo_path)
 
     return {"detail": "favicon settings created successfully", "logo_path": logo_path}
 
@@ -61,7 +61,7 @@ async def update_favicon_settings_entry(
         logo_path = save_file(file, f"favicon_{favicon_id}.png")
 
     # Update favicon settings in the database
-    updated_favicon_settings = update_favicon_settings(db, favicon_id, title, logo_path )
+    updated_favicon_settings = update_favicon_settings(db, favicon_id, title, "/"+logo_path )
 
     return {"detail": "favicon settings updated successfully", "favicon_settings": updated_favicon_settings}
 

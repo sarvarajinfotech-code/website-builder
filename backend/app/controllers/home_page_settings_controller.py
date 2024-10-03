@@ -62,7 +62,7 @@ async def create_new_home_page_settings(
         db, new_home_page_settings.ID, header_text, header_text_alignment, tagline_text, tagline_alignment, 
         primary_button_text, primary_button_type, primary_button_link, 
         secondary_button_text, secondary_button_type, secondary_button_link, 
-        show_in_slider, opacity, background_image_path
+        show_in_slider, opacity, "/"+background_image_path
     )
 
     return {"detail": "Home page settings created successfully", "background_image_path": background_image_path}
@@ -113,7 +113,7 @@ async def update_home_page_settings_entry(
         db, home_page_id, header_text, header_text_alignment, tagline_text, tagline_alignment, 
         primary_button_text, primary_button_type, primary_button_link, 
         secondary_button_text, secondary_button_type, secondary_button_link, 
-        show_in_slider, opacity, background_image_path
+        show_in_slider, opacity, "/"+background_image_path
     )
 
     return {"detail": "Home page settings updated successfully", "home_page_settings": updated_home_page_settings}

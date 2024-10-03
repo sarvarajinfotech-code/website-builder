@@ -37,7 +37,7 @@ async def create_new_blog(
     author_image_path = save_file(file, f"blog_author_{new_blog.ID}.png")
 
      # update blog in the database
-    new_blog = update_blog(db, new_blog.ID, blog_name, blog_description, author_name, author_image_path)
+    new_blog = update_blog(db, new_blog.ID, blog_name, blog_description, author_name, "/"+author_image_path)
 
 
     return {"detail": "Blog created successfully", "blog_id": new_blog.ID}
@@ -75,7 +75,7 @@ async def update_blog_entry(
         author_image_path = save_file(file, f"blog_author_{blog_id}.png")
 
     # Update blog in the database
-    updated_blog = update_blog(db, blog_id, blog_name, blog_description, author_name, author_image_path)
+    updated_blog = update_blog(db, blog_id, blog_name, blog_description, author_name, "/"+author_image_path)
 
     return {"detail": "Blog updated successfully", "blog": updated_blog}
 

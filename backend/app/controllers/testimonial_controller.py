@@ -35,7 +35,7 @@ async def create_new_testimonial(
     person_photo_path = save_file(file, f"testimonial_{new_testimonial.ID}.png")
     
     # Create new testimonial in the database
-    new_testimonial = update_testimonial(db, new_testimonial.ID, person_name, designation, person_photo_path, review)
+    new_testimonial = update_testimonial(db, new_testimonial.ID, person_name, designation, "/"+person_photo_path, review)
    
     return {"detail": "Testimonial created successfully", "testimonial_id": new_testimonial.ID}
 
@@ -72,7 +72,7 @@ async def update_testimonial_entry(
         person_photo_path = save_file(file, f"testimonial_{testimonial_id}.png")
 
     # Update testimonial in the database
-    updated_testimonial = update_testimonial(db, testimonial_id, person_name, designation, person_photo_path, review)
+    updated_testimonial = update_testimonial(db, testimonial_id, person_name, designation, "/"+person_photo_path, review)
 
     return {"detail": "Testimonial updated successfully", "testimonial": updated_testimonial}
 

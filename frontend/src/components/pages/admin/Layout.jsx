@@ -37,7 +37,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const menuItems = [
-  { name: "Dashboard", icon: LayoutDashboard, path: "/admin" },
+  { name: "Dashboard", icon: LayoutDashboard, path: "/admin/" },
   { name: "Settings", icon: Settings, path: "/admin/settings" },
   { name: "Home Page", icon: HousePlus, path: "/admin/home-page" },
   { name: "Clients", icon: UserPlus, path: "/admin/clients" },

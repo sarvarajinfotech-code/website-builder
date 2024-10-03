@@ -42,7 +42,7 @@ async def create_new_team_member(
 
      # Create new team member
     new_team_member = update_team_member(
-        db, new_team_member.ID, employee_name, designation, linkedin_profile, twitter_profile, photo_path
+        db, new_team_member.ID, employee_name, designation, linkedin_profile, twitter_profile, "/"+photo_path
     )
 
     return {"detail": "Team member created successfully", "team_member_id": new_team_member.ID, "photo_path": photo_path}
@@ -82,7 +82,7 @@ async def update_team_member_entry(
 
     # Update team member in the database
     updated_team_member = update_team_member(
-        db, team_id, employee_name, designation, linkedin_profile, twitter_profile, photo_path
+        db, team_id, employee_name, designation, linkedin_profile, twitter_profile, "/"+photo_path
     )
 
     return {"detail": "Team member updated successfully", "team_member": updated_team_member}

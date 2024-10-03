@@ -43,6 +43,7 @@ function App() {
             <Route path="footer" element={<Footer />} />
             <Route path="meetings" element={<Meetings />} />
           </Route>
+          <Route path="/" element={<ClientHomePage />} />
         </Routes>
       </Router>
     </>

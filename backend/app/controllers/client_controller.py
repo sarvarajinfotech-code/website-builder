@@ -32,7 +32,7 @@ async def create_new_client(
     logo_path = save_file(file, f"client_logo_{new_client.ID}.png")
     
     # Create new client
-    new_client = update_client(db, new_client.ID,client_name, logo_path)
+    new_client = update_client(db, new_client.ID,client_name, "/"+logo_path)
 
     return {"detail": "Client created successfully", "client_id": new_client.ID, "logo_path": logo_path}
 
@@ -67,7 +67,7 @@ async def update_client_entry(
         logo_path = save_file(file, f"client_logo_{client_id}.png")
 
     # Update client in the database
-    updated_client = update_client(db, client_id, client_name, logo_path)
+    updated_client = update_client(db, client_id, client_name, "/"+logo_path)
 
     return {"detail": "Client updated successfully", "client": updated_client}
 

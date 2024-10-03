@@ -70,7 +70,6 @@ async def delete_footer_section_entry(footer_section_id: int, db: Session = Depe
 @router.get("/footer-section/headers/")
 async def get_footer_section_headers(db: Session = Depends(get_db)):
     distinct_headers = get_distinct_section_headers(db)
-    print("========================>",distinct_headers)
     if not distinct_headers:
         raise HTTPException(status_code=404, detail="Footer section headers are not found")
     return distinct_headers
