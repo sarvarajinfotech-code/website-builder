@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,12 +12,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Constants from "@/utility/admin/Constants";
+import api from "@/utility/admin/api";
 
 export default function Products() {
   const [activeTab, setActiveTab] = useState("header");
   const [headerText, setHeaderText] = useState("");
   const [tagline, setTagline] = useState("");
-  const [showLearnMore, setShowLearnMore] = useState(false);
+  const [headerTextButton, setHeaderTextButton] = useState("Save Header");
+  const [headerId, setHeaderId] = useState(null);
   const [formData, setFormData] = useState({
     productName: "",
     productCategory: "",
@@ -48,10 +51,35 @@ export default function Products() {
     console.log(formData);
   };
 
-  const handleHeaderSubmit = (e) => {
+  const handleHeaderSubmit = async (e) => {
     e.preventDefault();
-    console.log("Header submitted:", { headerText, tagline });
+    let payload = {
+      header_text: headerText,
+      tagline: tagline,
+      page: Constants.PRODUCTS,
+    };
+    if (headerTextButton === "Save Header") {
+      const response = await api.saveHeaderInfo(payload);
+      console.log(response);
+    } else if (headerTextButton === "Update Header") {
+      const response = await api.updateHeaderInfo(payload, headerId);
+    }
   };
+
+  useEffect(() => {
+    async function fetchHeaderDetails() {
+      const response = await api.getHeaderInfo(Constants.PRODUCTS);
+      if (response.length > 0) {
+        setHeaderTextButton("Update Header");
+        setHeaderText(response[0].HEADER_TEXT);
+        setTagline(response[0].TAG_LINE);
+        setHeaderId(response[0].ID);
+      } else {
+        setHeaderTextButton("Save Header");
+      }
+    }
+    fetchHeaderDetails();
+  }, []);
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
@@ -89,7 +117,7 @@ export default function Products() {
               />
             </div>
             <Button type="submit" className="w-full">
-              Save Header
+              {headerTextButton}
             </Button>
           </form>
         </TabsContent>

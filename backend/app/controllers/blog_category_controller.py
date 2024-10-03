@@ -18,12 +18,12 @@ class CategoryCreate(BaseModel):
     category_name: str
 
 # Create a new blog category
-@router.post("/blog-category/")
+@router.post("/blog-categories/")
 async def create_blog_category(category: CategoryCreate, db: Session = Depends(get_db)):
     return create_category(db, BlogCategoryModel, category.category_name)
 
 # Get a blog category by ID
-@router.get("/blog-category/{category_id}")
+@router.get("/blog-categories/{category_id}")
 async def read_blog_category(category_id: int, db: Session = Depends(get_db)):
     category = get_category(db, BlogCategoryModel, category_id)
     if not category:
@@ -36,7 +36,7 @@ async def read_all_blog_categories(db: Session = Depends(get_db)):
     return get_all_categories(db, BlogCategoryModel)
 
 # Update a blog category by ID
-@router.put("/blog-category/{category_id}")
+@router.put("/blog-categories/{category_id}")
 async def update_blog_category(category_id: int, category: CategoryCreate, db: Session = Depends(get_db)):
     updated_category = update_category(db, BlogCategoryModel, category_id, category.category_name)
     if not updated_category:
@@ -44,7 +44,7 @@ async def update_blog_category(category_id: int, category: CategoryCreate, db: S
     return updated_category
 
 # Delete a blog category by ID
-@router.delete("/blog-category/{category_id}")
+@router.delete("/blog-categories/{category_id}")
 async def delete_blog_category(category_id: int, db: Session = Depends(get_db)):
     deleted_category = delete_category(db, BlogCategoryModel, category_id)
     if not deleted_category:

@@ -1,14 +1,18 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import api from "@/utility/admin/api";
+import Constants from "@/utility/admin/Constants";
 
 export default function Blogs() {
   const [activeTab, setActiveTab] = useState("header");
   const [headerText, setHeaderText] = useState("");
   const [tagline, setTagline] = useState("");
+  const [headerTextButton, setHeaderTextButton] = useState("Save Header");
+  const [headerId, setHeaderId] = useState(null);
   const [formData, setFormData] = useState({
     blogName: "",
     blogDescription: "",
@@ -42,15 +46,41 @@ export default function Blogs() {
     }
   };
 
-  const handleHeaderSubmit = (e) => {
+  const handleHeaderSubmit = async (e) => {
     e.preventDefault();
-    console.log("Header submitted:", { headerText, tagline });
+    let payload = {
+      header_text: headerText,
+      tagline: tagline,
+      page: Constants.BLOGS,
+    };
+    if (headerTextButton === "Save Header") {
+      const response = await api.saveHeaderInfo(payload);
+      console.log(response);
+      setHeaderTextButton("Update Header");
+    } else if (headerTextButton === "Update Header") {
+      const response = await api.updateHeaderInfo(payload, headerId);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Blog Post Data:", formData);
   };
+
+  useEffect(() => {
+    async function fetchHeaderDetails() {
+      const response = await api.getHeaderInfo(Constants.BLOGS);
+      if (response.length > 0) {
+        setHeaderTextButton("Update Header");
+        setHeaderText(response[0].HEADER_TEXT);
+        setTagline(response[0].TAG_LINE);
+        setHeaderId(response[0].ID);
+      } else {
+        setHeaderTextButton("Save Header");
+      }
+    }
+    fetchHeaderDetails();
+  }, []);
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
@@ -87,7 +117,7 @@ export default function Blogs() {
               />
             </div>
             <Button type="submit" className="w-full">
-              Save Header
+              {headerTextButton}
             </Button>
           </form>
         </TabsContent>

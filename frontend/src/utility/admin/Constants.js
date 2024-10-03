@@ -10,7 +10,7 @@ const Constants = Object.freeze({
   TESTIMONIALS: "testimonials",
   PRODUCTS: "products",
   PRICING: "pricing",
-  Blog: "blogs",
+  BLOGS: "blogs",
 
   //header text
   HEADER_TEXT: "/headers/",

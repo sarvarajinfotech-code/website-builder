@@ -18,12 +18,12 @@ class CategoryCreate(BaseModel):
     category_name: str
 
 # Create a new product category
-@router.post("/product-category/")
+@router.post("/product-categories/")
 async def create_product_category(category: CategoryCreate, db: Session = Depends(get_db)):
     return create_category(db, ProductCategoryModel, category.category_name)
 
 # Get a product category by ID
-@router.get("/product-category/{category_id}")
+@router.get("/product-categories/{category_id}")
 async def read_product_category(category_id: int, db: Session = Depends(get_db)):
     category = get_category(db, ProductCategoryModel, category_id)
     if not category:
@@ -36,7 +36,7 @@ async def read_all_product_categories(db: Session = Depends(get_db)):
     return get_all_categories(db, ProductCategoryModel)
 
 # Update a product category by ID
-@router.put("/product-category/{category_id}")
+@router.put("/product-categories/{category_id}")
 async def update_product_category(category_id: int, category: CategoryCreate, db: Session = Depends(get_db)):
     updated_category = update_category(db, ProductCategoryModel, category_id, category.category_name)
     if not updated_category:
@@ -44,7 +44,7 @@ async def update_product_category(category_id: int, category: CategoryCreate, db
     return updated_category
 
 # Delete a product category by ID
-@router.delete("/product-category/{category_id}")
+@router.delete("/product-categories/{category_id}")
 async def delete_product_category(category_id: int, db: Session = Depends(get_db)):
     deleted_category = delete_category(db, ProductCategoryModel, category_id)
     if not deleted_category:
