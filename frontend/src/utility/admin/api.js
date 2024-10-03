@@ -575,6 +575,44 @@ const api = {
       throw error;
     }
   },
+
+  //social media page
+
+  getSocialMediaDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.SOCIAL_MEDIA}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error getting the social media details", error);
+      throw error;
+    }
+  },
+  saveSocialMediaDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.SOCIAL_MEDIA}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error saving the social media details", error);
+      throw error;
+    }
+  },
+  updateSocialMediaDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.SOCIAL_MEDIA}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error updating the social media details", error);
+      throw error;
+    }
+  },
 };
 
 export default api;

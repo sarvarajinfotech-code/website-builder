@@ -1,34 +1,55 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import api from "@/utility/admin/api";
+import { CloudFog } from "lucide-react";
 
 export default function SocialMedia() {
   const [mediaName, setMediaName] = useState("");
   const [mediaIcon, setMediaIcon] = useState("");
   const [mediaLink, setMediaLink] = useState("");
+  const [mediaId, setMediaId] = useState(null);
+  const [mediaButtonText, setMediaButtonText] = useState(
+    "Save Social Media Link"
+  );
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (mediaName && mediaIcon && mediaLink) {
-      const socialMediaData = {
-        name: mediaName,
-        icon: mediaIcon,
-        link: mediaLink,
-      };
-      console.log("Submitted Social Media Data:", socialMediaData);
-
-      // Clear the input fields after submission
-      setMediaName("");
-      setMediaIcon("");
-      setMediaLink("");
-    } else {
-      alert("Please fill out all fields.");
+    const socialMediaData = {
+      media_name: mediaName,
+      svg_icon: mediaIcon,
+      link: mediaLink,
+    };
+    if (mediaButtonText === "Save Social Media Link") {
+      const respone = await api.saveSocialMediaDetails(socialMediaData);
+    } else if (mediaButtonText === "Update Social Media Link") {
+      const resposne = await api.updateSocialMediaDetails(
+        socialMediaData,
+        mediaId
+      );
+      console.log(resposne);
     }
   };
+
+  useEffect(() => {
+    async function fetchMediaDetails() {
+      const response = await api.getSocialMediaDetails();
+      if (response.length > 0) {
+        setMediaIcon(response[0].SVG_ICON);
+        setMediaLink(response[0].LINK);
+        setMediaName(response[0].MEDIA_NAME);
+        setMediaId(response[0].ID);
+        setMediaButtonText("Update Social Media Link");
+      } else {
+        setMediaButtonText("Save Social Media Link");
+      }
+    }
+
+    fetchMediaDetails();
+  }, []);
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
@@ -41,6 +62,7 @@ export default function SocialMedia() {
             value={mediaName}
             onChange={(e) => setMediaName(e.target.value)}
             placeholder="Enter social media name"
+            required
           />
         </div>
 
@@ -52,6 +74,7 @@ export default function SocialMedia() {
             value={mediaIcon}
             onChange={(e) => setMediaIcon(e.target.value)}
             placeholder="Enter SVG icon or icon URL"
+            required
           />
         </div>
 
@@ -63,12 +86,13 @@ export default function SocialMedia() {
             value={mediaLink}
             onChange={(e) => setMediaLink(e.target.value)}
             placeholder="Enter social media link"
+            required
           />
         </div>
 
         {/* Save Button */}
         <Button type="submit" className="w-full mt-6">
-          Save Social Media Link
+          {mediaButtonText}
         </Button>
       </form>
     </div>

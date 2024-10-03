@@ -49,6 +49,9 @@ const Constants = Object.freeze({
 
   //products page
   PRODUCTS_PAGE: "/products/",
+
+  //social media page
+  SOCIAL_MEDIA: "/social-media/",
 });
 
 export default Constants;
