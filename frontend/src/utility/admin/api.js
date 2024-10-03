@@ -723,6 +723,55 @@ const api = {
       throw error;
     }
   },
+
+  //product page
+  getProductDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.PRODUCTS_PAGE}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error getting the Product details", error);
+      throw error;
+    }
+  },
+  saveProductDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.PRODUCTS_PAGE}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error saving the Product details", error);
+      throw error;
+    }
+  },
+  updateProductDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.PRODUCTS_PAGE}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error updating the Product details", error);
+      throw error;
+    }
+  },
+
+  deleteProductDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.PRODUCTS_PAGE}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error deleting the Product details", error);
+      throw error;
+    }
+  },
 };
 
 export default api;
