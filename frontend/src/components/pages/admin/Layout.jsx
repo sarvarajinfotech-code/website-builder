@@ -91,9 +91,9 @@ export default function Layout() {
   };
 
   return (
-    <div className="flex bg-gray-100">
+    <div className="flex h-screen bg-gray-100 overflow-hidden">
       {/* Hamburger Menu for Small Screens */}
-      <header className="bg-white shadow-sm border-b border-gray-200 w-full md:hidden">
+      <header className="fixed top-0 left-0 right-0 bg-white shadow-sm border-b border-gray-200 md:hidden z-10">
         <div className="flex justify-between items-center px-4 py-2">
           <h2 className="text-xl font-semibold text-gray-800">
             {location.pathname === "/"
@@ -114,7 +114,7 @@ export default function Layout() {
       <aside
         className={`${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed h-screen inset-y-0 left-0 w-64 bg-white shadow-md flex flex-col transform transition-transform duration-300 md:translate-x-0 md:static`}
+        } fixed inset-y-0 left-0 w-64 bg-white shadow-md flex flex-col transform transition-transform duration-300 md:translate-x-0 md:static z-20`}
       >
         <div className="p-4 border-b border-gray-200 ">
           <h1 className="text-2xl font-bold text-blue-600">VirtualBal</h1>
@@ -199,14 +199,14 @@ export default function Layout() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         <header className="p-4">
-          <div className="flex justify-between items-center px-4 py-2">
+          <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold text-gray-800">
               {location.pathname === "/"
                 ? "Dashboard"
                 : menuItems.find((item) => item.path === location.pathname)
                     ?.name}
             </h2>
-            <div className="flex items-center space-x-2 ">
+            <div className="flex items-center space-x-2">
               <Button>
                 <a href="/" target="_blank" rel="noopener noreferrer">
                   Visit Website
