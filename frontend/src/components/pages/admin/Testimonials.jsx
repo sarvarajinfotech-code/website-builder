@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import api from "@/utility/admin/api";
-import Constants from "@/utility/admin/Constants";
+import api from "@/utility/api";
+import Constants from "@/utility/Constants";
 import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
 import EmptyState from "./commons/EmptyState";
 import { DataTable } from "./commons/DataTable";
@@ -130,20 +130,15 @@ export default function Testimonials() {
 
   const handleHeaderSubmit = async (e) => {
     e.preventDefault();
+    let payload = {
+      header_text: headerText,
+      tagline: tagline,
+      page: Constants.TESTIMONIALS,
+    };
     if (headerTextButton === "Save Header") {
-      let payload = {
-        header_text: headerText,
-        tagline: tagline,
-        page: Constants.TESTIMONIAL_PAGE,
-      };
       const response = await api.saveHeaderInfo(payload);
       console.log(response);
     } else if (headerTextButton === "Update Header") {
-      let payload = {
-        header_text: headerText,
-        tagline: tagline,
-        page: Constants.TESTIMONIAL_PAGE,
-      };
       const response = await api.updateHeaderInfo(payload, headerId);
     }
   };
@@ -227,7 +222,7 @@ export default function Testimonials() {
 
   useEffect(() => {
     async function fetchHeaderDetails() {
-      const response = await api.getHeaderInfo(Constants.TESTIMONIAL_PAGE);
+      const response = await api.getHeaderInfo(Constants.TESTIMONIALS);
       if (response.length > 0) {
         setHeaderTextButton("Update Header");
         setHeaderText(response[0].HEADER_TEXT);

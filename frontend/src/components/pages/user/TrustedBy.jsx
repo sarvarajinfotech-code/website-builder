@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import vercelIcon from "../../../assets/vercel.svg";
 import adobeIcon from "../../../assets/adobe.svg";
 import awsIcon from "../../../assets/aws.svg";
 import disneyIcon from "../../../assets/disney.svg";
 import microsoftIcon from "../../../assets/microsoft.svg";
 import netflixIcon from "../../../assets/netflix.svg";
+import api from "@/utility/api";
 
 const logos = [
-  { name: "Vercel", src: vercelIcon },
+  { name: "Vercel", src: "/client_logo_15.png" },
   { name: "AWS", src: awsIcon },
   {
     name: "Microsoft",
@@ -22,21 +23,17 @@ const logos = [
 ];
 
 export default function TrustedBy() {
-  const [isOverflowing, setIsOverflowing] = useState(false);
-  const containerRef = useRef(null);
-
+  const [clients, setClients] = useState([]);
   useEffect(() => {
-    const checkOverflow = () => {
-      if (containerRef.current) {
-        setIsOverflowing(
-          containerRef.current.scrollWidth > containerRef.current.clientWidth
-        );
+    async function fetchClients() {
+      const response = await api.getClientDetails();
+      if (response.length > 0) {
+        setClients(response);
+      } else {
+        setClients([]);
       }
-    };
-
-    checkOverflow();
-    window.addEventListener("resize", checkOverflow);
-    return () => window.removeEventListener("resize", checkOverflow);
+    }
+    fetchClients();
   }, []);
 
   return (
@@ -46,19 +43,18 @@ export default function TrustedBy() {
           TRUSTED BY TEAMS FROM AROUND THE WORLD
         </h2>
         <div
-          ref={containerRef}
-          className={`flex items-center justify-center space-x-8 overflow-x-auto ${
-            isOverflowing ? "animate-scroll" : " "
-          }`}
+          className={
+            "flex items-center justify-center space-x-8 overflow-x-auto "
+          }
         >
-          {logos.map((logo, index) => (
+          {clients.map((client) => (
             <div
-              key={index}
+              key={client.ID}
               className="flex-shrink-0 h-12 w-32 flex items-center justify-center bg-white border border-gray-300 rounded-md"
             >
               <img
-                src={logo.src}
-                alt={`${logo.name} logo`}
+                src={client.CLIENT_LOGO}
+                alt={`${client.CLIENT_NAME} logo`}
                 width={128}
                 height={48}
                 className="max-h-12 w-auto object-contain"

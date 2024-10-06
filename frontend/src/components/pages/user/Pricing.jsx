@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 export default function Pricing() {
   const handlePlanClick = () => {
@@ -16,106 +16,160 @@ export default function Pricing() {
           It doesn't matter what size your business is, our software won't work
           well for you.
         </p>
-        <div className="flex flex-wrap justify-center gap-8">
-          {/* Starter Plan */}
-          <button
-            onClick={() => handlePlanClick("Starter")}
-            className="w-full md:w-80 text-left transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 rounded-lg"
-          >
-            <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-8 h-full">
-              <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-                $9
-              </h3>
-              <p className="font-semibold mb-6 text-gray-700 dark:text-gray-300">
-                Starter
-              </p>
-              <p className="text-sm mb-6 text-gray-600 dark:text-gray-400">
-                Good for anyone who is self-employed and just getting started.
-              </p>
-              <div className="w-full py-2 px-4 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300">
-                Get started
-              </div>
-              <ul className="mt-6 space-y-4">
-                <PricingItem text="Send 10 quotes and invoices" />
-                <PricingItem text="Connect up to 2 bank accounts" />
-                <PricingItem text="Track up to 15 expenses per month" />
-                <PricingItem text="Manual payroll support" />
-                <PricingItem text="Export up to 3 reports" />
-              </ul>
-            </div>
-          </button>
+        <div className="flex flex-wrap justify-center gap-4 lg:gap-8">
+          <PricingCard
+            price="$9"
+            name="Starter"
+            description="Good for anyone who is self-employed and just getting started."
+            features={[
+              { text: "Send 10 quotes and invoices", included: true },
+              { text: "Connect up to 2 bank accounts", included: true },
+              { text: "Track up to 15 expenses per month", included: true },
+              { text: "Manual payroll support", included: true },
+              { text: "Export up to 3 reports", included: true },
+              { text: "Automated payroll support", included: false },
+              { text: "Export up to 12 reports", included: false },
+            ]}
+          />
 
-          {/* Small Business Plan */}
-          <button
-            onClick={() => handlePlanClick("Small Business")}
-            className="w-full md:w-80 text-left transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 rounded-lg"
-          >
-            <div className="bg-purple-600 rounded-lg shadow-lg p-8 h-full transform scale-105">
-              <h3 className="text-2xl font-bold mb-4 text-white">$15</h3>
-              <p className="font-semibold mb-6 text-white">Small business</p>
-              <p className="text-sm mb-6 text-purple-200">
-                Perfect for small / medium sized businesses.
-              </p>
-              <div className="w-full py-2 px-4 bg-white text-purple-600 rounded-md hover:bg-gray-100 transition duration-300">
-                Get started
-              </div>
-              <ul className="mt-6 space-y-4">
-                <PricingItem text="Send 25 quotes and invoices" light />
-                <PricingItem text="Connect up to 5 bank accounts" light />
-                <PricingItem text="Track up to 50 expenses per month" light />
-                <PricingItem text="Automated payroll support" light />
-                <PricingItem text="Export up to 12 reports" light />
-                <PricingItem text="Bulk reconcile transactions" light />
-                <PricingItem text="Track in multiple currencies" light />
-              </ul>
-            </div>
-          </button>
+          <PricingCard
+            price="$15"
+            name="Small business"
+            description="Perfect for small / medium sized businesses."
+            features={[
+              { text: "Send 25 quotes and invoices", included: true },
+              { text: "Connect up to 5 bank accounts", included: true },
+              { text: "Track up to 50 expenses per month", included: true },
+              { text: "Automated payroll support", included: true },
+              { text: "Export up to 12 reports", included: true },
+              { text: "Bulk reconcile transactions", included: true },
+              { text: "Track in multiple currencies", included: true },
+              { text: "Export up to 25 reports", included: false },
+            ]}
+            highlighted={true}
+          />
 
-          {/* Enterprise Plan */}
-          <button
-            onClick={() => handlePlanClick("Enterprise")}
-            className="w-full md:w-80 text-left transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 rounded-lg"
-          >
-            <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-8 h-full">
-              <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-                $39
-              </h3>
-              <p className="font-semibold mb-6 text-gray-700 dark:text-gray-300">
-                Enterprise
-              </p>
-              <p className="text-sm mb-6 text-gray-600 dark:text-gray-400">
-                For even the biggest enterprise companies.
-              </p>
-              <div className="w-full py-2 px-4 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300">
-                Get started
-              </div>
-              <ul className="mt-6 space-y-4">
-                <PricingItem text="Send unlimited quotes and invoices" />
-                <PricingItem text="Connect up to 15 bank accounts" />
-                <PricingItem text="Track up to 200 expenses per month" />
-                <PricingItem text="Automated payroll support" />
-                <PricingItem text="Export up to 25 reports, including TPS" />
-              </ul>
-            </div>
-          </button>
+          <PricingCard
+            price="$25"
+            name="Professional"
+            description="For professionals with a growing client base."
+            features={[
+              { text: "Send 50 quotes and invoices", included: true },
+              { text: "Connect up to 10 bank accounts", included: true },
+              { text: "Track up to 100 expenses per month", included: true },
+              { text: "Automated payroll support", included: true },
+              { text: "Export up to 20 reports", included: true },
+              { text: "Bulk reconcile transactions", included: true },
+              { text: "Track in multiple currencies", included: true },
+              { text: "Custom report builder", included: false },
+            ]}
+          />
+
+          <PricingCard
+            price="$39"
+            name="Enterprise"
+            description="For even the biggest enterprise companies."
+            features={[
+              { text: "Send unlimited quotes and invoices", included: true },
+              { text: "Connect up to 15 bank accounts", included: true },
+              { text: "Track up to 200 expenses per month", included: true },
+              { text: "Automated payroll support", included: true },
+              {
+                text: "Export up to 25 reports, including TPS",
+                included: true,
+              },
+              { text: "Bulk reconcile transactions", included: true },
+              { text: "Track in multiple currencies", included: true },
+              { text: "Custom report builder", included: true },
+            ]}
+          />
         </div>
       </div>
     </section>
   );
 }
 
-function PricingItem({ text, light = false }) {
+function PricingCard({
+  price,
+  name,
+  description,
+  features,
+  highlighted = false,
+}) {
+  return (
+    <div
+      className={`w-full sm:w-64 md:w-72 lg:w-56 xl:w-64 text-left transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 rounded-lg ${
+        highlighted ? "z-10" : ""
+      }`}
+    >
+      <div
+        className={`${
+          highlighted
+            ? "bg-purple-600 text-white"
+            : "bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+        } rounded-lg shadow-lg p-6 h-full ${
+          highlighted ? "transform scale-105" : ""
+        }`}
+      >
+        <h3 className="text-2xl font-bold mb-4">{price}</h3>
+        <p
+          className={`font-semibold mb-6 ${
+            highlighted ? "text-purple-200" : "text-gray-700 dark:text-gray-300"
+          }`}
+        >
+          {name}
+        </p>
+        <p
+          className={`text-sm mb-6 ${
+            highlighted ? "text-purple-200" : "text-gray-600 dark:text-gray-400"
+          }`}
+        >
+          {description}
+        </p>
+        <button
+          className={`w-full py-2 px-4 rounded-md transition duration-300 ${
+            highlighted
+              ? "bg-white text-purple-600 hover:bg-gray-100"
+              : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600"
+          }`}
+        >
+          Get started
+        </button>
+        <ul className="mt-6 space-y-2">
+          {features.map((feature, index) => (
+            <PricingItem
+              key={index}
+              text={feature.text}
+              included={feature.included}
+              light={highlighted}
+            />
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function PricingItem({ text, included, light = false }) {
   return (
     <li
       className={`flex items-center ${
         light ? "text-white" : "text-gray-600 dark:text-gray-400"
       }`}
     >
-      <Check
-        className={`mr-2 h-5 w-5 ${
-          light ? "text-purple-200" : "text-purple-600 dark:text-purple-400"
-        }`}
-      />
+      {included ? (
+        <Check
+          className={`mr-2 h-5 w-5 ${
+            light ? "text-purple-200" : "text-purple-600 dark:text-purple-400"
+          }`}
+        />
+      ) : (
+        <X
+          className={`mr-2 h-5 w-5 ${
+            light ? "text-purple-200" : "text-red-500 dark:text-red-400"
+          }`}
+        />
+      )}
       <span className="text-sm">{text}</span>
     </li>
   );

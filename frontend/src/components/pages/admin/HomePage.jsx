@@ -52,7 +52,7 @@ import {
 } from "@/components/ui/card";
 import EmptyState from "./commons/EmptyState";
 import { DataTable } from "./commons/DataTable";
-import api from "@/utility/admin/api";
+import api from "@/utility/api";
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("navigation");

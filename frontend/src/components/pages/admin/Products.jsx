@@ -12,8 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Constants from "@/utility/admin/Constants";
-import api from "@/utility/admin/api";
+import Constants from "@/utility/Constants";
+import api from "@/utility/api";
 import EmptyState from "./commons/EmptyState";
 import {
   FolderPlus,

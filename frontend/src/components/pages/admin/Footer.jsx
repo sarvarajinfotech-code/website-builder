@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import api from "@/utility/admin/api";
+import api from "@/utility/api";
 import EmptyState from "./commons/EmptyState";
 import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { DataTable } from "./commons/DataTable";
@@ -61,7 +61,6 @@ export default function Footer() {
     };
     if (headerButtonText === "Save Header") {
       const response = await api.saveFooterHeaderInfo(payload);
-      console.log(response);
     } else if (headerButtonText === "Update Header") {
       const response = await api.updateFooterHeaderInfo(payload, headerId);
     }
@@ -175,12 +174,9 @@ export default function Footer() {
       link: linkType === "page" ? pageLink : externalLink,
     };
     if (sectionButtonText === "Add Section") {
-      console.log("came to if");
       const response = await api.saveFooterSectionInfo(payload);
-      console.log(response);
     } else if (sectionButtonText === "Update Section") {
       const response = await api.updateFooterSectionInfo(payload, sectionId);
-      console.log(response);
     }
     reloadPage();
     setShowForm(false);
@@ -193,7 +189,6 @@ export default function Footer() {
     setOptionName(row.SECTION_ITEM_NAME);
     setLinkType(row.LINK_TYPE);
     setSectionId(row.ID);
-    console.log(row.ID);
     if (linkType === "page") {
       setPageLink(row.LINK);
     } else {
@@ -202,7 +197,6 @@ export default function Footer() {
   };
   const handleSectionDelete = async (id) => {
     const response = await api.deleteFooterSectionInfo(id);
-    console.log(response);
     reloadPage();
   };
 
@@ -238,9 +232,7 @@ export default function Footer() {
   useEffect(() => {
     async function fetchFooterHeaderInfo() {
       const response = await api.getFooterHeaderInfo();
-      console.log(response);
       if (response.length > 0) {
-        console.log("came to if");
         setHeaderButtonText("Update Header");
         setCopyrightText(response[0].COPYRIGHT_TEXT);
         setTagline(response[0].TAGLINE);
@@ -344,7 +336,7 @@ export default function Footer() {
               buttonText="New Section"
               onClick={() => {
                 setShowForm(true);
-                reloadPage();
+                // reloadPage();
               }}
               icon={<FolderPlus className="w-8 h-8" />}
             />

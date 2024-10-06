@@ -12,8 +12,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
-import Constants from "@/utility/admin/Constants";
-import api from "@/utility/admin/api";
+import Constants from "@/utility/Constants";
+import api from "@/utility/api";
 import EmptyState from "./commons/EmptyState";
 import { DataTable } from "./commons/DataTable";
 import {

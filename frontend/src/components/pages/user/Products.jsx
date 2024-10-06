@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Inbox,
   Users,
@@ -7,65 +7,48 @@ import {
   Headphones,
   BarChart,
 } from "lucide-react";
-
-const products = [
-  {
-    icon: <Inbox className="w-8 h-8" />,
-    title: "Unlimited inboxes",
-    description:
-      "Non quo aperiam repellendus quas est est. Eos aut dolore aut ut sit nesciunt. Ex tempora quia. Sit nobis consequatur dolores incidunt.",
-    category: "Communication",
-  },
-  {
-    icon: <Users className="w-8 h-8" />,
-    title: "Manage team members",
-    description:
-      "Vero eum voluptatem aliquid nostrum voluptatem. Vitae esse natus. Earum nihil deserunt eos quasi cupiditate. A inventore et molestiae natus.",
-    category: "Communication",
-  },
-  {
-    icon: <ShieldAlert className="w-8 h-8" />,
-    title: "Spam report",
-    description:
-      "Et quod quaerat dolorem quaerat architecto aliquam accusantium. Ex adipisci et doloremque autem quia quam. Quis eos molestiae at iure impedit.",
-    category: "Security",
-  },
-  {
-    icon: <Zap className="w-8 h-8" />,
-    title: "Fast response times",
-    description:
-      "Ipsum voluptates quia dolor quidem dolorum. Sed voluptatem quis nesciunt impedit. Qui consequatur quia voluptas consequatur non fugit.",
-    category: "Performance",
-  },
-  {
-    icon: <Headphones className="w-8 h-8" />,
-    title: "24/7 Support",
-    description:
-      "Aut repellendus et officiis dolor possimus. Deserunt velit quasi sunt fuga error labore quia ipsum. Commodi autem voluptatem nam.",
-    category: "Support",
-  },
-  {
-    icon: <BarChart className="w-8 h-8" />,
-    title: "Analytics dashboard",
-    description:
-      "Qui vel ut aut consequuntur amet accusamus. Qui omnis culpa. Unde tenetur necessitatibus rem. Nostrum aut expedita ad illum qui impedit eum.",
-    category: "Analytics",
-  },
-];
-
-const categories = [
-  "All",
-  ...new Set(products.map((product) => product.category)),
-];
+import Constants from "@/utility/Constants";
+import api from "@/utility/api";
 
 export default function Component() {
+  const [headerText, setHeaderText] = useState(null);
+  const [tagline, setTagLine] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   const [activeCategory, setActiveCategory] = useState("All");
 
   const filteredProducts =
     activeCategory === "All"
       ? products
-      : products.filter((product) => product.category === activeCategory);
+      : products.filter(
+          (product) => product.PRODUCT_CATEGORY === activeCategory
+        );
 
+  useEffect(() => {
+    async function fetchHeaderText() {
+      const response = await api.getHeaderInfo(Constants.PRODUCTS);
+      if (response.length > 0) {
+        setHeaderText(response[0].HEADER_TEXT);
+        setTagLine(response[0].TAG_LINE);
+      }
+    }
+
+    async function fetchProducts() {
+      const response = await api.getProductDetails();
+      if (response.length > 0) {
+        setProducts(response);
+        setCategories([
+          "All",
+          ...new Set(response.map((product) => product.PRODUCT_CATEGORY)),
+        ]);
+      } else {
+        setProducts([]);
+      }
+    }
+    fetchHeaderText();
+    fetchProducts();
+  }, []);
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-8 relative overflow-hidden">
       <div className="absolute inset-0 opacity-50 dark:opacity-20">
@@ -78,13 +61,10 @@ export default function Component() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <h1 className="text-4xl font-bold mb-4">
-          Stay on top of customer support
-        </h1>
-        <p className="text-xl mb-8">
-          Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam
-          voluptatum cupiditate veritatis in accusamus quisquam.
-        </p>
+        {headerText && (
+          <h1 className="text-4xl font-bold mb-4">{headerText}</h1>
+        )}
+        {tagline && <p className="text-xl mb-8">{tagline}</p>}
 
         <div className="mb-8">
           <div className="flex space-x-4 overflow-x-auto pb-2">
@@ -96,7 +76,10 @@ export default function Component() {
                     ? "bg-purple-600 text-white"
                     : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                 }`}
-                onClick={() => setActiveCategory(category)}
+                onClick={() => {
+                  setActiveCategory(category);
+                  console.log(category);
+                }}
               >
                 {category}
               </button>
@@ -107,22 +90,29 @@ export default function Component() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product, index) => (
             <div
-              key={index}
+              key={product.ID}
               className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg"
             >
               <div className="bg-purple-600 p-2 w-12 h-12 rounded-lg mb-4 flex items-center justify-center text-white">
-                {product.icon}
+                <div
+                  dangerouslySetInnerHTML={{ __html: product.SVG_ICON }}
+                  className="w-full h-full flex items-center justify-center"
+                ></div>
               </div>
-              <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
+              <h3 className="text-xl font-semibold mb-2">
+                {product.PRODUCT_NAME}
+              </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                {product.description}
+                {product.PRODUCT_DESCRIPTION}
               </p>
-              <a
-                href="#"
-                className="text-purple-600 dark:text-purple-400 hover:underline"
-              >
-                Learn more →
-              </a>
+              {product.LEARN_MORE && (
+                <a
+                  href={product.LEARN_MORE_LINK}
+                  className="text-purple-600 dark:text-purple-400 hover:underline"
+                >
+                  Learn more →
+                </a>
+              )}
             </div>
           ))}
         </div>
