@@ -1,8 +1,19 @@
 import { useEffect, useState } from "react";
-import { Facebook, Instagram, Twitter, Github, Youtube } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
+import {
+  Facebook,
+  Instagram,
+  Twitter,
+  Github,
+  Youtube,
+  Medal,
+} from "lucide-react";
 import api from "@/utility/api";
 
 export default function Footer() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [footerTagline, setFooterTagline] = useState(null);
   const [showNewsletter, setShowNewsletter] = useState(false);
@@ -10,6 +21,8 @@ export default function Footer() {
   const [newsletterTagline, setNewsletterTagline] = useState(null);
   const [copyRightText, setCopyRightText] = useState(null);
   const [sections, setSections] = useState([]);
+  const [mediaDetails, setMediaDetails] = useState([]);
+  const [logo, setLogo] = useState("");
 
   const handleSubmit = () => {
     e.preventDefault();
@@ -59,8 +72,26 @@ export default function Footer() {
       }
     }
 
+    async function fetchSocialMediaDetails() {
+      const response = await api.getSocialMediaDetails();
+      if (response.length > 0) {
+        setMediaDetails(response);
+        console.log(response);
+      } else {
+        setMediaDetails([]);
+      }
+    }
+
+    async function fetchNavigationDetails() {
+      const response = await api.getNavigationSettingsDetails();
+      if (response.length > 0) {
+        setLogo(response[0].LOGO);
+      }
+    }
     fetchFooterMetaData();
     fetchSectionDetails();
+    fetchSocialMediaDetails();
+    fetchNavigationDetails();
   }, []);
 
   return (
@@ -72,57 +103,33 @@ export default function Footer() {
               href="/"
               className="text-purple-500 text-3xl font-bold mb-4 inline-block"
             >
-              <svg
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                stroke="currentColor"
-                strokeWidth="2"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="w-8 h-8"
-              >
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-              </svg>
+              <img
+                src={logo}
+                alt="logo"
+                className="w-auto h-auto max-w-[150px] max-h-[60px] object-contain"
+              />
             </a>
             {footerTagline && <p className="mb-4 text-sm">{footerTagline}</p>}
             <div className="flex space-x-4">
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white"
-                aria-label="Facebook"
-              >
-                <Facebook size={20} />
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white"
-                aria-label="Instagram"
-              >
-                <Instagram size={20} />
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white"
-                aria-label="Twitter"
-              >
-                <Twitter size={20} />
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white"
-                aria-label="GitHub"
-              >
-                <Github size={20} />
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white"
-                aria-label="YouTube"
-              >
-                <Youtube size={20} />
-              </a>
+              {mediaDetails.map((media) => {
+                const link = media.LINK.startsWith("http")
+                  ? media.LINK
+                  : `https://${media.LINK}`;
+                return (
+                  <a
+                    key={media.ID}
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-purple-600 p-2 w-10 h-10 rounded-lg mb-4 flex items-center justify-center text-white transition-transform transform hover:scale-110 hover:bg-purple-700 cursor-pointer"
+                  >
+                    <div
+                      dangerouslySetInnerHTML={{ __html: media.SVG_ICON }}
+                      className="w-full h-full flex items-center justify-center"
+                    ></div>
+                  </a>
+                );
+              })}
             </div>
           </div>
           {sections.map((section, index) => (

@@ -11,6 +11,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Banner from "./Banner";
+import Navbar from "./Navbar";
 import Pricing from "./Pricing";
 import Testimonials from "./Testimonials";
 import TrustedBy from "./TrustedBy";
@@ -28,6 +29,7 @@ export default function HomePage() {
   const [isVideoPopoverOpen, setIsVideoPopoverOpen] = useState(false);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
   const [sliderItems, setSliderItems] = useState([]);
+  const [logo, setLogo] = useState("");
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -116,6 +118,14 @@ export default function HomePage() {
         setSliderItems([]);
       }
     }
+
+    async function fetchNavigationDetails() {
+      const response = await api.getNavigationSettingsDetails();
+      if (response.length > 0) {
+        setLogo(response[0].LOGO);
+      }
+    }
+    fetchNavigationDetails();
     fetchTitleAndFavicon();
     fetchHomePageDetails();
   }, []);
@@ -123,6 +133,13 @@ export default function HomePage() {
   return (
     <div className={`min-h-screen ${isDarkMode ? "dark" : ""}`}>
       <Banner />
+      <Navbar
+        isDarkMode={isDarkMode}
+        toggleDarkMode={toggleDarkMode}
+        toggleMenu={toggleMenu}
+        isMenuOpen={isMenuOpen}
+        logo={logo}
+      />
       <div className="relative bg-white dark:bg-gray-900 min-h-screen">
         <div className="absolute inset-0 z-0">
           {sliderItems.map((item, index) => (
@@ -146,127 +163,8 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+
         <div className="relative z-10">
-          <nav className="flex justify-between items-center p-4">
-            <div className="text-purple-600 dark:text-purple-400 text-2xl font-bold">
-              ▲
-            </div>
-            <ul className="hidden md:flex space-x-6">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
-                >
-                  Products
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
-                >
-                  Pricing
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
-                >
-                  Team
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
-                >
-                  Blogs
-                </a>
-              </li>
-            </ul>
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={toggleDarkMode}
-                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-              >
-                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
-              <button
-                onClick={toggleMenu}
-                className="md:hidden text-gray-700 dark:text-gray-300"
-              >
-                <Menu size={24} />
-              </button>
-            </div>
-          </nav>
-
-          {/* Mobile Menu */}
-          <div
-            className={`fixed inset-y-0 left-0 transform ${
-              isMenuOpen ? "translate-x-0" : "-translate-x-full"
-            } w-64 bg-white dark:bg-gray-800 shadow-lg transition-transform duration-300 ease-in-out z-20 md:hidden`}
-          >
-            <div className="p-4">
-              <button
-                onClick={toggleMenu}
-                className="absolute top-4 right-4 text-gray-700 dark:text-gray-300"
-              >
-                <X size={24} />
-              </button>
-              <ul className="mt-8 space-y-4">
-                <li>
-                  <a
-                    href="#"
-                    className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
-                  >
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
-                  >
-                    Products
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
-                  >
-                    Pricing
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
-                  >
-                    Team
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
-                  >
-                    Blogs
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
           <div className="relative min-h-[calc(100vh-4rem)]">
             <main className="container mx-auto px-4 py-16 flex flex-col justify-center min-h-[calc(100vh-4rem)]">
               {sliderItems.map((item, index) => (
@@ -343,7 +241,9 @@ export default function HomePage() {
                   key={index}
                   onClick={() => goToSlide(index)}
                   className={`w-3 h-3 rounded-full ${
-                    index === currentSlide ? "bg-white" : "bg-white/50"
+                    index === currentSlide
+                      ? "bg-purple-600"
+                      : "bg-purple-600/50"
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />

@@ -66,7 +66,7 @@ export default function HomePage() {
   const [naviagationID, setNavigationID] = useState(null);
   const [homePageFormData, setHomePageFormData] = useState({
     backgroundImage: null,
-    backgroundOpacity: 100,
+    backgroundOpacity: 20,
     headerText: "",
     headerAlignment: "left",
     taglineText: "",
@@ -434,15 +434,15 @@ export default function HomePage() {
 
   const handleHomePageDelete = async (id) => {
     const resposne = await api.deleteHomePageSettings(id);
-    console.log(resposne);
     reloadPage();
   };
 
   const reloadPage = () => {
     fetchHomePageDetails();
+    setImagePreview(null);
     setHomePageFormData({
       backgroundImage: null,
-      backgroundOpacity: 100,
+      backgroundOpacity: 20,
       headerText: "",
       headerAlignment: "left",
       taglineText: "",

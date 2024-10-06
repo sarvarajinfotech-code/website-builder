@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import api from "@/utility/api";
+import Constants from "@/utility/Constants";
 
 export default function TrustedBy() {
   const [clients, setClients] = useState([]);
+  const [clientHeader, setClientHeader] = useState(null);
   useEffect(() => {
     async function fetchClients() {
       const response = await api.getClientDetails();
@@ -12,15 +14,27 @@ export default function TrustedBy() {
         setClients([]);
       }
     }
+    async function fetchClientHeader() {
+      const resposne = await api.getHeaderInfo(Constants.CLIENT_PAGE);
+      if (resposne.length > 0) {
+        setClientHeader(resposne[0].HEADER_TEXT);
+      } else {
+        setClientHeader(null);
+      }
+    }
     fetchClients();
+    fetchClientHeader();
   }, []);
 
   return (
     <section className="py-8 bg-gray-50 dark:bg-gray-800 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-semibold text-center text-gray-800 dark:text-gray-200 mb-8">
-          TRUSTED BY TEAMS FROM AROUND THE WORLD
-        </h2>
+        {clientHeader && (
+          <h2 className="text-2xl font-semibold text-center text-gray-800 dark:text-gray-200 mb-8">
+            {clientHeader}
+          </h2>
+        )}
+
         <div
           className={
             "flex items-center justify-center space-x-8 overflow-x-auto "

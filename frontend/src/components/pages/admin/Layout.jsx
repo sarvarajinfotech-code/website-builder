@@ -24,6 +24,7 @@ import {
   ClipboardMinus,
   UserPlus,
   CircleFadingPlus,
+  PanelsTopLeft,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -70,6 +71,7 @@ const menuItems = [
   },
   { name: "Social Media", icon: CircleFadingPlus, path: "/admin/social-media" },
   { name: "Footer", icon: Dock, path: "/admin/footer" },
+  { name: "Pages", icon: PanelsTopLeft, path: "/admin/pages" },
   { name: "Meetings", icon: MessageSquareDiff, path: "/admin/meetings" },
 ];
 
@@ -233,7 +235,7 @@ export default function Layout() {
               {location.pathname === "/admin/"
                 ? "Dashboard"
                 : menuItems.find((item) => item.path === location.pathname)
-                    ?.name || "Page"}
+                    ?.name}
             </h2>
           </div>
           <div className="flex items-center space-x-4">

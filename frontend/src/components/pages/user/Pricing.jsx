@@ -1,8 +1,11 @@
 import api from "@/utility/api";
+import Constants from "@/utility/Constants";
 import { Check, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Pricing() {
+  const [headerText, setHeaderText] = useState(null);
+  const [tagline, setTagline] = useState(null);
   const [pricingPlans, setPricingPlans] = useState([]);
 
   useEffect(() => {
@@ -14,24 +17,41 @@ export default function Pricing() {
         setPricingPlans([]);
       }
     }
+    async function fetchPriceHeader() {
+      const resposne = await api.getHeaderInfo(Constants.PRICING_PAGE);
+      if (resposne.length > 0) {
+        setHeaderText(resposne[0].HEADER_TEXT);
+        setTagline(resposne[0].TAG_LINE);
+      } else {
+        setHeaderText(null);
+      }
+    }
     fetchPricingDetails();
+    fetchPriceHeader();
   }, []);
 
   return (
     <section className="py-20 bg-gray-100 dark:bg-gray-800">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
-          Simple pricing, for everyone.
-        </h2>
-        <p className="text-xl text-center mb-12 text-gray-600 dark:text-gray-400">
-          It doesn't matter what size your business is, our software won't work
-          well for you.
-        </p>
+        {headerText && (
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+            {headerText}
+          </h2>
+        )}
+        {tagline && (
+          <p className="text-xl text-center mb-12 text-gray-600 dark:text-gray-400">
+            {tagline}
+          </p>
+        )}
+
         <div className="flex flex-wrap justify-center gap-4 lg:gap-8">
           {pricingPlans.map((plan) => (
             <PricingCard
               key={plan.ID}
-              price={`₹${plan.PRICE}`}
+              price={new Intl.NumberFormat("en-IN", {
+                style: "currency",
+                currency: plan.CURRENCY_TYPE,
+              }).format(plan.PRICE)}
               name={plan.PLAN_TYPE}
               description={plan.PRICE_TAGLINE}
               features={[
