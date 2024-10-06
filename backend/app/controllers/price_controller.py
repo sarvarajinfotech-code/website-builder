@@ -25,6 +25,7 @@ class PriceCreate(BaseModel):
     features_excluded: Optional[str] = None
     cta_button_text: Optional[str] = None
     cta_button_link: Optional[str] = None
+    highlighted_plan:  Optional[str] = None
 
 class PriceUpdate(PriceCreate):
     pass

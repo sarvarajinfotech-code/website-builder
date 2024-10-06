@@ -15,3 +15,4 @@ class PriceModel(Base):
     FEATURES_EXCLUDED = Column(Text, nullable=True)
     CTA_BUTTON_TEXT = Column(String(255), nullable=True)
     CTA_BUTTON_LINK = Column(String(255), nullable=True)
+    HIGHLIGHTED_PLAN = Column(String(255), nullable=True)

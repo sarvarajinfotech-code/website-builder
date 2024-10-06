@@ -15,7 +15,8 @@ def create_price(db: Session, price_data: dict):
         FEATURES_INCLUDED=price_data.get('features_included', None),
         FEATURES_EXCLUDED=price_data.get('features_excluded', None),
         CTA_BUTTON_TEXT=price_data.get('cta_button_text', None),
-        CTA_BUTTON_LINK=price_data.get('cta_button_link', None)
+        CTA_BUTTON_LINK=price_data.get('cta_button_link', None),
+        HIGHLIGHTED_PLAN=price_data.get('highlighted_plan',None)
     )
     db.add(new_price)
     db.commit()
@@ -35,6 +36,7 @@ def update_price(db: Session, price_id: int, price_data: dict):
         price.FEATURES_EXCLUDED = price_data.get('features_excluded', None)
         price.CTA_BUTTON_TEXT = price_data.get('cta_button_text', None)
         price.CTA_BUTTON_LINK = price_data.get('cta_button_link', None)
+        price.HIGHLIGHTED_PLAN = price_data.get('highlighted_plan',None)
         
         db.commit()
         db.refresh(price)

@@ -46,6 +46,7 @@ export default function Pricing() {
     offer: "",
     offerPrice: "0.00",
     planType: "",
+    highlightedPlan: "",
   });
   const [priceButtonText, setPriceButtonText] = useState("Save Price");
   const [showPiceForm, setShowPriceForm] = useState(false);
@@ -242,6 +243,20 @@ export default function Pricing() {
       },
     },
     {
+      accessorKey: "HIGHLIGHTED_PLAN",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Highlighted Plan
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
       id: "actions",
       cell: ({ row }) => {
         const payment = row.original;
@@ -336,6 +351,7 @@ export default function Pricing() {
       offer: "",
       offerPrice: "0.00",
       planType: "",
+      highlightedPlan: "",
     });
   };
 
@@ -367,6 +383,7 @@ export default function Pricing() {
       features_excluded: pricingData.featuresNotIncluded,
       cta_button_text: pricingData.ctaButtonText,
       cta_button_link: pricingData.ctaButtonLink,
+      highlighted_plan: pricingData.highlightedPlan,
     };
     if (priceButtonText === "Save Price") {
       const response = await api.savePricingDetails(payload);
@@ -390,6 +407,7 @@ export default function Pricing() {
       offer: row.OFFER ? "Yes" : "No",
       offerPrice: row.OFFER_PRICE,
       planType: row.PLAN_TYPE,
+      highlightedPlan: row.HIGHLIGHTED_PLAN,
     });
     setPriceId(row.ID);
     setShowPriceForm(true);
@@ -735,6 +753,29 @@ export default function Pricing() {
                   placeholder="Enter CTA button link"
                 />
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="highlightedPlan">Highlight Plan</Label>
+                <Select
+                  id="highlightedPlan"
+                  name="highlightedPlan"
+                  value={pricingData.highlightedPlan}
+                  onValueChange={(value) =>
+                    handleInputChange({
+                      target: { name: "highlightedPlan", value },
+                    })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select plan to highlight" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="yes">Yes</SelectItem>
+                    <SelectItem value="no">No</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div className="flex justify-between">
                 <Button
                   type="button"
