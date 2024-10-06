@@ -8,12 +8,20 @@ export default function Navbar({
 }) {
   return (
     <nav className="sticky top-0 z-50 flex justify-between items-center p-4 bg-gradient-to-b from-white to-white/95 dark:from-gray-900 dark:to-gray-900/95 shadow-md transition-colors duration-300">
-      <div className="text-purple-600 dark:text-purple-400 text-2xl font-bold">
-        <img
-          src={logo ? logo : "/logo_1.png"}
-          alt="logo"
-          className="w-auto h-auto w-[150px] h-[60px] object-contain"
-        />
+      <div className="flex items-center">
+        {logo ? (
+          <img
+            src={logo}
+            alt="Logo"
+            class="w-auto h-auto max-w-[150px] max-h-[60px] object-contain"
+          />
+        ) : (
+          <img
+            src="/logo_1.png"
+            alt="Default Logo"
+            class="w-auto h-auto max-w-[150px] max-h-[60px] object-contain"
+          />
+        )}
       </div>
 
       <ul className="hidden md:flex space-x-6">
