@@ -221,48 +221,35 @@ export default function Layout() {
       {/* Main Content */}
       <div className="relative flex flex-1 flex-col overflow-hidden">
         {/* Header */}
-        <header className="flex h-16 items-center justify-between px-4 md:px-6">
-          <div className="flex items-center">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="mr-2 md:hidden"
-              onClick={toggleSidebar}
-            >
-              <Menu className="h-6 w-6" />
-            </Button>
+        <header className="p-4">
+          <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold text-gray-800">
-              {location.pathname === "/admin/"
+              {location.pathname === "/"
                 ? "Dashboard"
                 : menuItems.find((item) => item.path === location.pathname)
                     ?.name}
             </h2>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button asChild>
-              <a href="/" target="_blank" rel="noopener noreferrer">
-                Visit Website
-              </a>
-            </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
+            <div className="flex items-center space-x-2">
+              <Button>
+                <a href="/" target="_blank" rel="noopener noreferrer">
+                  Visit Website
+                </a>
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
                   <Avatar>
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
-                    />
+                    <AvatarImage src="https://avatars.githubusercontent.com/u/124599?v=4" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Logout</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </header>
 

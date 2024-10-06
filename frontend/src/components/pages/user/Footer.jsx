@@ -76,7 +76,6 @@ export default function Footer() {
       const response = await api.getSocialMediaDetails();
       if (response.length > 0) {
         setMediaDetails(response);
-        console.log(response);
       } else {
         setMediaDetails([]);
       }

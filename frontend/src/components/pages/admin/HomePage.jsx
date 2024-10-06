@@ -370,7 +370,6 @@ export default function HomePage() {
           formdata,
           naviagationID
         );
-        console.log(response);
       }
     } else if (formType === "homepage") {
       let formdata = new FormData();
@@ -404,8 +403,8 @@ export default function HomePage() {
         const response = await api.updateHomePageSettings(formdata, homePageID);
         console.log(response);
       }
+      reloadPage();
     }
-    reloadPage();
     setShowForm(false);
   };
 
