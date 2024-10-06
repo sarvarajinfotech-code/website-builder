@@ -1,26 +1,5 @@
 import { useEffect, useState } from "react";
-import vercelIcon from "../../../assets/vercel.svg";
-import adobeIcon from "../../../assets/adobe.svg";
-import awsIcon from "../../../assets/aws.svg";
-import disneyIcon from "../../../assets/disney.svg";
-import microsoftIcon from "../../../assets/microsoft.svg";
-import netflixIcon from "../../../assets/netflix.svg";
 import api from "@/utility/api";
-
-const logos = [
-  { name: "Vercel", src: "/client_logo_15.png" },
-  { name: "AWS", src: awsIcon },
-  {
-    name: "Microsoft",
-    src: microsoftIcon,
-  },
-  {
-    name: "Netflix",
-    src: netflixIcon,
-  },
-  { name: "Disney", src: disneyIcon },
-  { name: "Adobe", src: adobeIcon },
-];
 
 export default function TrustedBy() {
   const [clients, setClients] = useState([]);
