@@ -9,6 +9,7 @@ const Constants = Object.freeze({
   TEAM_PAGE: "team",
   TESTIMONIALS: "testimonials",
   PRODUCTS: "products",
+  SERVICES: "services",
   PRICING: "pricing",
   BLOGS: "blogs",
 
@@ -18,8 +19,13 @@ const Constants = Object.freeze({
   //footer header
   FOOTER_HEADER: "/footer-header/",
 
-  //category
+  //product category
   PRODUCT_CATEGORY: "/product-categories/",
+
+  //service category
+  SERVICE_CATEGORY: "/service-categories/",
+
+  //blog category
   BLOG_CATEGORY: "/blog-categories/",
 
   //favicon settings
@@ -57,6 +63,9 @@ const Constants = Object.freeze({
 
   //products page
   PRODUCTS_PAGE: "/products/",
+
+  //service page
+  SERVICES_PAGE: "/services/",
 
   //blogs page
   BLOGS_PAGE: "/blogs/",

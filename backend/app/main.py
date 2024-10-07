@@ -5,8 +5,10 @@ from app.controllers import header_controller
 from app.controllers import price_plan_type_controller
 from app.controllers import price_controller
 from app.controllers import product_category_controller
+from app.controllers import service_category_controller
 from app.controllers import blog_category_controller
 from app.controllers import product_controller
+from app.controllers import service_controller
 from app.controllers import social_media_controller
 from app.controllers import footer_header_controller
 from app.controllers import footer_section_controller
@@ -43,8 +45,10 @@ app.include_router(header_controller.router)
 app.include_router(price_plan_type_controller.router)
 app.include_router(price_controller.router)
 app.include_router(product_category_controller.router)
+app.include_router(service_category_controller.router)
 app.include_router(blog_category_controller.router)
 app.include_router(product_controller.router)
+app.include_router(service_controller.router)
 app.include_router(social_media_controller.router)
 app.include_router(footer_header_controller.router)
 app.include_router(footer_section_controller.router)

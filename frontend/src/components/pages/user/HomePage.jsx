@@ -21,6 +21,7 @@ import Footer from "./Footer";
 import FloatingIcon from "./Floating";
 import api from "@/utility/api";
 import VideoPopover from "./VideoPopover";
+import Services from "./Services";
 
 export default function HomePage() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -272,6 +273,7 @@ export default function HomePage() {
       <Testimonials />
       <Pricing />
       <Products />
+      <Services />
       <Footer />
       <VideoPopover
         isOpen={isVideoPopoverOpen}

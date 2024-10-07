@@ -1,8 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.product_category_model import ProductCategoryModel
-from app.models.blog_category_model import BlogCategoryModel
 
-# Common CRUD functions
 
 # Create category
 def create_category(db: Session, model, category_name: str):

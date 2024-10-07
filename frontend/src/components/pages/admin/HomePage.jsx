@@ -373,13 +373,25 @@ export default function HomePage() {
       }
     } else if (formType === "homepage") {
       let formdata = new FormData();
+      const convertYouTubeLink = (url) => {
+        const regex = /https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/;
+        const match = url.match(regex);
+        if (match) {
+          return `https://www.youtube.com/embed/${match[1]}`;
+        }
+        return url;
+      };
+
       formdata.set("header_text", homePageFormData.headerText);
       formdata.set("header_text_alignment", homePageFormData.headerAlignment);
       formdata.set("tagline_text", homePageFormData.taglineText);
       formdata.set("tagline_alignment", homePageFormData.taglineAlignment);
       formdata.set("primary_button_text", homePageFormData.primaryButtonText);
       formdata.set("primary_button_type", homePageFormData.primaryButtonType);
-      formdata.set("primary_button_link", homePageFormData.primaryButtonLink);
+      const primaryButtonLink = convertYouTubeLink(
+        homePageFormData.primaryButtonLink
+      );
+      formdata.set("primary_button_link", primaryButtonLink);
       formdata.set(
         "secondary_button_text",
         homePageFormData.secondaryButtonText
@@ -388,10 +400,10 @@ export default function HomePage() {
         "secondary_button_type",
         homePageFormData.secondaryButtonType
       );
-      formdata.set(
-        "secondary_button_link",
+      const secondaryButtonLink = convertYouTubeLink(
         homePageFormData.secondaryButtonLink
       );
+      formdata.set("secondary_button_link", secondaryButtonLink);
       formdata.set("show_in_slider", homePageFormData.inSlider);
       formdata.set("opacity", homePageFormData.backgroundOpacity);
       formdata.set("file", homePageFormData.backgroundImage);

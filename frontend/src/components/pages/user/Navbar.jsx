@@ -13,13 +13,13 @@ export default function Navbar({
           <img
             src={logo}
             alt="Logo"
-            class="w-auto h-auto max-w-[150px] max-h-[60px] object-contain"
+            className="w-auto h-auto max-w-[150px] max-h-[60px] object-contain"
           />
         ) : (
           <img
             src="/logo_1.png"
             alt="Default Logo"
-            class="w-auto h-auto max-w-[150px] max-h-[60px] object-contain"
+            className="w-auto h-auto max-w-[150px] max-h-[60px] object-contain"
           />
         )}
       </div>

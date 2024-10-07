@@ -775,6 +775,54 @@ const api = {
     }
   },
 
+  //service categories
+  getServiceCategoryDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.SERVICE_CATEGORY}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error getting the service category details", error);
+      throw error;
+    }
+  },
+  saveServiceCategoryDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.SERVICE_CATEGORY}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error saving the service category details", error);
+      throw error;
+    }
+  },
+  updateServiceCategoryDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.SERVICE_CATEGORY}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error updating the service category details", error);
+      throw error;
+    }
+  },
+  deleteServiceCategoryDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.SERVICE_CATEGORY}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error deleting the service category details", error);
+      throw error;
+    }
+  },
+
   //blog categories
 
   getBlogCategoryDetails: async () => {
@@ -870,6 +918,54 @@ const api = {
       return response.data;
     } catch (error) {
       console.log("error deleting the Product details", error);
+      throw error;
+    }
+  },
+
+  //service page
+  getServiceDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.SERVICES_PAGE}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error getting the Service details", error);
+      throw error;
+    }
+  },
+  saveServiceDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.SERVICES_PAGE}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error saving the Service details", error);
+      throw error;
+    }
+  },
+  updateServiceDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.SERVICES_PAGE}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error updating the Service details", error);
+      throw error;
+    }
+  },
+  deleteServiceDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.SERVICES_PAGE}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error deleting the Service details", error);
       throw error;
     }
   },

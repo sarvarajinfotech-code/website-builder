@@ -3,55 +3,15 @@ import Constants from "@/utility/Constants";
 import { Twitter, Linkedin } from "lucide-react";
 import { useEffect, useState } from "react";
 
-// const teamMembers = [
-//   {
-//     name: "Leonard Krasner",
-//     role: "Senior Designer",
-//     image: "https://i.pravatar.cc/300?img=1",
-//     twitter: "https://twitter.com/leonardkrasner",
-//     linkedin: "https://linkedin.com/in/leonardkrasner",
-//   },
-//   {
-//     name: "Floyd Miles",
-//     role: "Principal Designer",
-//     image: "https://i.pravatar.cc/300?img=2",
-//     twitter: "https://twitter.com/floydmiles",
-//     linkedin: "https://linkedin.com/in/floydmiles",
-//   },
-//   {
-//     name: "Emily Selman",
-//     role: "VP, User Experience",
-//     image: "https://i.pravatar.cc/300?img=3",
-//     twitter: "https://twitter.com/emilyselman",
-//     linkedin: "https://linkedin.com/in/emilyselman",
-//   },
-//   {
-//     name: "Kristin Watson",
-//     role: "VP, Human Resources",
-//     image: "https://i.pravatar.cc/300?img=4",
-//     twitter: "https://twitter.com/kristinwatson",
-//     linkedin: "https://linkedin.com/in/kristinwatson",
-//   },
-//   {
-//     name: "Emma Dorsey",
-//     role: "Senior Developer",
-//     image: "https://i.pravatar.cc/300?img=5",
-//     twitter: "https://twitter.com/emmadorsey",
-//     linkedin: "https://linkedin.com/in/emmadorsey",
-//   },
-//   {
-//     name: "Alicia Bell",
-//     role: "Junior Copywriter",
-//     image: "https://i.pravatar.cc/300?img=6",
-//     twitter: "https://twitter.com/aliciabell",
-//     linkedin: "https://linkedin.com/in/aliciabell",
-//   },
-// ];
-
 export default function TeamSection() {
   const [headerText, setHeaderText] = useState(null);
   const [tagline, setTagLine] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
+
+  const ensureHttp = (url) => {
+    if (!url) return "#";
+    return url.startsWith("http") ? url : `https://${url}`;
+  };
 
   useEffect(() => {
     async function fetchHeaderText() {
@@ -119,7 +79,7 @@ export default function TeamSection() {
                 </p>
                 <div className="flex justify-center space-x-4">
                   <a
-                    href={member.TWITTER_PROFILE}
+                    href={ensureHttp(member.TWITTER_PROFILE)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
@@ -128,7 +88,7 @@ export default function TeamSection() {
                     <Twitter className="h-6 w-6" />
                   </a>
                   <a
-                    href={member.LINKEDIN_PROFILE}
+                    href={ensureHttp(member.LINKEDIN_PROFILE)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"

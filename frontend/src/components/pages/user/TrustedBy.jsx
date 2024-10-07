@@ -5,6 +5,7 @@ import Constants from "@/utility/Constants";
 export default function TrustedBy() {
   const [clients, setClients] = useState([]);
   const [clientHeader, setClientHeader] = useState(null);
+  const [tagline, setTagLine] = useState(null);
   useEffect(() => {
     async function fetchClients() {
       const response = await api.getClientDetails();
@@ -18,6 +19,7 @@ export default function TrustedBy() {
       const resposne = await api.getHeaderInfo(Constants.CLIENT_PAGE);
       if (resposne.length > 0) {
         setClientHeader(resposne[0].HEADER_TEXT);
+        setTagLine(resposne[0].TAG_LINE);
       } else {
         setClientHeader(null);
       }
@@ -34,10 +36,15 @@ export default function TrustedBy() {
             {clientHeader}
           </h2>
         )}
+        {tagline && (
+          <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 dark:text-gray-300 sm:mt-4">
+            {tagline}
+          </p>
+        )}
 
         <div
           className={
-            "flex items-center justify-center space-x-8 overflow-x-auto "
+            "flex items-center justify-center space-x-8 overflow-x-auto mt-6"
           }
         >
           {clients.map((client) => (

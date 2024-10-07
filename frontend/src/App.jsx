@@ -20,6 +20,8 @@ import BlogCategory from "./components/pages/admin/BlogCategory";
 import BlogSection from "./components/pages/user/BlogSection";
 import SocialMedia from "./components/pages/admin/SocialMedia";
 import Pages from "./components/pages/admin/Pages";
+import Services from "./components/pages/admin/Services";
+import ServiceCategory from "./components/pages/admin/ServiceCategory";
 function App() {
   return (
     <>
@@ -38,6 +40,8 @@ function App() {
             <Route path="pricing" element={<Pricing />} />
             <Route path="products" element={<Products />} />
             <Route path="products/category" element={<ProductCategory />} />
+            <Route path="services" element={<Services />} />
+            <Route path="services/category" element={<ServiceCategory />} />
             <Route path="blogs" element={<Blogs />} />
             <Route path="blogs/category" element={<BlogCategory />} />
             <Route path="social-media" element={<SocialMedia />} />

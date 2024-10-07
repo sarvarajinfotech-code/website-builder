@@ -60,6 +60,20 @@ const menuItems = [
     ],
   },
   {
+    name: "Services",
+    icon: Package,
+    expandable: true,
+    path: "/admin/services",
+    list: [
+      {
+        name: "Service Category",
+        icon: Package,
+        path: "/admin/services/category",
+      },
+      { name: "Services", icon: Package, path: "/admin/services" },
+    ],
+  },
+  {
     name: "Blogs",
     icon: Rss,
     path: "/admin/blogs",
