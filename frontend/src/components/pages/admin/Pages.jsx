@@ -23,18 +23,64 @@ import { Button } from "@/components/ui/button";
 
 const initialPages = [
   { id: "1", name: "Home", url: "/", visible: true, disabled: true },
-  { id: "2", name: "About", url: "/about", visible: true, disabled: false },
+  { id: "2", name: "Clients", url: "/clients", visible: true, disabled: false },
+  { id: "3", name: "Team", url: "/team", visible: true, disabled: false },
   {
-    id: "3",
+    id: "4",
+    name: "Testimonials",
+    url: "/testimonials",
+    visible: true,
+    disabled: false,
+  },
+  {
+    id: "5",
+    name: "Why Choose Us",
+    url: "/why-choose-us",
+    visible: true,
+    disabled: false,
+  },
+  { id: "6", name: "Pricing", url: "/pricing", visible: true, disabled: false },
+  {
+    id: "7",
     name: "Products",
     url: "/products",
     visible: true,
     disabled: false,
   },
-  { id: "4", name: "Contact", url: "/contact", visible: true, disabled: false },
-  { id: "5", name: "Blog", url: "/blog", visible: false, disabled: false },
-  { id: "6", name: "Footer", url: "/footer", visible: true, disabled: true },
+  {
+    id: "8",
+    name: "Services",
+    url: "/services",
+    visible: true,
+    disabled: false,
+  },
+  { id: "9", name: "Blogs", url: "/blogs", visible: true, disabled: false },
+  { id: "10", name: "About", url: "/about", visible: true, disabled: false },
+  {
+    id: "11",
+    name: "Contact",
+    url: "/contact",
+    visible: true,
+    disabled: false,
+  },
+  {
+    id: "12",
+    name: "Features",
+    url: "/features",
+    visible: true,
+    disabled: false,
+  },
+  { id: "13", name: "FAQ", url: "/faq", visible: true, disabled: false },
+  {
+    id: "14",
+    name: "Dynamic",
+    url: "/dynamic",
+    visible: true,
+    disabled: false,
+  },
+  { id: "15", name: "Footer", url: "/footer", visible: true, disabled: true },
 ];
+
 export default function Pages() {
   const [pages, setPages] = useState(initialPages);
   const [search, setSearch] = useState("");

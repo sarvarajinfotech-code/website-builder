@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -8,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
 
 const blogPosts = [
   {
@@ -70,12 +70,12 @@ export default function BlogSection() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <a
             href="#"
-            className="flex items-center space-x-1 text-purple-600 hover:text-purple-800"
+            className="flex items-center space-x-1 text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300"
           >
             <span className="text-md">
               <svg
@@ -85,10 +85,10 @@ export default function BlogSection() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-move-left"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-move-left"
               >
                 <path d="M6 8L2 12L6 16" />
                 <path d="M2 12H22" />
@@ -97,13 +97,13 @@ export default function BlogSection() {
             <span>Back</span>
           </a>
 
-          <h2 className="text-3xl font-extrabold text-gray-900">
+          <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">
             From the blog
           </h2>
           <div className="space-y-2">
             <label
               htmlFor="category-select"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
               Category
             </label>
@@ -111,10 +111,10 @@ export default function BlogSection() {
               onValueChange={setSelectedCategory}
               defaultValue={selectedCategory}
             >
-              <SelectTrigger className="w-[180px] bg-white text-black border border-gray-300">
+              <SelectTrigger className="w-[180px] bg-white text-black border border-gray-300 dark:bg-gray-700 dark:text-white dark:border-gray-600">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className="bg-white dark:bg-gray-800">
                 {categories.map((category) => (
                   <SelectItem key={category} value={category}>
                     {category}
@@ -128,7 +128,7 @@ export default function BlogSection() {
           {blogPosts.map((post) => (
             <div
               key={post.id}
-              className="flex flex-col rounded-lg shadow-lg overflow-hidden"
+              className="flex flex-col rounded-lg shadow-lg overflow-hidden dark:bg-gray-800"
             >
               <div className="flex-shrink-0">
                 <img
@@ -139,16 +139,16 @@ export default function BlogSection() {
                   height={192}
                 />
               </div>
-              <div className="flex-1 bg-white p-6 flex flex-col justify-between">
+              <div className="flex-1 bg-white p-6 flex flex-col justify-between dark:bg-gray-800 dark:text-gray-300">
                 <div className="flex-1">
                   <p className="text-sm font-medium text-purple-600">
                     {post.category}
                   </p>
                   <a href="#" className="block mt-2">
-                    <p className="text-xl font-semibold text-gray-900">
+                    <p className="text-xl font-semibold text-gray-900 dark:text-white">
                       {post.title}
                     </p>
-                    <p className="mt-3 text-base text-gray-500">
+                    <p className="mt-3 text-base text-gray-500 dark:text-gray-400">
                       {post.excerpt}
                     </p>
                   </a>
@@ -167,7 +167,7 @@ export default function BlogSection() {
                     <p className="text-sm font-medium text-purple-600">
                       {post.author.name}
                     </p>
-                    <div className="flex space-x-1 text-sm text-gray-500">
+                    <div className="flex space-x-1 text-sm text-gray-500 dark:text-gray-400">
                       <time dateTime={post.date}>{post.date}</time>
                     </div>
                   </div>

@@ -1021,6 +1021,205 @@ const api = {
       throw error;
     }
   },
+
+  //faq page
+  getFAQDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.FAQ_PAGE}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error getting FAQ details", error);
+      throw error;
+    }
+  },
+  saveFAQDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.FAQ_PAGE}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error saving FAQ details", error);
+      throw error;
+    }
+  },
+  updateFAQDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.FAQ_PAGE}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error updating FAQ details", error);
+      throw error;
+    }
+  },
+  deleteFAQDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.FAQ_PAGE}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error deleting FAQ details", error);
+      throw error;
+    }
+  },
+
+  //dynamic page
+  getPageDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.DYNAMIC_PAGE}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error getting Page details", error);
+      throw error;
+    }
+  },
+  savePageDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.DYNAMIC_PAGE}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error saving Page details", error);
+      throw error;
+    }
+  },
+  updatePageDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.DYNAMIC_PAGE}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error updating Page details", error);
+      throw error;
+    }
+  },
+  deletePageDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.DYNAMIC_PAGE}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error deleting Page details", error);
+      throw error;
+    }
+  },
+
+  //contact page
+  getContactDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.CONTACT_PAGE}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error getting contact details", error);
+      throw error;
+    }
+  },
+
+  saveContactDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.CONTACT_PAGE}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error saving contact details", error);
+      throw error;
+    }
+  },
+
+  updateContactDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.CONTACT_PAGE}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error updating contact details", error);
+      throw error;
+    }
+  },
+
+  deleteContactDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.CONTACT_PAGE}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error deleting contact details", error);
+      throw error;
+    }
+  },
+
+  //whychooseus page
+  getReasonsDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.WHY_CHOOSE_US_PAGE}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while getting the reasons data", error);
+    }
+  },
+
+  saveReasonsDetails: async (formdata) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.WHY_CHOOSE_US_PAGE}`,
+        formdata,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while creating reasons details", error);
+      throw error;
+    }
+  },
+
+  updateReasonsDetails: async (formdata, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.WHY_CHOOSE_US_PAGE}${id}`,
+        formdata,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while updating reasons details", error);
+      throw error;
+    }
+  },
+
+  deleteReasonsDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.WHY_CHOOSE_US_PAGE}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while deleting reasons details", error);
+      throw error;
+    }
+  },
 };
 
 export default api;

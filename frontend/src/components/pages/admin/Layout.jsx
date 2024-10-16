@@ -25,6 +25,12 @@ import {
   UserPlus,
   CircleFadingPlus,
   PanelsTopLeft,
+  FileCheck2,
+  CircleAlert,
+  BookUser,
+  Codesandbox,
+  TableOfContents,
+  LibraryBig,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -36,6 +42,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CodeSandboxLogoIcon } from "@radix-ui/react-icons";
 
 const menuItems = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/admin/" },
@@ -82,6 +89,32 @@ const menuItems = [
       { name: "Blog Category", icon: Rss, path: "/admin/blogs/category" },
       { name: "Blogs", icon: Rss, path: "/admin/blogs" },
     ],
+  },
+
+  {
+    name: "Why Choose Us",
+    icon: FileCheck2,
+    path: "/admin/why-choose-us",
+  },
+  {
+    name: "About",
+    icon: CircleAlert,
+    path: "/admin/about",
+  },
+  {
+    name: "Contact",
+    icon: BookUser,
+    path: "/admin/contact",
+  },
+  {
+    name: "FAQ",
+    icon: TableOfContents,
+    path: "/admin/faq",
+  },
+  {
+    name: "Dynamic",
+    icon: LibraryBig,
+    path: "/admin/dynamic",
   },
   { name: "Social Media", icon: CircleFadingPlus, path: "/admin/social-media" },
   { name: "Footer", icon: Dock, path: "/admin/footer" },
@@ -134,9 +167,43 @@ export default function Layout() {
     };
   }, []);
 
+  const getPageTitle = () => {
+    if (location.pathname === "/") return "Dashboard";
+
+    const findMatchingItem = (items) => {
+      for (const item of items) {
+        if (item.path === location.pathname) return item.name;
+        if (item.expandable && item.list) {
+          const subItem = item.list.find(
+            (sub) => sub.path === location.pathname
+          );
+          if (subItem) return subItem.name;
+        }
+      }
+      return "";
+    };
+
+    return findMatchingItem(menuItems);
+  };
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const expandedParents = menuItems
+      .filter((item) => item.expandable && currentPath.startsWith(item.path))
+      .map((item) => item.name);
+    setExpandedItems(expandedParents);
+  }, [location]);
+
   const handleNavigation = (path) => {
     navigate(path);
     closeSidebar();
+  };
+
+  const isActive = (item) => {
+    if (item.expandable) {
+      return item.list.some((subItem) => subItem.path === location.pathname);
+    }
+    return item.path === location.pathname;
   };
 
   return (
@@ -174,7 +241,7 @@ export default function Layout() {
                 {item.expandable ? (
                   <div
                     className={`flex cursor-pointer items-center justify-between px-4 py-2 text-sm transition-colors duration-200 ${
-                      expandedItems.includes(item.name)
+                      isActive(item)
                         ? "bg-blue-50 text-blue-600"
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
@@ -193,7 +260,7 @@ export default function Layout() {
                 ) : (
                   <div
                     className={`flex items-center px-4 py-2 text-sm transition-colors duration-200 ${
-                      location.pathname === item.path
+                      isActive(item)
                         ? "bg-blue-50 text-blue-600"
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
@@ -208,7 +275,11 @@ export default function Layout() {
                     {item.list.map((subItem) => (
                       <div
                         key={subItem.name}
-                        className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                        className={`block px-4 py-2 text-sm ${
+                          location.pathname === subItem.path
+                            ? "bg-blue-50 text-blue-600"
+                            : "text-gray-600 hover:bg-gray-100"
+                        }`}
                         onClick={() => handleNavigation(subItem.path)}
                       >
                         {subItem.name}
@@ -241,8 +312,9 @@ export default function Layout() {
               {location.pathname === "/"
                 ? "Dashboard"
                 : menuItems.find((item) => item.path === location.pathname)
-                    ?.name}
+                    ?.name || ""}
             </h2>
+
             <div className="flex items-center space-x-2">
               <Button>
                 <a href="/" target="_blank" rel="noopener noreferrer">
@@ -263,6 +335,18 @@ export default function Layout() {
                   <DropdownMenuItem>Logout</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleSidebar}
+                className="md:hidden"
+              >
+                {isSidebarOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </Button>
             </div>
           </div>
         </header>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -17,42 +16,243 @@ import Footer from "./components/pages/admin/Footer";
 import Meetings from "./components/pages/admin/Meetings";
 import ProductCategory from "./components/pages/admin/ProductCategory";
 import BlogCategory from "./components/pages/admin/BlogCategory";
-import BlogSection from "./components/pages/user/BlogSection";
 import SocialMedia from "./components/pages/admin/SocialMedia";
 import Pages from "./components/pages/admin/Pages";
 import Services from "./components/pages/admin/Services";
 import ServiceCategory from "./components/pages/admin/ServiceCategory";
-function App() {
-  return (
-    <>
-      <Router>
-        {/* <ClientHomePage /> */}
-        {/* <BlogSection /> */}
+import WhyChooseUs from "./components/pages/admin/WhyChooseUs";
+import About from "./components/pages/admin/About";
+import Contact from "./components/pages/admin/Contact";
+import FAQ from "./components/pages/admin/FAQ";
+import Dynamic from "./components/pages/admin/Dynamic";
 
-        <Routes>
-          <Route path="/admin" element={<Layout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="home-page" element={<HomePage />} />
-            <Route path="clients" element={<Clients />} />
-            <Route path="team" element={<Team />} />
-            <Route path="testimonials" element={<Testimonials />} />
-            <Route path="pricing" element={<Pricing />} />
-            <Route path="products" element={<Products />} />
-            <Route path="products/category" element={<ProductCategory />} />
-            <Route path="services" element={<Services />} />
-            <Route path="services/category" element={<ServiceCategory />} />
-            <Route path="blogs" element={<Blogs />} />
-            <Route path="blogs/category" element={<BlogCategory />} />
-            <Route path="social-media" element={<SocialMedia />} />
-            <Route path="footer" element={<Footer />} />
-            <Route path="pages" element={<Pages />} />
-            <Route path="meetings" element={<Meetings />} />
-          </Route>
-          <Route path="/" element={<ClientHomePage />} />
-        </Routes>
-      </Router>
-    </>
+import UserPricing from "./components/pages/user/Pricing";
+import UserTestimonials from "./components/pages/user/Testimonials";
+import UserTeam from "./components/pages/user/Team";
+import UserProducts from "./components/pages/user/Products";
+import UserServices from "./components/pages/user/Services";
+import UserWhyChooseUs from "./components/pages/user/WhyChooseUs";
+import UserAboutUs from "./components/pages/user/About";
+import UserContact from "./components/pages/user/Contact";
+import UserFAQ from "./components/pages/user/FAQ";
+import UserDynamic from "./components/pages/user/Dynamic";
+import UserTrustedBy from "./components/pages/user/TrustedBy";
+import UserFloatingIcon from "./components/pages/user/Floating";
+import Slider from "./components/pages/user/Slider";
+import UserBlog from "./components/pages/user/Blogs";
+import { useEffect, useState } from "react";
+
+function App() {
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const storedMode = sessionStorage.getItem("isDarkMode");
+    return storedMode ? JSON.parse(storedMode) : true;
+  });
+  const [showDarkMode, setShowDarkMode] = useState(true);
+
+  useEffect(() => {
+    sessionStorage.setItem("isDarkMode", JSON.stringify(isDarkMode));
+  }, [isDarkMode]);
+
+  return (
+    <Router>
+      <Routes>
+        {/* Admin Routes */}
+        <Route path="/admin" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="home-page" element={<HomePage />} />
+          <Route path="clients" element={<Clients />} />
+          <Route path="team" element={<Team />} />
+          <Route path="testimonials" element={<Testimonials />} />
+          <Route path="pricing" element={<Pricing />} />
+          <Route path="products" element={<Products />} />
+          <Route path="products/category" element={<ProductCategory />} />
+          <Route path="services" element={<Services />} />
+          <Route path="services/category" element={<ServiceCategory />} />
+          <Route path="blogs" element={<Blogs />} />
+          <Route path="blogs/category" element={<BlogCategory />} />
+          <Route path="why-choose-us" element={<WhyChooseUs />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="faq" element={<FAQ />} />
+          <Route path="dynamic" element={<Dynamic />} />
+          <Route path="social-media" element={<SocialMedia />} />
+          <Route path="footer" element={<Footer />} />
+          <Route path="pages" element={<Pages />} />
+          <Route path="meetings" element={<Meetings />} />
+        </Route>
+
+        {/*user routes*/}
+        <Route
+          path="/"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <Slider />
+              <UserTrustedBy />
+              <UserWhyChooseUs />
+              {/* <AboutUs /> */}
+              <UserTeam />
+              <UserTestimonials />
+              <UserPricing />
+              <UserProducts />
+              <UserServices />
+              <UserContact />
+              <UserFAQ />
+              <UserDynamic />
+              <UserFloatingIcon />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserAboutUs />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserContact />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/faq"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserFAQ />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserProducts />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/pricing"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserPricing />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/testimonials"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserTestimonials />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/team"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserTeam />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/services"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserServices />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/why-choose-us"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserWhyChooseUs />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/dynamic"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserDynamic />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/blogs"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserBlog />
+            </ClientHomePage>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 

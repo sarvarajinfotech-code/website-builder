@@ -22,6 +22,10 @@ from app.controllers import client_controller
 from app.controllers import team_controller
 from app.controllers import testimonial_controller
 from app.controllers import blog_controller
+from app.controllers import faq_controller
+from app.controllers import contact_controller
+from app.controllers import why_choose_us_controller
+from app.controllers import page_controller
 from app.utils.database import engine, Base
 
 # Create database tables
@@ -62,6 +66,11 @@ app.include_router(client_controller.router)
 app.include_router(team_controller.router)
 app.include_router(testimonial_controller.router)
 app.include_router(blog_controller.router)
+app.include_router(faq_controller.router)
+app.include_router(contact_controller.router)
+app.include_router(why_choose_us_controller.router)
+app.include_router(page_controller.router)
+
 
 
 

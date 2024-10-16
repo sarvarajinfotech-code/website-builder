@@ -12,6 +12,7 @@ const Constants = Object.freeze({
   SERVICES: "services",
   PRICING: "pricing",
   BLOGS: "blogs",
+  WHY_CHOOSE_US: "whyChooseuse",
 
   //header text
   HEADER_TEXT: "/headers/",
@@ -70,8 +71,20 @@ const Constants = Object.freeze({
   //blogs page
   BLOGS_PAGE: "/blogs/",
 
+  //faq page
+  FAQ_PAGE: "/faq/",
+
+  //dynamic page
+  DYNAMIC_PAGE: "/dynamic-page/",
+
+  //contact page
+  CONTACT_PAGE: "/contact/",
+
   //social media page
   SOCIAL_MEDIA: "/social-media/",
+
+  //why choose us page
+  WHY_CHOOSE_US_PAGE: "/why-choose-us/",
 
   //footer section
   FOOTER_SECTION: "/footer-section/",

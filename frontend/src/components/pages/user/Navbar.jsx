@@ -1,10 +1,13 @@
+import { Link } from "react-router-dom";
 import { Moon, Sun, Menu, X } from "lucide-react";
+
 export default function Navbar({
   isDarkMode,
   toggleDarkMode,
   toggleMenu,
   isMenuOpen,
   logo,
+  showDarkMode,
 }) {
   return (
     <nav className="sticky top-0 z-50 flex justify-between items-center p-4 bg-gradient-to-b from-white to-white/95 dark:from-gray-900 dark:to-gray-900/95 shadow-md transition-colors duration-300">
@@ -26,62 +29,65 @@ export default function Navbar({
 
       <ul className="hidden md:flex space-x-6">
         <li>
-          <a
-            href="#"
+          <Link
+            to="/"
             className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
           >
             Home
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#"
+          <Link
+            to="/products"
             className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
           >
             Products
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#"
+          <Link
+            to="/pricing"
             className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
           >
             Pricing
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#"
+          <Link
+            to="/team"
             className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
           >
             Team
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#"
+          <Link
+            to="/blogs"
             className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
           >
             Blogs
-          </a>
+          </Link>
         </li>
+        {/* Add other links similarly */}
       </ul>
       <div className="flex items-center space-x-4">
-        <button
-          onClick={toggleDarkMode}
-          className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-        >
-          {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-        </button>
-        <button
-          onClick={toggleMenu}
-          className="md:hidden text-gray-700 dark:text-gray-300"
-        >
-          <Menu size={24} />
-        </button>
+        {showDarkMode && (
+          <>
+            <button
+              onClick={toggleDarkMode}
+              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+            >
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <button
+              onClick={toggleMenu}
+              className="md:hidden text-gray-700 dark:text-gray-300"
+            >
+              <Menu size={24} />
+            </button>
+          </>
+        )}
       </div>
-
-      {/* Mobile Menu */}
       <div
         className={`fixed inset-y-0 left-0 transform ${
           isMenuOpen ? "translate-x-0" : "-translate-x-full"

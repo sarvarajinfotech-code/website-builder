@@ -48,8 +48,9 @@ def delete_file(file_path: str) -> None:
     """
     try:
         # Log the file path being deleted
+        file_path = UPLOAD_FOLDER+file_path
         print(f"Attempting to delete file: {file_path}")
-        file_path = os.path.join(UPLOAD_FOLDER,file_path)
+
         if os.path.exists(file_path):
             os.remove(file_path)
             print(f"File deleted successfully: {file_path}")
