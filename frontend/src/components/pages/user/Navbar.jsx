@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Moon, Sun, Menu, X } from "lucide-react";
 
 export default function Navbar({
@@ -9,6 +9,8 @@ export default function Navbar({
   logo,
   showDarkMode,
 }) {
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
   return (
     <nav className="sticky top-0 z-50 flex justify-between items-center p-4 bg-gradient-to-b from-white to-white/95 dark:from-gray-900 dark:to-gray-900/95 shadow-md transition-colors duration-300">
       <div className="flex items-center">
@@ -31,7 +33,11 @@ export default function Navbar({
         <li>
           <Link
             to="/"
-            className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+            className={`${
+              isActive("/")
+                ? "text-purple-600 dark:text-purple-400"
+                : "text-gray-700 dark:text-gray-300"
+            } hover:text-purple-600 dark:hover:text-purple-400`}
           >
             Home
           </Link>
@@ -39,7 +45,11 @@ export default function Navbar({
         <li>
           <Link
             to="/products"
-            className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+            className={`${
+              isActive("/products")
+                ? "text-purple-600 dark:text-purple-400"
+                : "text-gray-700 dark:text-gray-300"
+            } hover:text-purple-600 dark:hover:text-purple-400`}
           >
             Products
           </Link>
@@ -47,7 +57,11 @@ export default function Navbar({
         <li>
           <Link
             to="/pricing"
-            className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+            className={`${
+              isActive("/pricing")
+                ? "text-purple-600 dark:text-purple-400"
+                : "text-gray-700 dark:text-gray-300"
+            } hover:text-purple-600 dark:hover:text-purple-400`}
           >
             Pricing
           </Link>
@@ -55,7 +69,11 @@ export default function Navbar({
         <li>
           <Link
             to="/team"
-            className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+            className={`${
+              isActive("/team")
+                ? "text-purple-600 dark:text-purple-400"
+                : "text-gray-700 dark:text-gray-300"
+            } hover:text-purple-600 dark:hover:text-purple-400`}
           >
             Team
           </Link>
@@ -63,7 +81,11 @@ export default function Navbar({
         <li>
           <Link
             to="/blogs"
-            className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+            className={`${
+              isActive("/blogs")
+                ? "text-purple-600 dark:text-purple-400"
+                : "text-gray-700 dark:text-gray-300"
+            } hover:text-purple-600 dark:hover:text-purple-400`}
           >
             Blogs
           </Link>
@@ -102,44 +124,64 @@ export default function Navbar({
           </button>
           <ul className="mt-8 space-y-4">
             <li>
-              <a
-                href="#"
-                className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+              <Link
+                to="/"
+                className={`${
+                  isActive("/")
+                    ? "text-purple-600 dark:text-purple-400"
+                    : "text-gray-700 dark:text-gray-300"
+                } hover:text-purple-600 dark:hover:text-purple-400`}
               >
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+              <Link
+                to="/products"
+                className={`${
+                  isActive("/products")
+                    ? "text-purple-600 dark:text-purple-400"
+                    : "text-gray-700 dark:text-gray-300"
+                } hover:text-purple-600 dark:hover:text-purple-400`}
               >
                 Products
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+              <Link
+                to="/pricing"
+                className={`${
+                  isActive("/pricing")
+                    ? "text-purple-600 dark:text-purple-400"
+                    : "text-gray-700 dark:text-gray-300"
+                } hover:text-purple-600 dark:hover:text-purple-400`}
               >
                 Pricing
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+              <Link
+                to="/team"
+                className={`${
+                  isActive("/team")
+                    ? "text-purple-600 dark:text-purple-400"
+                    : "text-gray-700 dark:text-gray-300"
+                } hover:text-purple-600 dark:hover:text-purple-400`}
               >
                 Team
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="block text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+              <Link
+                to="/blogs"
+                className={`${
+                  isActive("/blogs")
+                    ? "text-purple-600 dark:text-purple-400"
+                    : "text-gray-700 dark:text-gray-300"
+                } hover:text-purple-600 dark:hover:text-purple-400`}
               >
                 Blogs
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

@@ -45,7 +45,7 @@ import { useEffect, useState } from "react";
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const storedMode = sessionStorage.getItem("isDarkMode");
-    return storedMode ? JSON.parse(storedMode) : true;
+    return storedMode ? JSON.parse(storedMode) : false;
   });
   const [showDarkMode, setShowDarkMode] = useState(true);
 

@@ -68,6 +68,10 @@ const categories = [
 
 export default function BlogSection() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const filteredPosts =
+    selectedCategory === "All"
+      ? blogPosts
+      : blogPosts.filter((post) => post.category === selectedCategory);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -76,26 +80,7 @@ export default function BlogSection() {
           <a
             href="#"
             className="flex items-center space-x-1 text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300"
-          >
-            <span className="text-md">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-move-left"
-              >
-                <path d="M6 8L2 12L6 16" />
-                <path d="M2 12H22" />
-              </svg>
-            </span>
-            <span>Back</span>
-          </a>
+          ></a>
 
           <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">
             From the blog
@@ -125,7 +110,7 @@ export default function BlogSection() {
           </div>
         </div>
         <div className="mt-12 max-w-lg mx-auto grid gap-8 ">
-          {blogPosts.map((post) => (
+          {filteredPosts.map((post) => (
             <div
               key={post.id}
               className="flex flex-col rounded-lg shadow-lg overflow-hidden dark:bg-gray-800"
