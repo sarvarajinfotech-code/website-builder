@@ -7,7 +7,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import api from "@/utility/api";
+import Constants from "@/utility/Constants";
+import { useEffect, useState } from "react";
 
 const blogPosts = [
   {
@@ -57,21 +59,51 @@ const blogPosts = [
   },
 ];
 
-const categories = [
-  "All",
-  "Marketing",
-  "SEO",
-  "Customer Success",
-  "Design",
-  "Development",
-];
-
 export default function BlogSection() {
+  const [categories, setCategories] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [headerText, setHeaderText] = useState("");
+  const [tagline, setTagline] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const filteredPosts =
     selectedCategory === "All"
-      ? blogPosts
-      : blogPosts.filter((post) => post.category === selectedCategory);
+      ? blogs
+      : blogs.filter((post) => post.CATEGORY === selectedCategory);
+
+  useEffect(() => {
+    async function fetchBlogCategories() {
+      const response = await api.getBlogCategoryDetails();
+      if (response.length > 0) {
+        setCategories([
+          "All",
+          ...response.map((category) => category.CATEGORY_NAME),
+        ]);
+      } else {
+        setCategories(["All"]);
+      }
+    }
+    async function fetchBlogDetails() {
+      const response = await api.getBlogDetails();
+      if (response.length > 0) {
+        setBlogs(response);
+      } else {
+        setBlogs([]);
+      }
+    }
+    async function fetchHeaderDetails() {
+      const response = await api.getHeaderInfo(Constants.BLOGS);
+      if (response.length > 0) {
+        setHeaderText(response[0].HEADER_TEXT);
+        setTagline(response[0].TAG_LINE);
+      } else {
+        setHeaderText("");
+        setTagline("");
+      }
+    }
+    fetchBlogCategories();
+    fetchBlogDetails();
+    fetchHeaderDetails();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -83,8 +115,10 @@ export default function BlogSection() {
           ></a>
 
           <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-            From the blog
+            {headerText}
+            <p className="text-xl text-gray-500 dark:text-white">{tagline}</p>
           </h2>
+
           <div className="space-y-2">
             <label
               htmlFor="category-select"
@@ -112,13 +146,13 @@ export default function BlogSection() {
         <div className="mt-12 max-w-lg mx-auto grid gap-8 ">
           {filteredPosts.map((post) => (
             <div
-              key={post.id}
+              key={post.ID}
               className="flex flex-col rounded-lg shadow-lg overflow-hidden dark:bg-gray-800"
             >
               <div className="flex-shrink-0">
                 <img
                   className="h-48 w-full object-cover"
-                  src={post.image}
+                  src={post.AUTHOR_IMAGE}
                   alt=""
                   width={384}
                   height={192}
@@ -127,14 +161,14 @@ export default function BlogSection() {
               <div className="flex-1 bg-white p-6 flex flex-col justify-between dark:bg-gray-800 dark:text-gray-300">
                 <div className="flex-1">
                   <p className="text-sm font-medium text-purple-600">
-                    {post.category}
+                    {post.CATEGORY}
                   </p>
                   <a href="#" className="block mt-2">
                     <p className="text-xl font-semibold text-gray-900 dark:text-white">
-                      {post.title}
+                      {post.BLOG_NAME}
                     </p>
                     <p className="mt-3 text-base text-gray-500 dark:text-gray-400">
-                      {post.excerpt}
+                      {post.BLOG_DESCRIPTION}
                     </p>
                   </a>
                 </div>
@@ -142,7 +176,7 @@ export default function BlogSection() {
                   <div className="flex-shrink-0">
                     <img
                       className="h-10 w-10 rounded-full"
-                      src={post.author.avatar}
+                      src={post.AUTHOR_IMAGE}
                       alt=""
                       width={40}
                       height={40}
@@ -150,10 +184,19 @@ export default function BlogSection() {
                   </div>
                   <div className="ml-3">
                     <p className="text-sm font-medium text-purple-600">
-                      {post.author.name}
+                      {post.AUTHOR_NAME}
                     </p>
                     <div className="flex space-x-1 text-sm text-gray-500 dark:text-gray-400">
-                      <time dateTime={post.date}>{post.date}</time>
+                      <time dateTime={post.CREATED_DATE}>
+                        {new Date(post.CREATED_DATE).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )}
+                      </time>
                     </div>
                   </div>
                 </div>

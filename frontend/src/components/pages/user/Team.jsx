@@ -66,7 +66,6 @@ export default function TeamSection() {
                   src={member.PHOTO_PATH}
                   alt={member.EMPLOYEE_NAME}
                   layout="fill"
-                  objectFit="cover"
                   className="transition-transform duration-300 ease-in-out transform hover:scale-110"
                 />
               </div>

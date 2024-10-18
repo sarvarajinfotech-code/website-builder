@@ -1,14 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
-  Bell,
-  ChevronDown,
   LayoutDashboard,
   Users,
-  FolderClosed,
-  Calendar,
-  FileText,
-  BarChart2,
   LogOut,
   Settings,
   ChevronRight,
@@ -21,16 +15,14 @@ import {
   Rss,
   Dock,
   MessageSquareDiff,
-  ClipboardMinus,
   UserPlus,
   CircleFadingPlus,
   PanelsTopLeft,
   FileCheck2,
-  CircleAlert,
   BookUser,
-  Codesandbox,
   TableOfContents,
   LibraryBig,
+  ListTodo,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -42,7 +34,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { CodeSandboxLogoIcon } from "@radix-ui/react-icons";
 
 const menuItems = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/admin/" },
@@ -68,16 +59,16 @@ const menuItems = [
   },
   {
     name: "Services",
-    icon: Package,
+    icon: ListTodo,
     expandable: true,
     path: "/admin/services",
     list: [
       {
         name: "Service Category",
-        icon: Package,
+        icon: ListTodo,
         path: "/admin/services/category",
       },
-      { name: "Services", icon: Package, path: "/admin/services" },
+      { name: "Services", icon: ListTodo, path: "/admin/services" },
     ],
   },
   {
@@ -95,11 +86,6 @@ const menuItems = [
     name: "Why Choose Us",
     icon: FileCheck2,
     path: "/admin/why-choose-us",
-  },
-  {
-    name: "About",
-    icon: CircleAlert,
-    path: "/admin/about",
   },
   {
     name: "Contact",

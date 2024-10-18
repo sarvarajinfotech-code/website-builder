@@ -72,7 +72,6 @@ function App() {
           <Route path="blogs" element={<Blogs />} />
           <Route path="blogs/category" element={<BlogCategory />} />
           <Route path="why-choose-us" element={<WhyChooseUs />} />
-          <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
           <Route path="faq" element={<FAQ />} />
           <Route path="dynamic" element={<Dynamic />} />

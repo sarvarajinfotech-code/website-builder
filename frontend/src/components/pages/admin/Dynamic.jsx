@@ -37,9 +37,11 @@ export default function DynamicPage() {
 
     if (buttonText === "Save Page") {
       const response = await api.savePageDetails(pageData);
+      saveORupdateDynamicPath(response.ID, "save");
       console.log(response);
     } else if (buttonText === "Update Page") {
       const response = await api.updatePageDetails(pageData, pageId);
+      saveORupdateDynamicPath(pageId, "update");
       console.log(response);
     }
     reloadPage();
@@ -109,7 +111,7 @@ export default function DynamicPage() {
 
   const handleDelete = async (id) => {
     const response = await api.deletePageDetails(id);
-    console.log(response);
+    deleteDynamicPath(id);
     reloadPage();
   };
 
@@ -121,6 +123,38 @@ export default function DynamicPage() {
     setShowForm(false);
     fetchPageDetails();
     setButtonText("Save Page");
+  };
+
+  const generateDynamicPagePath = () => {
+    if (typeof pageName !== "string") {
+      throw new Error("Input must be a string");
+    }
+    const dynamicPagePath = pageName.toLowerCase().replace(/\s+/g, "-");
+
+    return dynamicPagePath;
+  };
+
+  const saveORupdateDynamicPath = async (dynamic_page_id, action) => {
+    let page_path = "/dynamic/" + generateDynamicPagePath();
+    let payload = {
+      id: null,
+      page_name: pageName,
+      page_path: page_path,
+      show: true,
+      disabled: false,
+      dynamic_page_id: dynamic_page_id,
+    };
+    if (action === "save") {
+      const response = await api.savePathDetails(payload);
+      console.log(response);
+    } else if (action === "update") {
+      const response = await api.updatePathDetails(payload, dynamic_page_id);
+      console.log(response);
+    }
+  };
+
+  const deleteDynamicPath = async (id) => {
+    const response = await api.deletePathDetails(id);
   };
 
   async function fetchPageDetails() {

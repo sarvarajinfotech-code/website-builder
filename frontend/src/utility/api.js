@@ -1220,6 +1220,74 @@ const api = {
       throw error;
     }
   },
+
+  //paths
+  getPathDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.PATH_PAGE}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error getting path details", error);
+      throw error;
+    }
+  },
+
+  // Save new path details
+  savePathDetails: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.PATH_PAGE}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error saving path details", error);
+      throw error;
+    }
+  },
+
+  // Update path details
+  updatePathDetails: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.PATH_PAGE}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error updating path details", error);
+      throw error;
+    }
+  },
+
+  // Bulk update path details
+  bulkUpdatePathDetails: async (payload) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.BULK_UPLOAD}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error bulk updating path details", error);
+      throw error;
+    }
+  },
+
+  // Delete path details
+  deletePathDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.PATH_PAGE}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error deleting path details", error);
+      throw error;
+    }
+  },
 };
 
 export default api;

@@ -91,6 +91,11 @@ const Constants = Object.freeze({
 
   //footer section headers
   FOOTER_SECTION_HEADERS: "headers/",
+
+  //paths
+  PATH_PAGE: "/path/",
+
+  BULK_UPLOAD: "/bulk/path",
 });
 
 export default Constants;

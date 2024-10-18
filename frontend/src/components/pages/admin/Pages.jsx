@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, Lock } from "lucide-react";
 import {
   Table,
@@ -20,82 +20,21 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-
-const initialPages = [
-  { id: "1", name: "Home", url: "/", visible: true, disabled: true },
-  { id: "2", name: "Clients", url: "/clients", visible: true, disabled: false },
-  { id: "3", name: "Team", url: "/team", visible: true, disabled: false },
-  {
-    id: "4",
-    name: "Testimonials",
-    url: "/testimonials",
-    visible: true,
-    disabled: false,
-  },
-  {
-    id: "5",
-    name: "Why Choose Us",
-    url: "/why-choose-us",
-    visible: true,
-    disabled: false,
-  },
-  { id: "6", name: "Pricing", url: "/pricing", visible: true, disabled: false },
-  {
-    id: "7",
-    name: "Products",
-    url: "/products",
-    visible: true,
-    disabled: false,
-  },
-  {
-    id: "8",
-    name: "Services",
-    url: "/services",
-    visible: true,
-    disabled: false,
-  },
-  { id: "9", name: "Blogs", url: "/blogs", visible: true, disabled: false },
-  { id: "10", name: "About", url: "/about", visible: true, disabled: false },
-  {
-    id: "11",
-    name: "Contact",
-    url: "/contact",
-    visible: true,
-    disabled: false,
-  },
-  {
-    id: "12",
-    name: "Features",
-    url: "/features",
-    visible: true,
-    disabled: false,
-  },
-  { id: "13", name: "FAQ", url: "/faq", visible: true, disabled: false },
-  {
-    id: "14",
-    name: "Dynamic",
-    url: "/dynamic",
-    visible: true,
-    disabled: false,
-  },
-  { id: "15", name: "Footer", url: "/footer", visible: true, disabled: true },
-];
+import api from "@/utility/api";
 
 export default function Pages() {
-  const [pages, setPages] = useState(initialPages);
+  const [pages, setPages] = useState([]);
   const [search, setSearch] = useState("");
   const [selectAll, setSelectAll] = useState(false);
 
   const filteredPages = pages.filter((page) =>
-    page.name.toLowerCase().includes(search.toLowerCase())
+    page.PAGE_NAME.toLowerCase().includes(search.toLowerCase())
   );
 
   const handleToggle = (id) => {
     setPages(
       pages.map((page) =>
-        page.id === id && !page.disabled
-          ? { ...page, visible: !page.visible }
-          : page
+        page.ID === id && !page.DISABLED ? { ...page, SHOW: !page.SHOW } : page
       )
     );
   };
@@ -105,18 +44,37 @@ export default function Pages() {
     setSelectAll(newSelectAll);
     setPages(
       pages.map((page) =>
-        page.disabled ? page : { ...page, visible: newSelectAll }
+        page.DISABLED ? page : { ...page, SHOW: newSelectAll }
       )
     );
   };
 
-  const handleSaveConfiguration = () => {
-    console.log("Current Page Configuration:", pages);
+  function toLowerCaseKeys(obj) {
+    return Object.keys(obj).reduce((acc, key) => {
+      acc[key.toLowerCase()] = obj[key];
+      return acc;
+    }, {});
+  }
+
+  const handleSaveConfiguration = async () => {
+    const lowerCasedPayload = pages.map((item) => toLowerCaseKeys(item));
+    const response = await api.bulkUpdatePathDetails(lowerCasedPayload);
   };
 
-  const enabledPages = pages.filter((page) => !page.disabled);
-  const allEnabled = enabledPages.every((page) => page.visible);
-  const someEnabled = enabledPages.some((page) => page.visible);
+  const enabledPages = pages.filter((page) => !page.DISABLED);
+  const allEnabled = enabledPages.every((page) => page.SHOW);
+
+  useEffect(() => {
+    async function fechPages() {
+      const response = await api.getPathDetails();
+      if (response.length > 0) {
+        setPages(response);
+      } else {
+        setPages([]);
+      }
+    }
+    fechPages();
+  }, []);
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
@@ -159,12 +117,12 @@ export default function Pages() {
             <TableBody>
               {filteredPages.map((page) => (
                 <TableRow
-                  key={page.id}
-                  className={page.disabled ? "opacity-50" : ""}
+                  key={page.ID}
+                  className={page.DISABLED ? "opacity-50" : ""}
                 >
                   <TableCell className="font-medium">
-                    {page.name}
-                    {page.disabled && (
+                    {page.PAGE_NAME}
+                    {page.DISABLED && (
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
@@ -177,13 +135,13 @@ export default function Pages() {
                       </TooltipProvider>
                     )}
                   </TableCell>
-                  <TableCell>{page.url}</TableCell>
+                  <TableCell>{page.PAGE_PATH}</TableCell>
                   <TableCell className="text-right">
                     <Switch
-                      checked={page.visible}
-                      onCheckedChange={() => handleToggle(page.id)}
-                      disabled={page.disabled}
-                      aria-label={`Toggle visibility for ${page.name}`}
+                      checked={page.SHOW}
+                      onCheckedChange={() => handleToggle(page.ID)}
+                      disabled={page.DISABLED}
+                      aria-label={`Toggle visibility for ${page.PAGE_NAME}`}
                     />
                   </TableCell>
                 </TableRow>

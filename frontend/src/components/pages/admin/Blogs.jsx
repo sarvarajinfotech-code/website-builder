@@ -22,6 +22,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTable } from "./commons/DataTable";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Blogs() {
   const [activeTab, setActiveTab] = useState("header");
@@ -34,6 +41,7 @@ export default function Blogs() {
     blogDescription: "",
     authorName: "",
     authorImage: null,
+    category: "",
   });
   const [blogList, setBlogList] = useState([]);
   const [blogId, setBlogId] = useState(null);
@@ -42,6 +50,8 @@ export default function Blogs() {
   const [imagePreview, setImagePreview] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const fileInputRef = useRef(null);
+  const [categories, setCategories] = useState([]);
+
   const columns = [
     {
       accessorKey: "BLOG_NAME",
@@ -84,6 +94,18 @@ export default function Blogs() {
           </Button>
         );
       },
+    },
+    {
+      accessorKey: "CATEGORY",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
     },
     {
       accessorKey: "AUTHOR_IMAGE",
@@ -149,6 +171,7 @@ export default function Blogs() {
       blogName: row.BLOG_NAME,
       blogDescription: row.BLOG_DESCRIPTION,
       authorName: row.AUTHOR_NAME,
+      category: row.CATEGORY,
       authorImage: image,
     });
     setBlogId(row.ID);
@@ -156,6 +179,7 @@ export default function Blogs() {
     setBlogButtonText("Update Blog Post");
     setShowForm(true);
   };
+
   const handleBlogDelete = async (id) => {
     const response = await api.deleteBlogDetails(id);
     console.log(response);
@@ -199,6 +223,7 @@ export default function Blogs() {
       setHeaderTextButton("Update Header");
     } else if (headerTextButton === "Update Header") {
       const response = await api.updateHeaderInfo(payload, headerId);
+      setHeaderTextButton("Save Header");
     }
   };
 
@@ -208,6 +233,7 @@ export default function Blogs() {
     payload.set("blog_name", formData.blogName);
     payload.set("blog_description", formData.blogDescription);
     payload.set("author_name", formData.authorName);
+    payload.set("category", formData.category);
     payload.set("file", formData.authorImage);
     if (blogButtonText === "Save Blog Post") {
       const response = await api.saveBlogDetails(payload);
@@ -255,8 +281,18 @@ export default function Blogs() {
         setHeaderTextButton("Save Header");
       }
     }
+
+    async function fetchBlogCategories() {
+      const response = await api.getBlogCategoryDetails();
+      if (response.length > 0) {
+        setCategories(response.map((category) => category.CATEGORY_NAME));
+      } else {
+        setCategories([]);
+      }
+    }
     fetchHeaderDetails();
     fetchBlogDetails();
+    fetchBlogCategories();
   }, []);
 
   return (
@@ -324,6 +360,26 @@ export default function Blogs() {
                   value={formData.blogName}
                   onChange={handleInputChange}
                 />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="category">Category</Label>
+                <Select
+                  value={formData.category}
+                  onValueChange={(value) => {
+                    handleInputChange({ target: { name: "category", value } });
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Blog Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="blogDescription">Blog Description</Label>
