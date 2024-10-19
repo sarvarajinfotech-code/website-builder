@@ -5,6 +5,7 @@ import Banner from "./Banner";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import api from "@/utility/api";
+import FloatingIcon from "./Floating";
 
 export default function HomePage({
   isDarkMode,
@@ -65,6 +66,8 @@ export default function HomePage({
         logo={logo}
       />
       {children}
+      <FloatingIcon />
+
       <Footer />
     </div>
   );

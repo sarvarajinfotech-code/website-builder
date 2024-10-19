@@ -135,7 +135,7 @@ export default function DynamicPage() {
   };
 
   const saveORupdateDynamicPath = async (dynamic_page_id, action) => {
-    let page_path = "/dynamic/" + generateDynamicPagePath();
+    let page_path = "/" + generateDynamicPagePath();
     let payload = {
       id: null,
       page_name: pageName,

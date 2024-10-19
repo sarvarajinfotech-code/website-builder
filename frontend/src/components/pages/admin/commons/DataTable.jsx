@@ -31,7 +31,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export function DataTable({ columns, data, icon, onButtonClick, buttonText }) {
+export function DataTable({
+  columns = [],
+  data = [],
+  icon,
+  onButtonClick,
+  buttonText,
+}) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -100,13 +106,15 @@ export function DataTable({ columns, data, icon, onButtonClick, buttonText }) {
         </DropdownMenu>
 
         {/* Added button */}
-        <button
-          className="flex items-center px-4 py-2 ml-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
-          onClick={onButtonClick}
-        >
-          {icon && <span className="mr-2">{icon}</span>}
-          {buttonText}
-        </button>
+        {buttonText && (
+          <button
+            className="flex items-center px-4 py-2 ml-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
+            onClick={onButtonClick}
+          >
+            {icon && <span className="mr-2">{icon}</span>}
+            {buttonText}
+          </button>
+        )}
       </div>
       <div className="rounded-md border">
         <Table>

@@ -96,6 +96,18 @@ const Constants = Object.freeze({
   PATH_PAGE: "/path/",
 
   BULK_UPLOAD: "/bulk/path",
+
+  //subscribers
+  SUBSCRIBERS: "/subscribers/",
+
+  //get in touch
+  GET_IN_TOUCH: "/get_in_touch/",
+
+  //subscriber mail
+  SUBSCRIBER_MAIL: "/send-subscription-email/",
+
+  //query mai
+  QUERY_MAIL: "/send-query-email/",
 });
 
 export default Constants;

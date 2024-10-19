@@ -41,6 +41,9 @@ import UserFloatingIcon from "./components/pages/user/Floating";
 import Slider from "./components/pages/user/Slider";
 import UserBlog from "./components/pages/user/Blogs";
 import { useEffect, useState } from "react";
+import api from "./utility/api";
+import Subscribers from "./components/pages/admin/Subscribers";
+import Queries from "./components/pages/admin/Queries";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -48,10 +51,56 @@ function App() {
     return storedMode ? JSON.parse(storedMode) : false;
   });
   const [showDarkMode, setShowDarkMode] = useState(true);
+  const [pages, setPages] = useState([]);
+
+  const componentMap = {
+    Clients: UserTrustedBy,
+    "Why Choose Us": UserWhyChooseUs,
+    Team: UserTeam,
+    Testimonials: UserTestimonials,
+    Pricing: UserPricing,
+    Products: UserProducts,
+    Services: UserServices,
+    Contact: UserContact,
+    FAQ: UserFAQ,
+  };
+
+  const renderClientHomePage = () => {
+    return (
+      <ClientHomePage
+        isDarkMode={isDarkMode}
+        showDarkMode={showDarkMode}
+        setShowDarkMode={setShowDarkMode}
+        setIsDarkMode={setIsDarkMode}
+      >
+        <Slider />
+        {pages.length === 0
+          ? null
+          : pages.map((page) => {
+              const Component = componentMap[page.PAGE_NAME];
+              return page.SHOW && Component ? (
+                <Component key={page.ID} />
+              ) : null;
+            })}
+      </ClientHomePage>
+    );
+  };
 
   useEffect(() => {
     sessionStorage.setItem("isDarkMode", JSON.stringify(isDarkMode));
   }, [isDarkMode]);
+
+  useEffect(() => {
+    async function fetchRenderComponents(params) {
+      const response = await api.getPathDetails();
+      if (response.length > 0) {
+        setPages(response);
+      } else {
+        setPages([]);
+      }
+    }
+    fetchRenderComponents();
+  }, []);
 
   return (
     <Router>
@@ -79,34 +128,13 @@ function App() {
           <Route path="footer" element={<Footer />} />
           <Route path="pages" element={<Pages />} />
           <Route path="meetings" element={<Meetings />} />
+          <Route path="subscribers" element={<Subscribers />} />
+          <Route path="queries" element={<Queries />} />
         </Route>
 
         {/*user routes*/}
-        <Route
-          path="/"
-          element={
-            <ClientHomePage
-              isDarkMode={isDarkMode}
-              showDarkMode={showDarkMode}
-              setShowDarkMode={setShowDarkMode}
-              setIsDarkMode={setIsDarkMode}
-            >
-              <Slider />
-              <UserTrustedBy />
-              <UserWhyChooseUs />
-              {/* <AboutUs /> */}
-              <UserTeam />
-              <UserTestimonials />
-              <UserPricing />
-              <UserProducts />
-              <UserServices />
-              <UserContact />
-              <UserFAQ />
-              <UserDynamic />
-              <UserFloatingIcon />
-            </ClientHomePage>
-          }
-        />
+        <Route path="/" element={renderClientHomePage()} />
+        <Route path="/home" element={renderClientHomePage()} />
         <Route
           path="/about"
           element={
@@ -117,6 +145,19 @@ function App() {
               setIsDarkMode={setIsDarkMode}
             >
               <UserAboutUs />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/clients"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserTrustedBy />
             </ClientHomePage>
           }
         />
@@ -225,19 +266,6 @@ function App() {
           }
         />
         <Route
-          path="/dynamic"
-          element={
-            <ClientHomePage
-              isDarkMode={isDarkMode}
-              showDarkMode={showDarkMode}
-              setShowDarkMode={setShowDarkMode}
-              setIsDarkMode={setIsDarkMode}
-            >
-              <UserDynamic />
-            </ClientHomePage>
-          }
-        />
-        <Route
           path="/blogs"
           element={
             <ClientHomePage
@@ -247,6 +275,19 @@ function App() {
               setIsDarkMode={setIsDarkMode}
             >
               <UserBlog />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/:pageName"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <UserDynamic />
             </ClientHomePage>
           }
         />

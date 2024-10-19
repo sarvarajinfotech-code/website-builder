@@ -1082,6 +1082,18 @@ const api = {
       throw error;
     }
   },
+
+  getPageByName: async (page_name) => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.DYNAMIC_PAGE}${page_name}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error getting Page details", error);
+      throw error;
+    }
+  },
   savePageDetails: async (payload) => {
     try {
       const response = await axios.post(
@@ -1287,6 +1299,134 @@ const api = {
       console.log("Error deleting path details", error);
       throw error;
     }
+  },
+  getSubscribers: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.SUBSCRIBERS}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while getting subscribers data", error);
+      throw error;
+    }
+  },
+
+  // Save new subscriber
+  saveSubscriber: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.SUBSCRIBERS}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while creating subscriber", error);
+      throw error;
+    }
+  },
+
+  // Update existing subscriber
+  updateSubscriber: async (payload, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.SUBSCRIBERS}${id}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while updating subscriber", error);
+      throw error;
+    }
+  },
+
+  // Delete subscriber by ID
+  deleteSubscriber: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.SUBSCRIBERS}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while deleting subscriber", error);
+      throw error;
+    }
+  },
+
+  //get in touch
+  getGetInTouchEntries: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.GET_IN_TOUCH}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while getting Get In Touch entries", error);
+      throw error;
+    }
+  },
+
+  // Save new Get In Touch entry
+  saveGetInTouchEntry: async (formdata) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.GET_IN_TOUCH}`,
+        formdata,
+        { headers: { "Content-Type": "application/json" } } // Assuming you're sending JSON data
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while creating Get In Touch entry", error);
+      throw error;
+    }
+  },
+
+  // Update existing Get In Touch entry
+  updateGetInTouchEntry: async (formdata, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.GET_IN_TOUCH}${id}`,
+        formdata,
+        { headers: { "Content-Type": "application/json" } } // Assuming you're sending JSON data
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while updating Get In Touch entry", error);
+      throw error;
+    }
+  },
+
+  // Delete Get In Touch entry by ID
+  deleteGetInTouchEntry: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.GET_IN_TOUCH}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while deleting Get In Touch entry", error);
+      throw error;
+    }
+  },
+
+  //send subscriber mail
+  sendSubscriberMail: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.SUBSCRIBER_MAIL}`,
+        payload
+      );
+    } catch {}
+  },
+
+  //send query mail
+  sendQueryMail: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.QUERY_MAIL}`,
+        payload
+      );
+    } catch {}
   },
 };
 

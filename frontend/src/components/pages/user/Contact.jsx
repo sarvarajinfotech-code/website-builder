@@ -8,7 +8,7 @@ export default function Component() {
     lastName: "",
     email: "",
     phoneNumber: "",
-    message: "",
+    query: "",
   });
   const [contactHeader, setContactHeader] = useState("");
   const [tagline, setTagline] = useState("");
@@ -16,14 +16,37 @@ export default function Component() {
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [contactId, setContactId] = useState(null);
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    let payload = {
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
+      phone_number: formData.phoneNumber,
+      query: formData.query,
+    };
+    api.saveGetInTouchEntry(payload).then(() => {
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNumber: "",
+        query: "",
+      });
+      setSubmissionSuccess(true);
+      setTimeout(() => setSubmissionSuccess(false), 5000);
+      sendMailToAdmin(payload);
+    });
+  };
+
+  const sendMailToAdmin = async (payload) => {
+    const resposne = await api.sendQueryMail(payload);
   };
 
   async function fetchContactDetails() {
@@ -115,6 +138,11 @@ export default function Component() {
             </div>
           </div>
           <div className="md:w-1/2 p-10">
+            {submissionSuccess && (
+              <div className="mb-4 text-green-600">
+                Our team will contact you soon.
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="flex space-x-4">
                 <div className="w-1/2">
@@ -184,16 +212,16 @@ export default function Component() {
               </div>
               <div>
                 <label
-                  htmlFor="message"
+                  htmlFor="query"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
-                  Message
+                  Query
                 </label>
                 <textarea
-                  id="message"
-                  name="message"
+                  id="query"
+                  name="query"
                   rows="4"
-                  value={formData.message}
+                  value={formData.query}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 ></textarea>
@@ -203,7 +231,7 @@ export default function Component() {
                   type="submit"
                   className="w-1/2 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                 >
-                  Send message
+                  Send Query
                 </button>
               </div>
             </form>

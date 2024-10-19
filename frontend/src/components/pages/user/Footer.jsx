@@ -1,14 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import {
-  Facebook,
-  Instagram,
-  Twitter,
-  Github,
-  Youtube,
-  Medal,
-} from "lucide-react";
 import api from "@/utility/api";
 
 export default function Footer() {
@@ -23,12 +14,21 @@ export default function Footer() {
   const [sections, setSections] = useState([]);
   const [mediaDetails, setMediaDetails] = useState([]);
   const [logo, setLogo] = useState("");
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically handle the newsletter subscription
-    console.log("Subscribing email:", email);
-    setEmail("");
+    let payload = { email: email };
+    api.saveSubscriber(payload).then(() => {
+      setEmail("");
+      setSubmissionSuccess(true);
+      setTimeout(() => setSubmissionSuccess(false), 3000);
+      sendMailToAdmin(payload);
+    });
+  };
+
+  const sendMailToAdmin = async (payload) => {
+    const resposne = await api.sendSubscriberMail(payload);
   };
 
   useEffect(() => {
@@ -174,7 +174,7 @@ export default function Footer() {
                     type="submit"
                     className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-auto"
                   >
-                    Subscribe
+                    {submissionSuccess ? "Subscribed" : "Subscribe"}
                   </button>
                 </div>
               </form>

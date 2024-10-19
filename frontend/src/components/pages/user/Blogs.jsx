@@ -11,54 +11,6 @@ import api from "@/utility/api";
 import Constants from "@/utility/Constants";
 import { useEffect, useState } from "react";
 
-const blogPosts = [
-  {
-    id: 1,
-    title: "Boost your conversion rate",
-    excerpt:
-      "Eget mi proin sed libero enim sed faucibus turpis. Nisl rhoncus mattis rhoncus urna neque viverra justo. Vivamus at augue eget arcu dictum varius duis at consectetur lorem.",
-    date: "Mar 16, 2023",
-    category: "Marketing",
-    author: {
-      name: "Michael Foster",
-      avatar:
-        "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    image:
-      "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2064&q=80",
-  },
-  {
-    id: 2,
-    title: "How to use search engine optimization to drive sales",
-    excerpt:
-      "Nisi vitae suscipit tellus mauris a diam maecenas sed enim. Velit egestas dui id ornare arcu odio ut sem. Facilisi nullam vehicula ipsum a arcu cursus vitae congue.",
-    date: "Mar 10, 2023",
-    category: "SEO",
-    author: {
-      name: "Lindsey Walton",
-      avatar:
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    image:
-      "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80",
-  },
-  {
-    id: 3,
-    title: "Improve your customer experience",
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    date: "Feb 12, 2023",
-    category: "Customer Success",
-    author: {
-      name: "Tom Cook",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    image:
-      "https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80",
-  },
-];
-
 export default function BlogSection() {
   const [categories, setCategories] = useState([]);
   const [blogs, setBlogs] = useState([]);

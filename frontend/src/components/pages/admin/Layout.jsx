@@ -23,6 +23,8 @@ import {
   TableOfContents,
   LibraryBig,
   ListTodo,
+  MailCheck,
+  MessageCircleQuestion,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -38,6 +40,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const menuItems = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/admin/" },
   { name: "Settings", icon: Settings, path: "/admin/settings" },
+  { name: "Subscribers", icon: MailCheck, path: "/admin/subscribers" },
+  { name: "Queries", icon: MessageCircleQuestion, path: "/admin/queries" },
   { name: "Home Page", icon: HousePlus, path: "/admin/home-page" },
   { name: "Clients", icon: UserPlus, path: "/admin/clients" },
   { name: "Team", icon: Users, path: "/admin/team" },
