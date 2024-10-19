@@ -12,7 +12,8 @@ import {
   Plus,
   ArrowUpDown,
   MoreHorizontal,
-  ArrowDownAzIcon,
+  CheckCircle,
+  AlertCircle,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -29,8 +30,11 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Blogs() {
+  const { toast } = useToast();
+
   const [activeTab, setActiveTab] = useState("header");
   const [headerText, setHeaderText] = useState("");
   const [tagline, setTagline] = useState("");
@@ -181,9 +185,30 @@ export default function Blogs() {
   };
 
   const handleBlogDelete = async (id) => {
-    const response = await api.deleteBlogDetails(id);
-    console.log(response);
-    reloadPage();
+    await api
+      .deleteBlogDetails(id)
+      .then(() => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted Blog</span>
+            </div>
+          ),
+        });
+        reloadPage();
+      })
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete Blog</span>
+            </div>
+          ),
+        });
+      });
   };
 
   const handleInputChange = (e) => {
@@ -218,12 +243,53 @@ export default function Blogs() {
       page: Constants.BLOGS,
     };
     if (headerTextButton === "Save Header") {
-      const response = await api.saveHeaderInfo(payload);
-      console.log(response);
-      setHeaderTextButton("Update Header");
+      await api
+        .saveHeaderInfo(payload)
+        .then(() => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved Header</span>
+              </div>
+            ),
+          });
+        })
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save header</span>
+              </div>
+            ),
+          });
+        });
     } else if (headerTextButton === "Update Header") {
-      const response = await api.updateHeaderInfo(payload, headerId);
-      setHeaderTextButton("Save Header");
+      await api
+        .updateHeaderInfo(payload, headerId)
+        .then(() => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated Header</span>
+              </div>
+            ),
+          });
+        })
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to updated header</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 
@@ -236,13 +302,56 @@ export default function Blogs() {
     payload.set("category", formData.category);
     payload.set("file", formData.authorImage);
     if (blogButtonText === "Save Blog Post") {
-      const response = await api.saveBlogDetails(payload);
-      console.log(response);
+      await api
+        .saveBlogDetails(payload)
+        .then(() => {
+          reloadPage();
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Added Blog</span>
+              </div>
+            ),
+          });
+        })
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to add blog</span>
+              </div>
+            ),
+          });
+        });
     } else if (blogButtonText === "Update Blog Post") {
-      const response = await api.updateBlogDetails(payload, blogId);
-      console.log(response);
+      await api
+        .updateBlogDetails(payload, blogId)
+        .then(() => {
+          reloadPage();
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated Blog</span>
+              </div>
+            ),
+          });
+        })
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to updated blog</span>
+              </div>
+            ),
+          });
+        });
     }
-    reloadPage();
   };
 
   const reloadPage = () => {

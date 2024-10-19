@@ -12,3 +12,4 @@ class BlogModel(Base):
     AUTHOR_NAME = Column(String(255))
     AUTHOR_IMAGE = Column(String(255))
     CREATED_DATE = Column(DateTime, default=datetime.utcnow)
+    CATEGORY = Column(String(255))

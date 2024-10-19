@@ -10,33 +10,84 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  FolderPlus,
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function BlogCategory() {
+  const { toast } = useToast();
+
   const [categoryName, setCategoryName] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [categoryId, setCategoryId] = useState(null);
   const [categoryList, setCategoryList] = useState([]);
   const [categoryButtonText, setCategoryButtonText] = useState("Save Category");
+
   const handleCategorySubmit = async (e) => {
     e.preventDefault();
     if (categoryButtonText === "Save Category") {
-      const response = await api.saveBlogCategoryDetails({
-        category_name: categoryName,
-      });
-      console.log(response);
+      await api
+        .saveBlogCategoryDetails({
+          category_name: categoryName,
+        })
+        .then(() => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Added New Blog Category</span>
+              </div>
+            ),
+          });
+          reloadPage();
+          setShowForm(false);
+        })
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to add Blog Category</span>
+              </div>
+            ),
+          });
+        });
     } else if (categoryButtonText === "Update category") {
-      const response = await api.updateBlogCategoryDetails(
-        { category_name: categoryName },
-        categoryId
-      );
-      console.log(response);
+      await api
+        .updateBlogCategoryDetails({ category_name: categoryName }, categoryId)
+        .then(() => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated Blog Category</span>
+              </div>
+            ),
+          });
+          reloadPage();
+          setShowForm(false);
+        })
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update Blog Category</span>
+              </div>
+            ),
+          });
+        });
     }
-    reloadPage();
-    setShowForm(false);
   };
 
   const columns = [
@@ -58,8 +109,6 @@ export default function BlogCategory() {
     {
       id: "actions",
       cell: ({ row }) => {
-        const payment = row.original;
-
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -95,9 +144,30 @@ export default function BlogCategory() {
   };
 
   const handleCategoryDelete = async (id) => {
-    const resposne = await api.deleteBlogCategoryDetails(id);
-    console.log(resposne);
-    reloadPage();
+    await api
+      .deleteBlogCategoryDetails(id)
+      .then(() => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted Blog Category</span>
+            </div>
+          ),
+        });
+        reloadPage();
+      })
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delte Blog Category</span>
+            </div>
+          ),
+        });
+      });
   };
 
   const reloadPage = () => {

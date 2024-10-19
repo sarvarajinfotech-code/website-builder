@@ -13,9 +13,9 @@ def create_page(db: Session, page_name: str, content_header: str, content: str):
     db.refresh(new_page)
     return new_page
 
-# Get Page by ID
-def get_page(db: Session, page_id: int):
-    return db.query(PageModel).filter(PageModel.ID == page_id).first()
+# Get Page by PAGE_NAME
+def get_page(db: Session, page_name: str):
+    return db.query(PageModel).filter(PageModel.PAGE_NAME == page_name).first()
 
 # Get all Pages
 def get_all_pages(db: Session):

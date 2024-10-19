@@ -86,7 +86,7 @@ function PricingCard({
 }) {
   return (
     <div
-      className={`w-full sm:w-64 md:w-72 lg:w-56 xl:w-64 text-left transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 rounded-lg ${
+      className={`w-full sm:w-72 md:w-80 lg:w-64 xl:w-72 text-left transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 rounded-lg ${
         highlighted ? "z-10" : ""
       }`}
     >
@@ -99,7 +99,8 @@ function PricingCard({
           highlighted ? "transform scale-105" : ""
         }`}
       >
-        <h3 className="text-2xl font-bold mb-4">{price}</h3>
+        <h3 className="text-2xl font-bold mb-4">{price}</h3>{" "}
+        {/* Keeping the original font size */}
         <p
           className={`font-semibold mb-6 ${
             highlighted ? "text-purple-200" : "text-gray-700 dark:text-gray-300"

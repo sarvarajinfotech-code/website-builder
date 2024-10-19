@@ -12,11 +12,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Plus, ArrowUpDown, MoreHorizontal, FolderPlus } from "lucide-react";
+import {
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  FolderPlus,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 import EmptyState from "./commons/EmptyState";
 import { DataTable } from "./commons/DataTable";
+import { useToast } from "@/hooks/use-toast";
 
 export default function FAQ() {
+  const { toast } = useToast();
+
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [faqId, setFaqId] = useState(null);
@@ -31,11 +41,53 @@ export default function FAQ() {
       answer: answer,
     };
     if (faqButtonText === "Save FAQ") {
-      const response = await api.saveFAQDetails(faqData);
-      console.log(response);
+      await api
+        .saveFAQDetails(faqData)
+        .then(() => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Added New FAQ</span>
+              </div>
+            ),
+          });
+        })
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to add FAQ</span>
+              </div>
+            ),
+          });
+        });
     } else if (faqButtonText === "Update FAQ") {
-      const response = await api.updateFAQDetails(faqData, faqId);
-      console.log(response);
+      await api
+        .updateFAQDetails(faqData, faqId)
+        .then(() => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated FAQ</span>
+              </div>
+            ),
+          });
+        })
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update FAQ</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
   };
@@ -102,9 +154,30 @@ export default function FAQ() {
   };
 
   const handleFAQDelete = async (id) => {
-    const response = await api.deleteFAQDetails(id);
-    console.log(response);
-    reloadPage();
+    await api
+      .deleteFAQDetails(id)
+      .then(() => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted FAQ</span>
+            </div>
+          ),
+        });
+        reloadPage();
+      })
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete FAQ</span>
+            </div>
+          ),
+        });
+      });
   };
 
   const reloadPage = () => {

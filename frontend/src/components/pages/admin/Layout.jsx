@@ -35,6 +35,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/toaster";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const menuItems = [
@@ -343,6 +344,7 @@ export default function Layout() {
 
         {/* Main content area */}
         <main className="absolute inset-0 top-16 overflow-y-auto p-4 md:p-6">
+          <Toaster />
           <Outlet />
         </main>
       </div>

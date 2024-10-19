@@ -18,6 +18,8 @@ class BlogCreate(BaseModel):
     blog_name: str
     blog_description: str
     author_name: str
+    category: str
+
 
 # Create new blog and upload the author's image
 @router.post("/blogs/")
@@ -26,18 +28,19 @@ async def create_new_blog(
     blog_description: str = Form(...),
     author_name: str = Form(...),
     file: UploadFile = File(...),
+    category: str = Form(...),
     db: Session = Depends(get_db)
 ):
    
     
     # Create new blog in the database
-    new_blog = create_blog(db, blog_name, blog_description, author_name, "")
+    new_blog = create_blog(db, blog_name, blog_description, author_name, "",category)
     
    # Save the uploaded author's image and generate the image path
     author_image_path = save_file(file, f"blog_author_{new_blog.ID}.png")
 
      # update blog in the database
-    new_blog = update_blog(db, new_blog.ID, blog_name, blog_description, author_name, "/"+author_image_path)
+    new_blog = update_blog(db, new_blog.ID, blog_name, blog_description, author_name, "/"+author_image_path,category)
 
 
     return {"detail": "Blog created successfully", "blog_id": new_blog.ID}
@@ -63,6 +66,7 @@ async def update_blog_entry(
     blog_description: str = Form(...),
     author_name: str = Form(...),
     file: UploadFile = File(None),
+    category: str = Form(...),
     db: Session = Depends(get_db)
 ):
     blog = get_blog(db, blog_id)
@@ -75,7 +79,7 @@ async def update_blog_entry(
         author_image_path = save_file(file, f"blog_author_{blog_id}.png")
 
     # Update blog in the database
-    updated_blog = update_blog(db, blog_id, blog_name, blog_description, author_name, "/"+author_image_path)
+    updated_blog = update_blog(db, blog_id, blog_name, blog_description, author_name, "/"+author_image_path,category)
 
     return {"detail": "Blog updated successfully", "blog": updated_blog}
 

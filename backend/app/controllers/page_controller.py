@@ -28,10 +28,10 @@ async def create_new_page(page: PageCreate, db: Session = Depends(get_db)):
         page.content
     )
 
-# Get a Page entry by ID
-@router.get("/dynamic-page/{page_id}")
-async def read_page(page_id: int, db: Session = Depends(get_db)):
-    page = get_page(db, page_id)
+# Get a Page entry by PAGE_NAME
+@router.get("/dynamic-page/{page_name}")
+async def read_page(page_name: str, db: Session = Depends(get_db)):
+    page = get_page(db, page_name)
     if not page:
         raise HTTPException(status_code=404, detail="Page entry not found")
     return page

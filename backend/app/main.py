@@ -26,6 +26,10 @@ from app.controllers import faq_controller
 from app.controllers import contact_controller
 from app.controllers import why_choose_us_controller
 from app.controllers import page_controller
+from app.controllers import path_controller
+from app.controllers import get_in_touch_controller
+from app.controllers import subscribers_controller
+from app.controllers import mail_controller
 from app.utils.database import engine, Base
 
 # Create database tables
@@ -70,6 +74,10 @@ app.include_router(faq_controller.router)
 app.include_router(contact_controller.router)
 app.include_router(why_choose_us_controller.router)
 app.include_router(page_controller.router)
+app.include_router(path_controller.router)
+app.include_router(get_in_touch_controller.router)
+app.include_router(subscribers_controller.router)
+app.include_router(mail_controller.router)
 
 
 
