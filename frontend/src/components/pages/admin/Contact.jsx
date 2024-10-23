@@ -5,8 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import api from "@/utility/api";
+import { useToast } from "@/hooks/use-toast";
+import { AlertCircle, CheckCircle } from "lucide-react";
 
 export default function Contact() {
+  const { toast } = useToast();
+
   const [contactHeader, setContactHeader] = useState("");
   const [tagline, setTagline] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -25,11 +29,53 @@ export default function Contact() {
       email: email,
     };
     if (contactButtonText === "Save Contact") {
-      const response = await api.saveContactDetails(contactData);
-      console.log(response);
+      api
+        .saveContactDetails(contactData)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved contact</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save contact</span>
+              </div>
+            ),
+          });
+        });
     } else if (contactButtonText === "Update Contact") {
-      const response = await api.updateContactDetails(contactData, contactId);
-      console.log(response);
+      api
+        .updateContactDetails(contactData, contactId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated contact</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update contact</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 

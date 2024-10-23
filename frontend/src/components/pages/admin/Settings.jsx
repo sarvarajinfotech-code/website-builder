@@ -7,9 +7,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { AlertCircle, CheckCircle } from "lucide-react";
 
 export default function SettingsTabs() {
   const faviconInputRef = useRef(null);
+  const { toast } = useToast();
 
   const [activeTab, setActiveTab] = useState("favicon");
   const [faviconPreview, setFaviconPreview] = useState(null);
@@ -74,11 +77,53 @@ export default function SettingsTabs() {
       formdata.set("file", faviconImage);
 
       if (favButtonText === "Save Favicon Settings") {
-        const response = await api.saveFaviconSettings(formdata);
-        console.log(response);
+        api
+          .saveFaviconSettings(formdata)
+          .then((response) => {
+            toast({
+              title: (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Saved Favicon settings</span>
+                </div>
+              ),
+            });
+          })
+          .catch((error) => {
+            toast({
+              variant: "destructive",
+              title: (
+                <div className="flex items-center gap-2 text-white">
+                  <AlertCircle className="h-5 w-5" />
+                  <span>Error: Failed to save Favicon settings</span>
+                </div>
+              ),
+            });
+          });
       } else if (favButtonText === "Update Favicon Settings") {
-        const response = await api.updateFaviconSettings(formdata, favId);
-        console.log(response);
+        api
+          .updateFaviconSettings(formdata, favId)
+          .then((response) => {
+            toast({
+              title: (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Updated Favicon settings</span>
+                </div>
+              ),
+            });
+          })
+          .catch((error) => {
+            toast({
+              variant: "destructive",
+              title: (
+                <div className="flex items-center gap-2 text-white">
+                  <AlertCircle className="h-5 w-5" />
+                  <span>Error: Failed to update Favicon settings</span>
+                </div>
+              ),
+            });
+          });
       }
     }
   };
@@ -99,11 +144,53 @@ export default function SettingsTabs() {
       smtp_password: emailSettings.smtpPassword,
     };
     if (emailSettingsButtonText === "Save Email Settings") {
-      const response = await api.saveEmailSettings(payload);
-      console.log(response);
+      api
+        .saveEmailSettings(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved Email settings</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save email settings</span>
+              </div>
+            ),
+          });
+        });
     } else if (emailSettingsButtonText === "Update Email Settings") {
-      const response = await api.updateEmailSettings(payload, emailSettingsId);
-      console.log(response);
+      api
+        .updateEmailSettings(payload, emailSettingsId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated Email settings</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update Email settings</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 
@@ -120,11 +207,53 @@ export default function SettingsTabs() {
       button_link: bannerSettings.buttonLink,
     };
     if (bannerButtonText === "Save Banner Settings") {
-      const response = await api.saveBannerSettings(payload);
-      console.log(response);
+      api
+        .saveBannerSettings(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved Banner settings</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save banner settings</span>
+              </div>
+            ),
+          });
+        });
     } else if (bannerButtonText === "Update Banner Settings") {
-      const response = await api.updateBannerSettings(payload, bannerID);
-      console.log(response);
+      api
+        .updateBannerSettings(payload, bannerID)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated banner settings</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update banner settings</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 
@@ -137,11 +266,54 @@ export default function SettingsTabs() {
     };
 
     if (colorsButtonText === "Save Color Palette") {
-      const response = await api.saveColorsSettings(payload);
+      api
+        .saveColorsSettings(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved color theme settings</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save color theme settings</span>
+              </div>
+            ),
+          });
+        });
       console.log(response);
     } else if (colorsButtonText === "Update Color Palette") {
-      const response = await api.updateColorsSettings(payload, colorsID);
-      console.log(response);
+      api
+        .updateColorsSettings(payload, colorsID)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated color theme settings</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update color theme settings</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 
@@ -221,11 +393,11 @@ export default function SettingsTabs() {
         onValueChange={setActiveTab}
         className="w-full max-w-4xl mx-auto"
       >
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="favicon">Favicon</TabsTrigger>
           <TabsTrigger value="email">Email</TabsTrigger>
           <TabsTrigger value="banner">Banner</TabsTrigger>
-          <TabsTrigger value="color-theme">Color Theme</TabsTrigger>
+          {/* <TabsTrigger value="color-theme">Color Theme</TabsTrigger> */}
         </TabsList>
         <TabsContent value="favicon" className="mt-6">
           <form

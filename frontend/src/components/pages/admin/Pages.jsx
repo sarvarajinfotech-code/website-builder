@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Search, Lock } from "lucide-react";
+import { Search, Lock, AlertCircle, CheckCircle } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -21,8 +21,11 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import api from "@/utility/api";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Pages() {
+  const { toast } = useToast();
+
   const [pages, setPages] = useState([]);
   const [search, setSearch] = useState("");
   const [selectAll, setSelectAll] = useState(false);
@@ -58,7 +61,29 @@ export default function Pages() {
 
   const handleSaveConfiguration = async () => {
     const lowerCasedPayload = pages.map((item) => toLowerCaseKeys(item));
-    const response = await api.bulkUpdatePathDetails(lowerCasedPayload);
+    api
+      .bulkUpdatePathDetails(lowerCasedPayload)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Updated page configuration</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to update page configuration</span>
+            </div>
+          ),
+        });
+      });
   };
 
   const enabledPages = pages.filter((page) => !page.DISABLED);
@@ -150,7 +175,9 @@ export default function Pages() {
           </Table>
         </div>
         <div className="mt-6 flex justify-end">
-          <Button onClick={handleSaveConfiguration}>Save Configuration</Button>
+          <Button onClick={handleSaveConfiguration}>
+            Update Configuration
+          </Button>
         </div>
       </div>
     </div>

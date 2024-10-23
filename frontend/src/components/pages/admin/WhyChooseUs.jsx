@@ -8,7 +8,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import api from "@/utility/api";
 import Constants from "@/utility/Constants";
-import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  FolderPlus,
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 import EmptyState from "./commons/EmptyState";
 import { DataTable } from "./commons/DataTable";
 import {
@@ -18,8 +25,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 export default function WhyChooseUs() {
+  const { toast } = useToast();
+
   const [activeTab, setActiveTab] = useState("header");
   const [headerText, setHeaderText] = useState("");
   const [tagline, setTagline] = useState("");
@@ -112,9 +122,53 @@ export default function WhyChooseUs() {
       page: Constants.WHY_CHOOSE_US,
     };
     if (headerTextButton === "Save Header") {
-      await api.saveHeaderInfo(payload);
+      api
+        .saveHeaderInfo(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved why choose us header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save why choose us header</span>
+              </div>
+            ),
+          });
+        });
     } else if (headerTextButton === "Update Header") {
-      await api.updateHeaderInfo(payload, headerId);
+      api
+        .updateHeaderInfo(payload, headerId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated why choose us header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update why choose header</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 
@@ -145,9 +199,53 @@ export default function WhyChooseUs() {
     }
 
     if (reasonButtonText === "Save Reason") {
-      await api.saveReasonsDetails(formData);
+      api
+        .saveReasonsDetails(formData)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved reason</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save reason</span>
+              </div>
+            ),
+          });
+        });
     } else if (reasonButtonText === "Update Reason") {
-      await api.updateReasonsDetails(formData, reasonId);
+      api
+        .updateReasonsDetails(formData, reasonId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated reason</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update reason</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
     setShowForm(false);
@@ -176,7 +274,29 @@ export default function WhyChooseUs() {
   };
 
   const handleReasonPageDelete = async (id) => {
-    await api.deleteReasonsDetails(id);
+    api
+      .deleteReasonsDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted reason</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete reason</span>
+            </div>
+          ),
+        });
+      });
     reloadPage();
   };
 

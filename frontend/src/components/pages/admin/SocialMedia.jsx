@@ -13,11 +13,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  FolderPlus,
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
 import EmptyState from "./commons/EmptyState";
 import { DataTable } from "./commons/DataTable";
+import { useToast } from "@/hooks/use-toast";
 
 export default function SocialMedia() {
+  const { toast } = useToast();
+
   const [mediaName, setMediaName] = useState("");
   const [mediaIcon, setMediaIcon] = useState("");
   const [mediaLink, setMediaLink] = useState("");
@@ -36,14 +46,53 @@ export default function SocialMedia() {
       link: mediaLink,
     };
     if (mediaButtonText === "Save Social Media Link") {
-      const respone = await api.saveSocialMediaDetails(socialMediaData);
-      console.log(respone);
+      api
+        .saveSocialMediaDetails(socialMediaData)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved media</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save media</span>
+              </div>
+            ),
+          });
+        });
     } else if (mediaButtonText === "Update Social Media Link") {
-      const resposne = await api.updateSocialMediaDetails(
-        socialMediaData,
-        mediaId
-      );
-      console.log(resposne);
+      api
+        .updateSocialMediaDetails(socialMediaData, mediaId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated media</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update media</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
   };
@@ -132,8 +181,29 @@ export default function SocialMedia() {
   };
 
   const handleSocialMediaDelete = async (id) => {
-    const resposne = await api.deleteSocialMediaDetails(id);
-    console.log(resposne);
+    api
+      .deleteSocialMediaDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted media</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete media</span>
+            </div>
+          ),
+        });
+      });
     reloadPage();
   };
 

@@ -72,7 +72,7 @@ async def update_testimonial_entry(
         person_photo_path = save_file(file, f"testimonial_{testimonial_id}.png")
 
     # Update testimonial in the database
-    updated_testimonial = update_testimonial(db, testimonial_id, person_name, designation, person_photo_path, review)
+    updated_testimonial = update_testimonial(db, testimonial_id, person_name, designation, "/"+person_photo_path, review)
 
     return {"detail": "Testimonial updated successfully", "testimonial": updated_testimonial}
 

@@ -30,6 +30,8 @@ from app.controllers import path_controller
 from app.controllers import get_in_touch_controller
 from app.controllers import subscribers_controller
 from app.controllers import mail_controller
+from app.controllers import authentication_controller
+from app.controllers import meeting_controller
 from app.utils.database import engine, Base
 
 # Create database tables
@@ -78,6 +80,8 @@ app.include_router(path_controller.router)
 app.include_router(get_in_touch_controller.router)
 app.include_router(subscribers_controller.router)
 app.include_router(mail_controller.router)
+app.include_router(authentication_controller.router)
+app.include_router(meeting_controller.router)
 
 
 

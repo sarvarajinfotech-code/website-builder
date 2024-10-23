@@ -11,7 +11,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  FolderPlus,
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
 import Constants from "@/utility/Constants";
 import api from "@/utility/api";
 import EmptyState from "./commons/EmptyState";
@@ -23,8 +30,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Pricing() {
+  const { toast } = useToast();
+
   const [activeTab, setActiveTab] = useState("header");
   const [headerText, setHeaderText] = useState("");
   const [tagline, setTagline] = useState("");
@@ -303,15 +313,58 @@ export default function Pricing() {
         tagline: tagline,
         page: Constants.PRICING_PAGE,
       };
-      const response = await api.saveHeaderInfo(payload);
-      console.log(response);
+      await api
+        .saveHeaderInfo(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved pricing header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save pricing header</span>
+              </div>
+            ),
+          });
+        });
     } else if (headerTextButton === "Update Header") {
       let payload = {
         header_text: headerText,
         tagline: tagline,
         page: Constants.PRICING_PAGE,
       };
-      const response = await api.updateHeaderInfo(payload, headerId);
+      api
+        .updateHeaderInfo(payload, headerId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated pricing header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update pricing header</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 
@@ -323,8 +376,29 @@ export default function Pricing() {
   };
 
   const handlePlanTypeDelete = async (id) => {
-    const resposne = await api.deletePricingPlanDetails(id);
-    console.log(resposne);
+    api
+      .deletePricingPlanDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Delete plan type</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete plan type</span>
+            </div>
+          ),
+        });
+      });
     reloadPlanTypePage();
   };
 
@@ -355,17 +429,59 @@ export default function Pricing() {
     });
   };
 
-  const handlePlanSubmit = async (e) => {
+  const handlePlanTypeSubmit = async (e) => {
     e.preventDefault();
     const payload = {
       plan_type: planType,
     };
     if (planTypeButtonText === "Save Plan") {
-      const response = await api.savePricingPlanDetails(payload);
-      console.log(response);
+      api
+        .savePricingPlanDetails(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved plan type</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save plan type</span>
+              </div>
+            ),
+          });
+        });
     } else if (planTypeButtonText === "Update Plan") {
-      const response = await api.updatePricingPlanDetails(payload, planTypeID);
-      console.log(response);
+      api
+        .updatePricingPlanDetails(payload, planTypeID)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated plan type</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update plan type </span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPlanTypePage();
   };
@@ -386,11 +502,53 @@ export default function Pricing() {
       highlighted_plan: pricingData.highlightedPlan,
     };
     if (priceButtonText === "Save Price") {
-      const response = await api.savePricingDetails(payload);
-      console.log(response);
+      api
+        .savePricingDetails(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved price details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save price details</span>
+              </div>
+            ),
+          });
+        });
     } else if (priceButtonText === "Update Price") {
-      const response = await api.updatePricingDetails(payload, priceId);
-      console.log(response);
+      api
+        .updatePricingDetails(payload, priceId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated price details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update price details</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPricePage();
   };
@@ -415,8 +573,29 @@ export default function Pricing() {
   };
 
   const handlePriceDelete = async (id) => {
-    const resposne = await api.deletePricingDetails(id);
-    console.log(resposne);
+    api
+      .deletePricingDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted price data</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete price data</span>
+            </div>
+          ),
+        });
+      });
     reloadPricePage();
   };
 
@@ -509,7 +688,7 @@ export default function Pricing() {
           )}
           {showPlanTypeForm && (
             <form
-              onSubmit={handlePlanSubmit}
+              onSubmit={handlePlanTypeSubmit}
               className="space-y-6 max-w-md mx-auto"
             >
               <div>

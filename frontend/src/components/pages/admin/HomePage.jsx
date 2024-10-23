@@ -5,33 +5,19 @@ import {
   FolderPlus,
   Plus,
   AlertCircle,
+  CheckCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import { useToast } from "@/components/ui/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
@@ -42,19 +28,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import EmptyState from "./commons/EmptyState";
 import { DataTable } from "./commons/DataTable";
 import api from "@/utility/api";
+import { useToast } from "@/hooks/use-toast";
 
 export default function HomePage() {
+  const { toast } = useToast();
+
   const [activeTab, setActiveTab] = useState("navigation");
   const [navigationFormData, setNavigationFormData] = useState({
     logo: null,
@@ -363,13 +344,53 @@ export default function HomePage() {
       formdata.set("dark_mode", navigationFormData.darkTheme);
       formdata.set("file", navigationFormData.logo);
       if (navigationButtonText === "Save Configuration") {
-        const response = await api.saveNavigationSettings(formdata);
-        console.log(response);
+        api
+          .saveNavigationSettings(formdata)
+          .then((response) => {
+            toast({
+              title: (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Saved navigation details</span>
+                </div>
+              ),
+            });
+          })
+          .catch((error) => {
+            toast({
+              variant: "destructive",
+              title: (
+                <div className="flex items-center gap-2 text-white">
+                  <AlertCircle className="h-5 w-5" />
+                  <span>Error: Failed to save navigation details</span>
+                </div>
+              ),
+            });
+          });
       } else if (navigationButtonText === "Update Configuration") {
-        const response = await api.updateNavigationSettings(
-          formdata,
-          naviagationID
-        );
+        api
+          .updateNavigationSettings(formdata, naviagationID)
+          .then((response) => {
+            toast({
+              title: (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Updated navigation details</span>
+                </div>
+              ),
+            });
+          })
+          .catch((error) => {
+            toast({
+              variant: "destructive",
+              title: (
+                <div className="flex items-center gap-2 text-white">
+                  <AlertCircle className="h-5 w-5" />
+                  <span>Error: Failed to update navigation details</span>
+                </div>
+              ),
+            });
+          });
       }
     } else if (formType === "homepage") {
       let formdata = new FormData();
@@ -409,11 +430,53 @@ export default function HomePage() {
       formdata.set("file", homePageFormData.backgroundImage);
 
       if (homePageButtonText === "Save Home Page Configuration") {
-        const response = await api.saveHomePageSettings(formdata);
-        console.log(response);
+        api
+          .saveHomePageSettings(formdata)
+          .then((response) => {
+            toast({
+              title: (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Saved Home page details</span>
+                </div>
+              ),
+            });
+          })
+          .catch((error) => {
+            toast({
+              variant: "destructive",
+              title: (
+                <div className="flex items-center gap-2 text-white">
+                  <AlertCircle className="h-5 w-5" />
+                  <span>Error: Failed to save home page details</span>
+                </div>
+              ),
+            });
+          });
       } else if (homePageButtonText === "Update Home Page Configuration") {
-        const response = await api.updateHomePageSettings(formdata, homePageID);
-        console.log(response);
+        api
+          .updateHomePageSettings(formdata, homePageID)
+          .then((response) => {
+            toast({
+              title: (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Updated Home page details</span>
+                </div>
+              ),
+            });
+          })
+          .catch((error) => {
+            toast({
+              variant: "destructive",
+              title: (
+                <div className="flex items-center gap-2 text-white">
+                  <AlertCircle className="h-5 w-5" />
+                  <span>Error: Failed to update home page details</span>
+                </div>
+              ),
+            });
+          });
       }
       reloadPage();
     }
@@ -444,7 +507,29 @@ export default function HomePage() {
   };
 
   const handleHomePageDelete = async (id) => {
-    const resposne = await api.deleteHomePageSettings(id);
+    api
+      .deleteHomePageSettings(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted Home page detail</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete home page detail</span>
+            </div>
+          ),
+        });
+      });
     reloadPage();
   };
 

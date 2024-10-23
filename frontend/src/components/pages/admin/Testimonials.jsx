@@ -8,7 +8,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import api from "@/utility/api";
 import Constants from "@/utility/Constants";
-import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  FolderPlus,
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 import EmptyState from "./commons/EmptyState";
 import { DataTable } from "./commons/DataTable";
 import {
@@ -18,8 +25,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Testimonials() {
+  const { toast } = useToast();
+
   const [activeTab, setActiveTab] = useState("header");
   const [headerText, setHeaderText] = useState("");
   const [tagline, setTagline] = useState("");
@@ -136,10 +146,53 @@ export default function Testimonials() {
       page: Constants.TESTIMONIALS,
     };
     if (headerTextButton === "Save Header") {
-      const response = await api.saveHeaderInfo(payload);
-      console.log(response);
+      api
+        .saveHeaderInfo(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved testimonial header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save testimonial header</span>
+              </div>
+            ),
+          });
+        });
     } else if (headerTextButton === "Update Header") {
-      const response = await api.updateHeaderInfo(payload, headerId);
+      api
+        .updateHeaderInfo(payload, headerId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated testimonial header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update testimonial header</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 
@@ -168,14 +221,53 @@ export default function Testimonials() {
     formData.set("review", testimonial.review);
     formData.set("file", photo);
     if (testimonialButtonText === "Save Testimonial") {
-      const response = await api.saveTestimonialsDetails(formData);
-      console.log(response);
+      api
+        .saveTestimonialsDetails(formData)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved testimonial details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save testimonial details</span>
+              </div>
+            ),
+          });
+        });
     } else if (testimonialButtonText === "Update Testimonial") {
-      const respone = await api.updateTestimonialsDetails(
-        formData,
-        testimonialId
-      );
-      console.log(respone);
+      api
+        .updateTestimonialsDetails(formData, testimonialId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated testimonial details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update testimonial details</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
     setShowForm(false);
@@ -206,8 +298,29 @@ export default function Testimonials() {
   };
 
   const handleTestimonialPageDelete = async (id) => {
-    const resposne = await api.deleteTestimonialsDetails(id);
-    console.log(resposne);
+    const resposne = await api
+      .deleteTestimonialsDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted testimonial data</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete testimonial data</span>
+            </div>
+          ),
+        });
+      });
     reloadPage();
   };
 

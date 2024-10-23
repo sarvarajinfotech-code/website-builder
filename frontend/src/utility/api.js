@@ -1,5 +1,6 @@
 import axios from "axios";
 import Constants from "./Constants";
+import { error } from "highcharts";
 
 const api = {
   // fetch image from local
@@ -1416,7 +1417,9 @@ const api = {
         `${Constants.BASE_URL}${Constants.SUBSCRIBER_MAIL}`,
         payload
       );
-    } catch {}
+    } catch (error) {
+      throw error;
+    }
   },
 
   //send query mail
@@ -1426,7 +1429,100 @@ const api = {
         `${Constants.BASE_URL}${Constants.QUERY_MAIL}`,
         payload
       );
-    } catch {}
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //reset password mail
+  sendResetPasswordMail: async (email) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.RESET_PASSWORD_MAIL}`,
+        { email }
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //reset password
+  resetPassword: async (token, password) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.RESET_PASSWORD}`,
+        { token, password }
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //login
+  login: async (email, password) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.LOGIN}`,
+        { user_name: email, password: password }
+      );
+      return response.data;
+    } catch {
+      throw error;
+    }
+  },
+
+  //meeting
+  getMeetingDetails: async () => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.MEETING}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while getting meeting details", error);
+      throw error;
+    }
+  },
+
+  // Save new Get In Touch entry
+  saveMeetingDetails: async (formdata) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.MEETING}`,
+        formdata
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while creating meeting details", error);
+      throw error;
+    }
+  },
+
+  // Update existing Get In Touch entry
+  updateMeetingsDetails: async (formdata, id) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.MEETING}${id}`,
+        formdata
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while updating meeting details", error);
+      throw error;
+    }
+  },
+
+  // Delete Get In Touch entry by ID
+  deleteMeetingDetails: async (id) => {
+    try {
+      const response = await axios.delete(
+        `${Constants.BASE_URL}${Constants.MEETING}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while deleting meeting details", error);
+      throw error;
+    }
   },
 };
 

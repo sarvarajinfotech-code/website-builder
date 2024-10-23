@@ -21,6 +21,7 @@ import {
   ArrowUpDown,
   MoreHorizontal,
   ArrowDownAzIcon,
+  CheckCircle,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -30,8 +31,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTable } from "./commons/DataTable";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Products() {
+  const { toast } = useToast();
+
   const [activeTab, setActiveTab] = useState("header");
   const [headerText, setHeaderText] = useState("");
   const [tagline, setTagline] = useState("");
@@ -196,8 +200,29 @@ export default function Products() {
     setProductButtonText("Update Product");
   };
   const handleProductDelete = async (id) => {
-    const resposne = await api.deleteProductDetails(id);
-    console.log(resposne);
+    api
+      .deleteProductDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted product data</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete product data</span>
+            </div>
+          ),
+        });
+      });
     reloadPage();
   };
 
@@ -228,11 +253,53 @@ export default function Products() {
       learn_more_link: formData.learnMoreLink ? formData.learnMoreLink : "",
     };
     if (productButtonText === "Save Product") {
-      const resposne = await api.saveProductDetails(payload);
-      console.log(resposne);
+      api
+        .saveProductDetails(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved product details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save product details</span>
+              </div>
+            ),
+          });
+        });
     } else if (productButtonText === "Update Product") {
-      const response = await api.updateProductDetails(payload, productId);
-      console.log(response);
+      api
+        .updateProductDetails(payload, productId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Update product details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update product details</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
   };
@@ -245,10 +312,53 @@ export default function Products() {
       page: Constants.PRODUCTS,
     };
     if (headerTextButton === "Save Header") {
-      const response = await api.saveHeaderInfo(payload);
-      console.log(response);
+      api
+        .saveHeaderInfo(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved product header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save product header</span>
+              </div>
+            ),
+          });
+        });
     } else if (headerTextButton === "Update Header") {
-      const response = await api.updateHeaderInfo(payload, headerId);
+      api
+        .updateHeaderInfo(payload, headerId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated product header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update product header</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 

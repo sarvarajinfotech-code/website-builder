@@ -13,9 +13,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  FolderPlus,
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ServiceCategory() {
+  const { toast } = useToast();
+
   const [categoryName, setCategoryName] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [categoryId, setCategoryId] = useState(null);
@@ -25,16 +35,58 @@ export default function ServiceCategory() {
   const handleCategorySubmit = async (e) => {
     e.preventDefault();
     if (categoryButtonText === "Save Category") {
-      const response = await api.saveServiceCategoryDetails({
-        category_name: categoryName,
-      });
-      console.log(response);
+      api
+        .saveServiceCategoryDetails({
+          category_name: categoryName,
+        })
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved service category</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to saved service category</span>
+              </div>
+            ),
+          });
+        });
     } else if (categoryButtonText === "Update category") {
-      const response = await api.updateServiceCategoryDetails(
-        { category_name: categoryName },
-        categoryId
-      );
-      console.log(response);
+      api
+        .updateServiceCategoryDetails(
+          { category_name: categoryName },
+          categoryId
+        )
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated service category</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update service category</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
     setShowForm(false);
@@ -96,8 +148,29 @@ export default function ServiceCategory() {
   };
 
   const handleCategoryDelete = async (id) => {
-    const response = await api.deleteServiceCategoryDetails(id);
-    console.log(response);
+    api
+      .deleteServiceCategoryDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted service category</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete service category</span>
+            </div>
+          ),
+        });
+      });
     reloadPage();
   };
 

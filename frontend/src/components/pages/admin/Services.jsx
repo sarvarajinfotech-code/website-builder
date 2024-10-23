@@ -15,7 +15,14 @@ import {
 import Constants from "@/utility/Constants";
 import api from "@/utility/api";
 import EmptyState from "./commons/EmptyState";
-import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  FolderPlus,
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,8 +31,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTable } from "./commons/DataTable";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Services() {
+  const { toast } = useToast();
+
   const [activeTab, setActiveTab] = useState("header");
   const [headerText, setHeaderText] = useState("");
   const [tagline, setTagline] = useState("");
@@ -190,8 +200,29 @@ export default function Services() {
   };
 
   const handleServiceDelete = async (id) => {
-    const response = await api.deleteServiceDetails(id);
-    console.log(response);
+    api
+      .deleteServiceDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted service details</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete service details</span>
+            </div>
+          ),
+        });
+      });
     reloadPage();
   };
 
@@ -222,11 +253,53 @@ export default function Services() {
       learn_more_link: formData.learnMoreLink ? formData.learnMoreLink : "",
     };
     if (serviceButtonText === "Save Service") {
-      const response = await api.saveServiceDetails(payload);
-      console.log(response);
+      await api
+        .saveServiceDetails(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved service details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save service details</span>
+              </div>
+            ),
+          });
+        });
     } else if (serviceButtonText === "Update Service") {
-      const response = await api.updateServiceDetails(payload, serviceId);
-      console.log(response);
+      await api
+        .updateServiceDetails(payload, serviceId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated service details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update service details</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
   };
@@ -239,10 +312,53 @@ export default function Services() {
       page: Constants.SERVICES,
     };
     if (headerTextButton === "Save Header") {
-      const response = await api.saveHeaderInfo(payload);
-      console.log(response);
+      await api
+        .saveHeaderInfo(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved service header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save service header</span>
+              </div>
+            ),
+          });
+        });
     } else if (headerTextButton === "Update Header") {
-      const response = await api.updateHeaderInfo(payload, headerId);
+      api
+        .updateHeaderInfo(payload, headerId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated service header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update service header</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 
@@ -315,7 +431,7 @@ export default function Services() {
               />
             </div>
             <Button type="submit" className="w-full">
-              Save Header
+              {headerTextButton}
             </Button>
           </form>
         </TabsContent>
@@ -424,7 +540,7 @@ export default function Services() {
                   Cancel
                 </Button>
                 <Button type="submit" className="w-1/2 ml-1">
-                  Save Service
+                  {serviceButtonText}
                 </Button>
               </div>
             </form>

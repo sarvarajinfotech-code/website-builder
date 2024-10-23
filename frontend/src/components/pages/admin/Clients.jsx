@@ -8,7 +8,14 @@ import { Label } from "@/components/ui/label";
 import api from "@/utility/api";
 import Constants from "@/utility/Constants";
 import EmptyState from "./commons/EmptyState";
-import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  FolderPlus,
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 import { DataTable } from "./commons/DataTable";
 import {
   DropdownMenu,
@@ -18,8 +25,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Clients() {
+  const { toast } = useToast();
+
   const [activeTab, setActiveTab] = useState("header");
   const [headerText, setHeaderText] = useState("");
   const [tagline, setTagline] = useState("");
@@ -54,15 +64,58 @@ export default function Clients() {
         tagline: tagline,
         page: Constants.CLIENT_PAGE,
       };
-      const response = await api.saveHeaderInfo(payload);
-      console.log(response);
+      api
+        .saveHeaderInfo(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved client header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save client header</span>
+              </div>
+            ),
+          });
+        });
     } else if (headerTextButton === "Update Header") {
       let payload = {
         header_text: headerText,
         tagline: tagline,
         page: Constants.CLIENT_PAGE,
       };
-      const response = await api.updateHeaderInfo(payload, headerId);
+      api
+        .updateHeaderInfo(payload, headerId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated Client Header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update clien header</span>
+              </div>
+            ),
+          });
+        });
     }
   };
   const handleSubmit = async (e) => {
@@ -71,11 +124,53 @@ export default function Clients() {
     formdata.set("client_name", clientName);
     formdata.set("file", logo);
     if (clientButtonText === "Add Client") {
-      const response = await api.saveClientDetails(formdata);
-      console.log(response);
+      api
+        .saveClientDetails(formdata)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved Client details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save client details</span>
+              </div>
+            ),
+          });
+        });
     } else if (clientButtonText === "Update Client") {
-      const response = await api.updateClientDetails(formdata, clientId);
-      console.log(response);
+      api
+        .updateClientDetails(formdata, clientId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Update client details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update client details</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
     setShowForm(false);
@@ -89,6 +184,7 @@ export default function Clients() {
 
   const handleClientPageEdit = async (row) => {
     const image = await api.getImage(row.CLIENT_LOGO);
+    setLogo(image);
     setLogoPreview(row.CLIENT_LOGO);
     setClientName(row.CLIENT_NAME);
     setClientId(row.ID);
@@ -97,8 +193,29 @@ export default function Clients() {
   };
 
   const handleclientPageDelete = async (id) => {
-    const resposne = await api.deleteClientDetails(id);
-    console.log(resposne);
+    api
+      .deleteClientDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted Client data</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete client data</span>
+            </div>
+          ),
+        });
+      });
     reloadPage();
   };
 

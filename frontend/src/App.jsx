@@ -1,4 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 import "./App.css";
 import ClientHomePage from "./components/pages/user/HomePage";
 import Layout from "./components/pages/admin/Layout";
@@ -43,6 +49,9 @@ import { useEffect, useState } from "react";
 import api from "./utility/api";
 import Subscribers from "./components/pages/admin/Subscribers";
 import Queries from "./components/pages/admin/Queries";
+import LoginPage from "./components/pages/admin/Login";
+import ResetPassword from "./components/pages/admin/ResetPassword";
+import PageNotFound from "./components/pages/admin/PageNotfound";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -51,6 +60,14 @@ function App() {
   });
   const [showDarkMode, setShowDarkMode] = useState(true);
   const [pages, setPages] = useState([]);
+
+  const isAuthenticated = () => {
+    return sessionStorage.getItem("isAuthenticated") !== null;
+  };
+
+  const PrivateRoute = () => {
+    return isAuthenticated() ? <Outlet /> : <Navigate to="/admin/login" />;
+  };
 
   const componentMap = {
     Clients: UserTrustedBy,
@@ -104,32 +121,41 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* login page */}
+        <Route path="/admin/login" element={<LoginPage />}></Route>
+        <Route path="/admin/" element={<LoginPage />}></Route>
+        <Route path="/admin/reset-password" element={<ResetPassword />}></Route>
+
         {/* Admin Routes */}
         <Route path="/admin" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="home-page" element={<HomePage />} />
-          <Route path="clients" element={<Clients />} />
-          <Route path="team" element={<Team />} />
-          <Route path="testimonials" element={<Testimonials />} />
-          <Route path="pricing" element={<Pricing />} />
-          <Route path="products" element={<Products />} />
-          <Route path="products/category" element={<ProductCategory />} />
-          <Route path="services" element={<Services />} />
-          <Route path="services/category" element={<ServiceCategory />} />
-          <Route path="blogs" element={<Blogs />} />
-          <Route path="blogs/category" element={<BlogCategory />} />
-          <Route path="why-choose-us" element={<WhyChooseUs />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="faq" element={<FAQ />} />
-          <Route path="dynamic" element={<Dynamic />} />
-          <Route path="social-media" element={<SocialMedia />} />
-          <Route path="footer" element={<Footer />} />
-          <Route path="pages" element={<Pages />} />
-          <Route path="meetings" element={<Meetings />} />
-          <Route path="subscribers" element={<Subscribers />} />
-          <Route path="queries" element={<Queries />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="home-page" element={<HomePage />} />
+            <Route path="clients" element={<Clients />} />
+            <Route path="team" element={<Team />} />
+            <Route path="testimonials" element={<Testimonials />} />
+            <Route path="pricing" element={<Pricing />} />
+            <Route path="products" element={<Products />} />
+            <Route path="products/category" element={<ProductCategory />} />
+            <Route path="services" element={<Services />} />
+            <Route path="services/category" element={<ServiceCategory />} />
+            <Route path="blogs" element={<Blogs />} />
+            <Route path="blogs/category" element={<BlogCategory />} />
+            <Route path="why-choose-us" element={<WhyChooseUs />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="faq" element={<FAQ />} />
+            <Route path="dynamic" element={<Dynamic />} />
+            <Route path="social-media" element={<SocialMedia />} />
+            <Route path="footer" element={<Footer />} />
+            <Route path="pages" element={<Pages />} />
+            <Route path="meetings" element={<Meetings />} />
+            <Route path="subscribers" element={<Subscribers />} />
+            <Route path="queries" element={<Queries />} />
+          </Route>
         </Route>
+
+        <Route path="/admin/*" element={<PageNotFound />} />
 
         {/*user routes*/}
         <Route path="/" element={renderClientHomePage()} />

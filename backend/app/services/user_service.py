@@ -31,6 +31,16 @@ def update_user(db: Session, user_id: int, user_name: str, role: str):
         return user
     return None
 
+def update_user_with_pass(db: Session, user_name: str, password: str,):
+    user = get_user_by_name(db, user_name)
+    if user:
+        user.USER_NAME = user_name
+        user.PASSWORD = password
+        db.commit()
+        db.refresh(user)
+        return user
+    return None
+
 def delete_user(db: Session, user_id: int):
     user = get_user_by_id(db, user_id)
     if user:

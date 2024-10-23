@@ -25,6 +25,7 @@ import {
   ListTodo,
   MailCheck,
   MessageCircleQuestion,
+  CheckCircle,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -37,9 +38,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useToast } from "@/hooks/use-toast";
 
 const menuItems = [
-  { name: "Dashboard", icon: LayoutDashboard, path: "/admin/" },
+  { name: "Dashboard", icon: LayoutDashboard, path: "/admin/dashboard" },
   { name: "Settings", icon: Settings, path: "/admin/settings" },
   { name: "Subscribers", icon: MailCheck, path: "/admin/subscribers" },
   { name: "Queries", icon: MessageCircleQuestion, path: "/admin/queries" },
@@ -114,12 +116,26 @@ const menuItems = [
 ];
 
 export default function Layout() {
+  const { toast } = useToast();
+
   const location = useLocation();
   const navigate = useNavigate();
   const [expandedItems, setExpandedItems] = useState([]);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
 
+  const handleLogout = () => {
+    sessionStorage.removeItem("isAuthenticated");
+    navigate("/admin/login");
+    toast({
+      title: (
+        <div className="flex items-center gap-2">
+          <CheckCircle className="h-5 w-5 text-green-500" />
+          <span>User Logout</span>
+        </div>
+      ),
+    });
+  };
   const toggleExpand = (name) => {
     setExpandedItems((prev) =>
       prev.includes(name)
@@ -285,7 +301,9 @@ export default function Layout() {
             <Button
               variant="ghost"
               className="w-full justify-start text-gray-700 hover:bg-gray-100"
-              onClick={() => handleNavigation("/logout")}
+              onClick={() => {
+                navigate("/admin/login");
+              }}
             >
               <LogOut className="mr-3 h-5 w-5" />
               Logout
@@ -323,7 +341,9 @@ export default function Layout() {
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>
+                    Logout
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
               <Button

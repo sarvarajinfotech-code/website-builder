@@ -108,6 +108,18 @@ const Constants = Object.freeze({
 
   //query mai
   QUERY_MAIL: "/send-query-email/",
+
+  //reset password
+  RESET_PASSWORD: "/reset-password/",
+
+  //reset password mail
+  RESET_PASSWORD_MAIL: "/resend-reset-email/",
+
+  //login
+  LOGIN: "/login/",
+
+  //meeting
+  MEETING: "/meeting/",
 });
 
 export default Constants;

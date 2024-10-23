@@ -14,11 +14,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Plus, ArrowUpDown, MoreHorizontal, FolderPlus } from "lucide-react";
+import {
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  FolderPlus,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 import EmptyState from "./commons/EmptyState";
 import { DataTable } from "./commons/DataTable";
+import { useToast } from "@/hooks/use-toast";
 
 export default function DynamicPage() {
+  const { toast } = useToast();
+
   const [pageName, setPageName] = useState("");
   const [contentHeader, setContentHeader] = useState("");
   const [content, setContent] = useState("");
@@ -36,13 +46,55 @@ export default function DynamicPage() {
     };
 
     if (buttonText === "Save Page") {
-      const response = await api.savePageDetails(pageData);
-      saveORupdateDynamicPath(response.ID, "save");
-      console.log(response);
+      api
+        .savePageDetails(pageData)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved dynamic page</span>
+              </div>
+            ),
+          });
+          saveORupdateDynamicPath(response.ID, "save");
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save dynaic page</span>
+              </div>
+            ),
+          });
+        });
     } else if (buttonText === "Update Page") {
-      const response = await api.updatePageDetails(pageData, pageId);
-      saveORupdateDynamicPath(pageId, "update");
-      console.log(response);
+      api
+        .updatePageDetails(pageData, pageId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Update dynamic page</span>
+              </div>
+            ),
+          });
+          saveORupdateDynamicPath(pageId, "update");
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update dynamic page</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
   };
@@ -110,8 +162,30 @@ export default function DynamicPage() {
   };
 
   const handleDelete = async (id) => {
-    const response = await api.deletePageDetails(id);
-    deleteDynamicPath(id);
+    api
+      .deletePageDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted dynamic page</span>
+            </div>
+          ),
+        });
+        deleteDynamicPath(id);
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete dynamic page</span>
+            </div>
+          ),
+        });
+      });
     reloadPage();
   };
 

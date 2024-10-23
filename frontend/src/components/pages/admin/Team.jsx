@@ -8,7 +8,14 @@ import { Label } from "@/components/ui/label";
 import Constants from "@/utility/Constants";
 import api from "@/utility/api";
 import EmptyState from "./commons/EmptyState";
-import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  FolderPlus,
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
 import { DataTable } from "./commons/DataTable";
 import {
   DropdownMenu,
@@ -17,8 +24,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Team() {
+  const { toast } = useToast();
+
   const [activeTab, setActiveTab] = useState("header");
   const [headerText, setHeaderText] = useState("");
   const [tagline, setTagline] = useState("");
@@ -63,15 +73,58 @@ export default function Team() {
         tagline: tagline,
         page: Constants.TEAM_PAGE,
       };
-      const response = await api.saveHeaderInfo(payload);
-      console.log(response);
+      api
+        .saveHeaderInfo(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved team header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save team header</span>
+              </div>
+            ),
+          });
+        });
     } else if (headerTextButton === "Update Header") {
       let payload = {
         header_text: headerText,
         tagline: tagline,
         page: Constants.TEAM_PAGE,
       };
-      const response = await api.updateHeaderInfo(payload, headerId);
+      api
+        .updateHeaderInfo(payload, headerId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated team header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update team header</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 
@@ -85,11 +138,53 @@ export default function Team() {
     formdata.set("file", photo);
 
     if (teamButtonText === "Add Team") {
-      const response = await api.saveTeamDetails(formdata);
-      console.log(response);
+      api
+        .saveTeamDetails(formdata)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved team details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save team details</span>
+              </div>
+            ),
+          });
+        });
     } else if (teamButtonText === "Update Team") {
-      const response = await api.updateTeamDetails(formdata, teamId);
-      console.log(response);
+      api
+        .updateTeamDetails(formdata, teamId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>updated team details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update team details</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
     setShowForm(false);
@@ -118,8 +213,30 @@ export default function Team() {
   };
 
   const handleTeamPageDelete = async (id) => {
-    const resposne = await api.deleteTeamDetails(id);
-    console.log(resposne);
+    api
+      .deleteTeamDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted team data</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete team data</span>
+            </div>
+          ),
+        });
+      });
+
     reloadPage();
   };
 

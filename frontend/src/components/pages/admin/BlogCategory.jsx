@@ -34,7 +34,7 @@ export default function BlogCategory() {
   const handleCategorySubmit = async (e) => {
     e.preventDefault();
     if (categoryButtonText === "Save Category") {
-      await api
+      api
         .saveBlogCategoryDetails({
           category_name: categoryName,
         })

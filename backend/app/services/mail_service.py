@@ -65,8 +65,6 @@ async def send_subscription_email(subscriber_email: str, db: Session):
 
 
 
-
-
 async def send_query_email(first_name:str,last_name:str,email:str,phone_number:str,query:str, db: Session):
     # Get the email configuration
     email_config = get_email_config(db)
@@ -92,3 +90,33 @@ async def send_query_email(first_name:str,last_name:str,email:str,phone_number:s
         print(f"Query email sent to {recipient_email}.")
     except Exception as e:
         raise RuntimeError(f"Failed to send email: {e}")
+
+
+
+async def send_reset_email(user_email: str, reset_link: str, db: Session):
+    # Get the email configuration
+    email_config = get_email_config(db)
+    connection_config = email_config["connection_config"]
+    
+    # Prepare the email content
+    try:
+        template = env.get_template("reset_password.html")  # Use your reset email template
+        html_content = template.render(RESET_LINK=reset_link)
+    except Exception as e:
+        raise RuntimeError(f"Error rendering template: {e}")
+
+    # Create the email message
+    message = MessageSchema(
+        subject="Reset Your Password",
+        recipients=[user_email],  # Send to the user's email
+        body=html_content,
+        subtype="html"
+    )
+
+    # Send the email
+    fm = FastMail(connection_config)
+    try:
+        await fm.send_message(message)
+        print(f"Reset password email sent to {user_email}.")
+    except Exception as e:
+        raise RuntimeError(f"Failed to send email: {e}")    

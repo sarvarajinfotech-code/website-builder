@@ -14,7 +14,14 @@ import {
 } from "@/components/ui/select";
 import api from "@/utility/api";
 import EmptyState from "./commons/EmptyState";
-import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  FolderPlus,
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
 import { DataTable } from "./commons/DataTable";
 import {
   DropdownMenu,
@@ -24,8 +31,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Footer() {
+  const { toast } = useToast();
+
   const [activeTab, setActiveTab] = useState("header");
   const [showNewsletter, setShowNewsletter] = useState(false);
   const [linkType, setLinkType] = useState("page");
@@ -60,9 +70,53 @@ export default function Footer() {
       copyright_text: copyrightText,
     };
     if (headerButtonText === "Save Header") {
-      const response = await api.saveFooterHeaderInfo(payload);
+      api
+        .saveFooterHeaderInfo(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved footer header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save footer header</span>
+              </div>
+            ),
+          });
+        });
     } else if (headerButtonText === "Update Header") {
-      const response = await api.updateFooterHeaderInfo(payload, headerId);
+      api
+        .updateFooterHeaderInfo(payload, headerId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated footer header</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update footer header</span>
+              </div>
+            ),
+          });
+        });
     }
   };
 
@@ -174,9 +228,53 @@ export default function Footer() {
       link: linkType === "page" ? pageLink : externalLink,
     };
     if (sectionButtonText === "Add Section") {
-      const response = await api.saveFooterSectionInfo(payload);
+      api
+        .saveFooterSectionInfo(payload)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved section details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save section details</span>
+              </div>
+            ),
+          });
+        });
     } else if (sectionButtonText === "Update Section") {
-      const response = await api.updateFooterSectionInfo(payload, sectionId);
+      api
+        .updateFooterSectionInfo(payload, sectionId)
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated section details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update section deatils</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
     setShowForm(false);
@@ -196,7 +294,29 @@ export default function Footer() {
     }
   };
   const handleSectionDelete = async (id) => {
-    const response = await api.deleteFooterSectionInfo(id);
+    api
+      .deleteFooterSectionInfo(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted section data</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete section data</span>
+            </div>
+          ),
+        });
+      });
     reloadPage();
   };
 

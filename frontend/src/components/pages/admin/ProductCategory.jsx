@@ -13,27 +13,80 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FolderPlus, Plus, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  FolderPlus,
+  Plus,
+  ArrowUpDown,
+  MoreHorizontal,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ProductCategory() {
+  const { toast } = useToast();
+
   const [categoryName, setCategoryName] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [categoryId, setCategoryId] = useState(null);
   const [categoryList, setCategoryList] = useState([]);
   const [categoryButtonText, setCategoryButtonText] = useState("Save Category");
+
   const handleCategorySubmit = async (e) => {
     e.preventDefault();
     if (categoryButtonText === "Save Category") {
-      const response = await api.saveProductCategoryDetails({
-        category_name: categoryName,
-      });
-      console.log(response);
+      await api
+        .saveProductCategoryDetails({
+          category_name: categoryName,
+        })
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Saved Category details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to save category details</span>
+              </div>
+            ),
+          });
+        });
     } else if (categoryButtonText === "Update category") {
-      const response = await api.updateProductCategoryDetails(
-        { category_name: categoryName },
-        categoryId
-      );
-      console.log(response);
+      await api
+        .updateProductCategoryDetails(
+          { category_name: categoryName },
+          categoryId
+        )
+        .then((response) => {
+          toast({
+            title: (
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Updated category details</span>
+              </div>
+            ),
+          });
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: (
+              <div className="flex items-center gap-2 text-white">
+                <AlertCircle className="h-5 w-5" />
+                <span>Error: Failed to update category details</span>
+              </div>
+            ),
+          });
+        });
     }
     reloadPage();
     setShowForm(false);
@@ -95,8 +148,29 @@ export default function ProductCategory() {
   };
 
   const handleCategoryDelete = async (id) => {
-    const resposne = await api.deleteProductCategoryDetails(id);
-    console.log(resposne);
+    await api
+      .deleteProductCategoryDetails(id)
+      .then((response) => {
+        toast({
+          title: (
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+              <span>Deleted category data</span>
+            </div>
+          ),
+        });
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: (
+            <div className="flex items-center gap-2 text-white">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error: Failed to delete category data</span>
+            </div>
+          ),
+        });
+      });
     reloadPage();
   };
 
