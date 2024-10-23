@@ -1,6 +1,5 @@
 import axios from "axios";
 import Constants from "./Constants";
-import { error } from "highcharts";
 
 const api = {
   // fetch image from local

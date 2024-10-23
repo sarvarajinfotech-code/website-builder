@@ -6,7 +6,6 @@ import { Switch } from "@/components/ui/switch";
 import { AlertCircle, CheckCircle } from "lucide-react";
 import api from "@/utility/api";
 import { useToast } from "@/hooks/use-toast";
-import { error } from "highcharts";
 
 export default function Meetings() {
   const { toast } = useToast();
