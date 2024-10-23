@@ -1,12 +1,9 @@
-fastapi
-uvicorn
-sqlalchemy
-pymysql
-passlib
-python-dotenv
-pydantic-settings
-python-multipart
-fastapi-mail
-jinja2 
-email-validator
-PyJWT
+fastapi==0.115.0
+fastapi-mail==1.4.1
+Jinja2 @ file:///croot/jinja2_1706733616596/work
+passlib==1.7.4
+pydantic-settings==2.5.2
+PyJWT==2.9.0
+python-dotenv==1.0.1
+python-multipart==0.0.11
+uvicorn==0.31.0
