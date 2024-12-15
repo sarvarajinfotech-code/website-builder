@@ -1,10 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from config import settings
+# from config import settings
 
-# DATABASE_URL = f"mysql+pymysql://avekshaa:avekshaa@localhost:{settings.db_port}/website_builder"
-DATABASE_URL = f"mysql+pymysql://freedb_avekshaa:tqw8j%40F6DuhKRc&@sql.freedb.tech:{settings.db_port}/freedb_website_builder"
+DATABASE_URL = f"mysql+pymysql://avekshaa:avekshaa@localhost:3306/website_builder"
+# DATABASE_URL = "mysql+pymysql://provolqc_babu:Babureddys%401@localhost:3306/provolqc_websitebuilder"
+# DATABASE_URL = "postgresql://postgres.tjopfivhrqypjpatvlvz:Babureddys%401@aws-0-ap-south-1.pooler.supabase.com:6543/postgres?sslmode=require"
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
