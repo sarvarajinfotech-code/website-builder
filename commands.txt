@@ -1,0 +1,15 @@
+# to run the frotend
+npm run dev -- --host
+
+# to run the backend in dev 
+uvicorn app.main:app --reload
+
+# to run the backend in production
+guvicorn app.main:app --reload
+
+#to take mysql db backup
+mysqldump -u [username] -p [database_name] > backup.sql
+
+#to restore the mysql db
+mysql -u [username] -p [database_name] < backup.sql
+
