@@ -9,12 +9,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { AlertCircle, CheckCircle } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 
 export default function SettingsTabs() {
   const faviconInputRef = useRef(null);
   const { toast } = useToast();
 
-  const [activeTab, setActiveTab] = useState("favicon");
+  const logoInputRef = useRef(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [navigationFormData, setNavigationFormData] = useState({
+    logo: null,
+    darkTheme: false,
+  });
+  const [navigationButtonText, setNavigationButtonText] =
+    useState("Save Configuration");
+  const [naviagationID, setNavigationID] = useState(null);
+
+  const [activeTab, setActiveTab] = useState("navigation");
   const [faviconPreview, setFaviconPreview] = useState(null);
   const [title, setTitle] = useState("");
   const [favId, setFavId] = useState(null);
@@ -50,6 +61,77 @@ export default function SettingsTabs() {
     const newColors = [...colors];
     newColors[index] = color;
     setColors(newColors);
+  };
+
+  const handleLogoChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+        setNavigationFormData((prevData) => ({ ...prevData, logo: file }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (event, formType) => {
+    event.preventDefault();
+    if (formType === "navigation") {
+      let formdata = new FormData();
+      formdata.set("dark_mode", navigationFormData.darkTheme);
+      formdata.set("file", navigationFormData.logo);
+      if (navigationButtonText === "Save Configuration") {
+        api
+          .saveNavigationSettings(formdata)
+          .then((response) => {
+            toast({
+              title: (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Saved navigation details</span>
+                </div>
+              ),
+            });
+          })
+          .catch((error) => {
+            toast({
+              variant: "destructive",
+              title: (
+                <div className="flex items-center gap-2 text-white">
+                  <AlertCircle className="h-5 w-5" />
+                  <span>Error: Failed to save navigation details</span>
+                </div>
+              ),
+            });
+          });
+      } else if (navigationButtonText === "Update Configuration") {
+        api
+          .updateNavigationSettings(formdata, naviagationID)
+          .then((response) => {
+            toast({
+              title: (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Updated navigation details</span>
+                </div>
+              ),
+            });
+          })
+          .catch((error) => {
+            toast({
+              variant: "destructive",
+              title: (
+                <div className="flex items-center gap-2 text-white">
+                  <AlertCircle className="h-5 w-5" />
+                  <span>Error: Failed to update navigation details</span>
+                </div>
+              ),
+            });
+          });
+      }
+    }
+    setShowForm(false);
   };
 
   const handleFaviconChange = (event) => {
@@ -317,6 +399,22 @@ export default function SettingsTabs() {
     }
   };
 
+  async function fetchNavigationDetails() {
+    const navigationDetails = await api.getNavigationSettingsDetails();
+    if (navigationDetails.length > 0) {
+      const image = await api.getImage(navigationDetails[0].LOGO);
+      setNavigationFormData(() => ({
+        logo: image,
+        darkTheme: navigationDetails[0].DARK_MODE,
+      }));
+      setImagePreview(navigationDetails[0].LOGO);
+      setNavigationButtonText("Update Configuration");
+      setNavigationID(navigationDetails[0].ID);
+    } else {
+      setNavigationButtonText("Save Configuration");
+    }
+  }
+
   useEffect(() => {
     async function fetchFaviconDetails() {
       const faviconDetails = await api.getFaviconDetails();
@@ -384,6 +482,7 @@ export default function SettingsTabs() {
     fetchEmailSettings();
     fetchBannerSettings();
     fetchColorsSettings();
+    fetchNavigationDetails();
   }, []);
 
   return (
@@ -393,12 +492,74 @@ export default function SettingsTabs() {
         onValueChange={setActiveTab}
         className="w-full max-w-4xl mx-auto"
       >
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="navigation">Navigation</TabsTrigger>
           <TabsTrigger value="favicon">Favicon</TabsTrigger>
           <TabsTrigger value="email">Email</TabsTrigger>
           <TabsTrigger value="banner">Banner</TabsTrigger>
           {/* <TabsTrigger value="color-theme">Color Theme</TabsTrigger> */}
         </TabsList>
+        <TabsContent value="navigation">
+          <form
+            onSubmit={(e) => handleSubmit(e, "navigation")}
+            className="space-y-6 max-w-md mx-auto"
+          >
+            <div className="space-y-2">
+              <Label htmlFor="logo">Logo</Label>
+              <Input
+                id="logo"
+                type="file"
+                accept="image/*"
+                name="logo"
+                onChange={handleLogoChange}
+                className="hidden"
+                ref={logoInputRef}
+              />
+              <Button
+                type="button"
+                onClick={() => logoInputRef.current.click()}
+                className="w-full"
+              >
+                Select Logo
+              </Button>
+              <div className="mt-2 h-40 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center">
+                {imagePreview ? (
+                  <img
+                    src={imagePreview}
+                    alt="Logo Preview"
+                    className="max-h-full max-w-full object-contain"
+                  />
+                ) : (
+                  <p className="text-gray-500">Select a logo to preview</p>
+                )}
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Upload your site logo (admin and user page)
+              </p>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="dark-theme"
+                checked={navigationFormData.darkTheme}
+                onCheckedChange={(checked) =>
+                  setNavigationFormData((prevData) => ({
+                    ...prevData,
+                    darkTheme: checked,
+                  }))
+                }
+              />
+              <Label htmlFor="dark-theme">Enable Dark Theme</Label>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Toggle to enable or disable dark theme for your site
+            </p>
+
+            <Button type="submit" className="w-full">
+              {navigationButtonText}
+            </Button>
+          </form>
+        </TabsContent>
         <TabsContent value="favicon" className="mt-6">
           <form
             onSubmit={handleFaviconSubmit}

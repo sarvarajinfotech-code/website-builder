@@ -36,7 +36,7 @@ import { useToast } from "@/hooks/use-toast";
 export default function HomePage() {
   const { toast } = useToast();
 
-  const [activeTab, setActiveTab] = useState("navigation");
+  const [activeTab, setActiveTab] = useState("homepage");
   const [navigationFormData, setNavigationFormData] = useState({
     logo: null,
     darkTheme: false,
@@ -61,7 +61,7 @@ export default function HomePage() {
     inSlider: "true",
   });
   const [homePageButtonText, setHomePageButtonText] = useState(
-    "Save Home Page Configuration"
+    "Save Home Page Slider Configuration"
   );
   const [homePageID, setHomePageID] = useState(null);
   const [homePageList, setHomePageList] = useState([]);
@@ -429,7 +429,7 @@ export default function HomePage() {
       formdata.set("opacity", homePageFormData.backgroundOpacity);
       formdata.set("file", homePageFormData.backgroundImage);
 
-      if (homePageButtonText === "Save Home Page Configuration") {
+      if (homePageButtonText === "Save Home Page Slider Configuration") {
         api
           .saveHomePageSettings(formdata)
           .then((response) => {
@@ -437,7 +437,7 @@ export default function HomePage() {
               title: (
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Saved Home page details</span>
+                  <span>Saved Home page Slider details</span>
                 </div>
               ),
             });
@@ -448,12 +448,14 @@ export default function HomePage() {
               title: (
                 <div className="flex items-center gap-2 text-white">
                   <AlertCircle className="h-5 w-5" />
-                  <span>Error: Failed to save home page details</span>
+                  <span>Error: Failed to save home page Slider details</span>
                 </div>
               ),
             });
           });
-      } else if (homePageButtonText === "Update Home Page Configuration") {
+      } else if (
+        homePageButtonText === "Update Home Page Slider Configuration"
+      ) {
         api
           .updateHomePageSettings(formdata, homePageID)
           .then((response) => {
@@ -461,7 +463,7 @@ export default function HomePage() {
               title: (
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Updated Home page details</span>
+                  <span>Updated Home page Slider details</span>
                 </div>
               ),
             });
@@ -472,7 +474,7 @@ export default function HomePage() {
               title: (
                 <div className="flex items-center gap-2 text-white">
                   <AlertCircle className="h-5 w-5" />
-                  <span>Error: Failed to update home page details</span>
+                  <span>Error: Failed to update home page slider details</span>
                 </div>
               ),
             });
@@ -503,7 +505,7 @@ export default function HomePage() {
     });
     setHomePageID(row.ID);
     setShowForm(true);
-    setHomePageButtonText("Update Home Page Configuration");
+    setHomePageButtonText("Update Home Page Slider Configuration");
   };
 
   const handleHomePageDelete = async (id) => {
@@ -514,7 +516,7 @@ export default function HomePage() {
           title: (
             <div className="flex items-center gap-2">
               <CheckCircle className="h-5 w-5 text-green-500" />
-              <span>Deleted Home page detail</span>
+              <span>Deleted Home page Slider detail</span>
             </div>
           ),
         });
@@ -525,7 +527,7 @@ export default function HomePage() {
           title: (
             <div className="flex items-center gap-2 text-white">
               <AlertCircle className="h-5 w-5" />
-              <span>Error: Failed to delete home page detail</span>
+              <span>Error: Failed to delete home page slider detail</span>
             </div>
           ),
         });
@@ -588,9 +590,9 @@ export default function HomePage() {
         onValueChange={setActiveTab}
         className="w-full max-w-4xl mx-auto"
       >
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="navigation">Navigation</TabsTrigger>
-          <TabsTrigger value="homepage">Home Page</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-1">
+          {/* <TabsTrigger value="navigation">Navigation</TabsTrigger> */}
+          <TabsTrigger value="homepage">Home Page Slider</TabsTrigger>
         </TabsList>
         <TabsContent value="navigation">
           <form
@@ -657,7 +659,7 @@ export default function HomePage() {
           {homePageList.length === 0 && !showForm && (
             <EmptyState
               heading="No Images"
-              subheading="Add a image to home page"
+              subheading="Add a image to home page slider"
               buttonText="New Image"
               onClick={() => {
                 setShowForm(true);
