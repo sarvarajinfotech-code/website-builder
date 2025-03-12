@@ -16,6 +16,7 @@ export default function Queries() {
     "last_name",
     "phone_number",
     "query",
+    "created_at",
   ];
 
   const columns = [
@@ -89,47 +90,37 @@ export default function Queries() {
         );
       },
     },
-
-    // {
-    //   id: "actions",
-    //   cell: ({ row }) => {
-    //     const payment = row.original;
-
-    //     return (
-    //       <DropdownMenu>
-    //         <DropdownMenuTrigger asChild>
-    //           <Button variant="ghost" className="h-8 w-8 p-0">
-    //             <span className="sr-only">Open menu</span>
-    //             <MoreHorizontal className="h-4 w-4" />
-    //           </Button>
-    //         </DropdownMenuTrigger>
-    //         <DropdownMenuContent align="end" className="bg-white">
-    //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-    //           <DropdownMenuItem onClick={() => handleProductEdit(row.original)}>
-    //             Edit
-    //           </DropdownMenuItem>
-    //           <DropdownMenuItem
-    //             onClick={() => handleProductDelete(row.original.ID)}
-    //           >
-    //             Delete
-    //           </DropdownMenuItem>
-    //         </DropdownMenuContent>
-    //       </DropdownMenu>
-    //     );
-    //   },
-    // },
+    {
+      accessorKey: "created_at",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Created At
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
   ];
+
   useEffect(() => {
     async function fetchQueries() {
       const response = await api.getGetInTouchEntries();
       if (response.length > 0) {
-        setQueries(response);
+        const sortedResponse = response.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
+        setQueries(sortedResponse);
       } else {
         setQueries([]);
       }
     }
     fetchQueries();
   }, []);
+
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
       <DataTable

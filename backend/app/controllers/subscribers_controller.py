@@ -9,6 +9,8 @@ from app.services.subscribers_service import (
     delete_subscriber
 )
 from pydantic import BaseModel
+from datetime import datetime
+from typing import List
 
 router = APIRouter()
 
@@ -16,13 +18,19 @@ router = APIRouter()
 class SubscriberCreate(BaseModel):
     email: str
 
+class SubscriberResponse(SubscriberCreate):
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
 # Create new subscriber
-@router.post("/subscribers/")
+@router.post("/subscribers/", response_model=SubscriberResponse)
 async def create_new_subscriber(subscriber: SubscriberCreate, db: Session = Depends(get_db)):
     return create_subscriber(db, subscriber.email)
 
 # Get subscriber by ID
-@router.get("/subscribers/{subscriber_id}")
+@router.get("/subscribers/{subscriber_id}", response_model=SubscriberResponse)
 async def read_subscriber(subscriber_id: int, db: Session = Depends(get_db)):
     subscriber = get_subscriber(db, subscriber_id)
     if not subscriber:
@@ -30,12 +38,12 @@ async def read_subscriber(subscriber_id: int, db: Session = Depends(get_db)):
     return subscriber
 
 # Get all subscribers
-@router.get("/subscribers/")
+@router.get("/subscribers/", response_model=List[SubscriberResponse])
 async def read_all_subscribers(db: Session = Depends(get_db)):
     return get_all_subscribers(db)
 
 # Update subscriber by ID
-@router.put("/subscribers/{subscriber_id}")
+@router.put("/subscribers/{subscriber_id}", response_model=SubscriberResponse)
 async def update_subscriber_entry(subscriber_id: int, subscriber: SubscriberCreate, db: Session = Depends(get_db)):
     updated_subscriber = update_subscriber(db, subscriber_id, subscriber.email)
     if not updated_subscriber:

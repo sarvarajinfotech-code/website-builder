@@ -9,6 +9,8 @@ from app.services.get_in_touch_service import (
     delete_get_in_touch_entry
 )
 from pydantic import BaseModel
+from datetime import datetime
+from typing import List
 
 router = APIRouter()
 
@@ -20,8 +22,14 @@ class GetInTouchCreate(BaseModel):
     phone_number: str
     query: str
 
+class GetInTouchResponse(GetInTouchCreate):
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
 # Create new Get In Touch entry
-@router.post("/get_in_touch/")
+@router.post("/get_in_touch/", response_model=GetInTouchResponse)
 async def create_new_get_in_touch_entry(entry: GetInTouchCreate, db: Session = Depends(get_db)):
     return create_get_in_touch_entry(
         db,
@@ -33,7 +41,7 @@ async def create_new_get_in_touch_entry(entry: GetInTouchCreate, db: Session = D
     )
 
 # Get Get In Touch entry by ID
-@router.get("/get_in_touch/{entry_id}")
+@router.get("/get_in_touch/{entry_id}", response_model=GetInTouchResponse)
 async def read_get_in_touch_entry(entry_id: int, db: Session = Depends(get_db)):
     entry = get_get_in_touch_entry(db, entry_id)
     if not entry:
@@ -41,12 +49,12 @@ async def read_get_in_touch_entry(entry_id: int, db: Session = Depends(get_db)):
     return entry
 
 # Get all Get In Touch entries
-@router.get("/get_in_touch/")
+@router.get("/get_in_touch/", response_model=List[GetInTouchResponse])
 async def read_all_get_in_touch_entries(db: Session = Depends(get_db)):
     return get_all_get_in_touch_entries(db)
 
 # Update Get In Touch entry by ID
-@router.put("/get_in_touch/{entry_id}")
+@router.put("/get_in_touch/{entry_id}", response_model=GetInTouchResponse)
 async def update_get_in_touch_entry(entry_id: int, entry: GetInTouchCreate, db: Session = Depends(get_db)):
     updated_entry = update_get_in_touch_entry(
         db,

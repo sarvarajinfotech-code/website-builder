@@ -39,6 +39,7 @@ import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
+import adminLogo from "@/assets/admin-logo.png";
 
 const menuItems = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/admin/dashboard" },
@@ -232,7 +233,7 @@ export default function Layout() {
       >
         <div className="flex h-full flex-col">
           <div className="flex h-16 items-center justify-between border-b border-gray-200 px-4">
-            <h1 className="text-2xl font-bold text-blue-600">VirtualBal</h1>
+            <img src={adminLogo} alt="Admin Logo" className="h-14" />
             <Button
               variant="ghost"
               size="icon"
