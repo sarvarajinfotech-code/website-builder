@@ -1,6 +1,6 @@
 import api from "@/utility/api";
 import Constants from "@/utility/Constants";
-import { Twitter, Linkedin } from "lucide-react";
+import { Twitter, Linkedin, Youtube, Facebook, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function TeamSection() {
@@ -77,24 +77,61 @@ export default function TeamSection() {
                   {member.DESIGNATION}
                 </p>
                 <div className="flex justify-center space-x-4">
-                  <a
-                    href={ensureHttp(member.TWITTER_PROFILE)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
-                  >
-                    <span className="sr-only">Twitter</span>
-                    <Twitter className="h-6 w-6" />
-                  </a>
-                  <a
-                    href={ensureHttp(member.LINKEDIN_PROFILE)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
-                  >
-                    <span className="sr-only">LinkedIn</span>
-                    <Linkedin className="h-6 w-6" />
-                  </a>
+                  {member.TWITTER_PROFILE && (
+                    <a
+                      href={ensureHttp(member.TWITTER_PROFILE)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                    >
+                      <span className="sr-only">Twitter</span>
+                      <Twitter className="h-6 w-6" />
+                    </a>
+                  )}
+                  {member.LINKEDIN_PROFILE && (
+                    <a
+                      href={ensureHttp(member.LINKEDIN_PROFILE)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                    >
+                      <span className="sr-only">LinkedIn</span>
+                      <Linkedin className="h-6 w-6" />
+                    </a>
+                  )}
+                  {member.YOUTUBE_PROFILE && (
+                    <a
+                      href={ensureHttp(member.YOUTUBE_PROFILE)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                    >
+                      <span className="sr-only">YouTube</span>
+                      <Youtube className="h-6 w-6" />
+                    </a>
+                  )}
+                  {member.FACEBOOK_PROFILE && (
+                    <a
+                      href={ensureHttp(member.FACEBOOK_PROFILE)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                    >
+                      <span className="sr-only">Facebook</span>
+                      <Facebook className="h-6 w-6" />
+                    </a>
+                  )}
+                  {member.TWITTERX_PROFILE && (
+                    <a
+                      href={ensureHttp(member.TWITTERX_PROFILE)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                    >
+                      <span className="sr-only">Twitter(X)</span>
+                      <X className="h-6 w-6" />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

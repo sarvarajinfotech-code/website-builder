@@ -297,7 +297,7 @@ export default function Layout() {
               </div>
             ))}
           </nav>
-          <div className="border-t border-gray-200 p-4">
+          {/* <div className="border-t border-gray-200 p-4">
             <Button
               variant="ghost"
               className="w-full justify-start text-gray-700 hover:bg-gray-100"
@@ -308,7 +308,7 @@ export default function Layout() {
               <LogOut className="mr-3 h-5 w-5" />
               Logout
             </Button>
-          </div>
+          </div> */}
         </div>
       </aside>
 
@@ -362,11 +362,17 @@ export default function Layout() {
           </div>
         </header>
 
-        {/* Main content area */}
-        <main className="absolute inset-0 top-16 overflow-y-auto p-4 md:p-6">
-          <Toaster />
-          <Outlet />
-        </main>
+        {/* Main Content & Footer Area */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-24">
+            <Toaster />
+            <Outlet />
+          </main>
+          <footer className="bg-white border-t py-4 text-center text-sm p-4">
+            © 2023 Proudly created with www.provendigitalsolution.com | made in
+            India with ❤️
+          </footer>
+        </div>
       </div>
     </div>
   );

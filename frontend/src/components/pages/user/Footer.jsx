@@ -184,9 +184,7 @@ export default function Footer() {
 
         {copyRightText && (
           <div className="flex items-center justify-center mt-8 pt-8 border-t border-gray-800">
-            <p className="text-sm text-gray-400">
-              &copy; 2024 Your Company, Inc. All rights reserved.
-            </p>
+            <p className="text-sm text-gray-400">{copyRightText}</p>
           </div>
         )}
       </div>

@@ -27,6 +27,9 @@ async def create_new_team_member(
     designation: str = Form(...),
     linkedin_profile: str = Form(...),
     twitter_profile: str = Form(...),
+    youtube_profile: str = Form(...),
+    facebook_profile: str = Form(...),
+    twitterX_profile: str = Form(...),
     file: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
@@ -34,7 +37,7 @@ async def create_new_team_member(
     
     # Create new team member
     new_team_member = create_team_member(
-        db, employee_name, designation, linkedin_profile, twitter_profile, " "
+        db, employee_name, designation, linkedin_profile, twitter_profile, youtube_profile, facebook_profile, twitterX_profile, " "
     )
 
      # Save the uploaded photo file and generate the photo path
@@ -42,7 +45,7 @@ async def create_new_team_member(
 
      # Create new team member
     new_team_member = update_team_member(
-        db, new_team_member.ID, employee_name, designation, linkedin_profile, twitter_profile, "/"+photo_path
+        db, new_team_member.ID, employee_name, designation, linkedin_profile, twitter_profile, youtube_profile, facebook_profile, twitterX_profile, "/"+photo_path
     )
 
     return {"detail": "Team member created successfully", "team_member_id": new_team_member.ID, "photo_path": photo_path}
@@ -68,6 +71,9 @@ async def update_team_member_entry(
     designation: str = Form(...),
     linkedin_profile: str = Form(None),
     twitter_profile: str = Form(None),
+    youtube_profile: str = Form(None),
+    facebook_profile: str = Form(None),
+    twitterX_profile: str = Form(None),
     file: UploadFile = File(None),
     db: Session = Depends(get_db)
 ):
@@ -82,7 +88,7 @@ async def update_team_member_entry(
 
     # Update team member in the database
     updated_team_member = update_team_member(
-        db, team_id, employee_name, designation, linkedin_profile, twitter_profile, "/"+photo_path
+        db, team_id, employee_name, designation, linkedin_profile, twitter_profile, youtube_profile, facebook_profile, twitterX_profile, "/"+photo_path
     )
 
     return {"detail": "Team member updated successfully", "team_member": updated_team_member}

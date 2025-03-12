@@ -41,6 +41,9 @@ export default function Team() {
     designation: "",
     linkedin: "",
     twitter: "",
+    youtube: "",
+    facebook: "",
+    twitterX: "",
   });
   const [photo, setPhoto] = useState(null);
   const [teamButtonText, setTeamButtonText] = useState("Add Team");
@@ -135,6 +138,9 @@ export default function Team() {
     formdata.set("designation", teamMember.designation);
     formdata.set("linkedin_profile", teamMember.linkedin);
     formdata.set("twitter_profile", teamMember.twitter);
+    formdata.set("youtube_profile", teamMember.youtube);
+    formdata.set("facebook_profile", teamMember.facebook);
+    formdata.set("twitterX_profile", teamMember.twitterX);
     formdata.set("file", photo);
 
     if (teamButtonText === "Add Team") {
@@ -190,7 +196,15 @@ export default function Team() {
     setShowForm(false);
   };
   const reloadPage = () => {
-    setTeamMember({ name: "", designation: "", linkedin: "", twitter: "" });
+    setTeamMember({
+      name: "",
+      designation: "",
+      linkedin: "",
+      twitter: "",
+      youtube: "",
+      facebook: "",
+      twitterX: "",
+    });
     setPhotoPreview(null);
     setPhoto(null);
     fetchTeamDetails();
@@ -206,6 +220,9 @@ export default function Team() {
       designation: row.DESIGNATION,
       linkedin: row.LINKEDIN_PROFILE,
       twitter: row.TWITTER_PROFILE,
+      youtube: row.YOUTUBE_PROFILE,
+      facebook: row.FACEBOOK_PROFILE,
+      twitterX: row.TWITTERX_PROFILE,
     });
     setTeamId(row.ID);
     setShowForm(true);
@@ -297,6 +314,48 @@ export default function Team() {
         );
       },
     },
+    {
+      accessorKey: "YOUTUBE_PROFILE",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            YouTube Link
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "FACEBOOK_PROFILE",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Facebook Link
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+    },
+    // {
+    //   accessorKey: "TWITTERX_PROFILE",
+    //   header: ({ column }) => {
+    //     return (
+    //       <Button
+    //         variant="ghost"
+    //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //       >
+    //         Twitter(X) Link
+    //         <ArrowUpDown className="ml-2 h-4 w-4" />
+    //       </Button>
+    //     );
+    //   },
+    // },
     {
       accessorKey: "PHOTO_PATH",
       header: ({ column }) => {
@@ -456,7 +515,6 @@ export default function Team() {
                   value={teamMember.linkedin}
                   onChange={handleInputChange}
                   placeholder="Enter LinkedIn profile URL"
-                  required
                 />
               </div>
 
@@ -468,9 +526,41 @@ export default function Team() {
                   value={teamMember.twitter}
                   onChange={handleInputChange}
                   placeholder="Enter Twitter profile URL"
-                  required
                 />
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="youtube">YouTube Profile</Label>
+                <Input
+                  id="youtube"
+                  name="youtube"
+                  value={teamMember.youtube}
+                  onChange={handleInputChange}
+                  placeholder="Enter YouTube profile URL"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="facebook">Facebook Profile</Label>
+                <Input
+                  id="facebook"
+                  name="facebook"
+                  value={teamMember.facebook}
+                  onChange={handleInputChange}
+                  placeholder="Enter Facebook profile URL"
+                />
+              </div>
+
+              {/* <div className="space-y-2">
+                <Label htmlFor="twitterX">Twitter(X) Profile</Label>
+                <Input
+                  id="twitterX"
+                  name="twitterX"
+                  value={teamMember.twitterX}
+                  onChange={handleInputChange}
+                  placeholder="Enter Twitter(X) profile URL"
+                />
+              </div> */}
 
               <div className="space-y-2">
                 <Label htmlFor="clientLogo">Photo</Label>

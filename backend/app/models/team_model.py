@@ -9,4 +9,7 @@ class TeamModel(Base):
     DESIGNATION = Column(String(255), nullable=False)
     LINKEDIN_PROFILE = Column(String(255))
     TWITTER_PROFILE = Column(String(255))
+    YOUTUBE_PROFILE = Column(String(255))
+    FACEBOOK_PROFILE = Column(String(255))
+    TWITTERX_PROFILE = Column(String(255))
     PHOTO_PATH = Column(String(255))  # Path to the employee's photo
