@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "@/utility/api";
+import { Check } from "lucide-react";
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -172,9 +173,18 @@ export default function Footer() {
                   />
                   <button
                     type="submit"
-                    className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-auto"
+                    className={`${
+                      submissionSuccess ? "bg-green-600" : "bg-purple-600"
+                    } text-white px-4 py-2 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-auto`}
                   >
-                    {submissionSuccess ? "Subscribed" : "Subscribe"}
+                    {submissionSuccess ? (
+                      <div className="flex items-center">
+                        <Check className="mr-2" />
+                        Subscribed
+                      </div>
+                    ) : (
+                      "Subscribe"
+                    )}
                   </button>
                 </div>
               </form>
