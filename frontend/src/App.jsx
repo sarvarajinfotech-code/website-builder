@@ -52,6 +52,7 @@ import Queries from "./components/pages/admin/Queries";
 import LoginPage from "./components/pages/admin/Login";
 import ResetPassword from "./components/pages/admin/ResetPassword";
 import PageNotFound from "./components/pages/admin/PageNotfound";
+import SEO from "./components/pages/admin/SEO";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -152,6 +153,7 @@ function App() {
             <Route path="meetings" element={<Meetings />} />
             <Route path="subscribers" element={<Subscribers />} />
             <Route path="queries" element={<Queries />} />
+            <Route path="seo" element={<SEO />} />
           </Route>
         </Route>
 

@@ -26,6 +26,7 @@ import {
   MailCheck,
   MessageCircleQuestion,
   CheckCircle,
+  TextSearch,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -113,6 +114,7 @@ const menuItems = [
   { name: "Social Media", icon: CircleFadingPlus, path: "/admin/social-media" },
   { name: "Footer", icon: Dock, path: "/admin/footer" },
   { name: "Pages", icon: PanelsTopLeft, path: "/admin/pages" },
+  { name: "SEO", icon: TextSearch, path: "/admin/seo" },
   { name: "Meetings", icon: MessageSquareDiff, path: "/admin/meetings" },
 ];
 

@@ -32,6 +32,7 @@ from app.controllers import subscribers_controller
 from app.controllers import mail_controller
 from app.controllers import authentication_controller
 from app.controllers import meeting_controller
+from app.controllers import seo_tags_controller
 from app.utils.database import engine, Base
 
 # Create database tables
@@ -82,6 +83,7 @@ app.include_router(subscribers_controller.router)
 app.include_router(mail_controller.router)
 app.include_router(authentication_controller.router)
 app.include_router(meeting_controller.router)
+app.include_router(seo_tags_controller.router)
 
 
 

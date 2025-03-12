@@ -1523,6 +1523,54 @@ const api = {
       throw error;
     }
   },
+
+  getSEODetails: async () => {
+    try {
+      const response = await axios.get(`${Constants.BASE_URL}${Constants}`);
+      return response;
+    } catch (error) {
+      console.log("Error while getting SEO details", error);
+      throw error;
+    }
+  },
+
+  getSEOBySection: async (section) => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.SEO}${section}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while getting SEO details by section", error);
+      throw error;
+    }
+  },
+
+  updateSEOBySection: async (section, payload) => {
+    try {
+      const response = await axios.put(
+        `${Constants.BASE_URL}${Constants.SEO}${section}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while updating SEO details by section", error);
+      throw error;
+    }
+  },
+
+  saveSEO: async (payload) => {
+    try {
+      const response = await axios.post(
+        `${Constants.BASE_URL}${Constants.SEO}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error while saving SEO details", error);
+      throw error;
+    }
+  },
 };
 
 export default api;

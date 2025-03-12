@@ -1,3 +1,5 @@
+import SEO from "@/components/pages/admin/SEO";
+
 const API_HOST = import.meta.env.VITE_APP_API_HOST;
 const API_PORT = import.meta.env.VITE_APP_API_PORT;
 
@@ -14,6 +16,7 @@ const Constants = Object.freeze({
   PRICING: "pricing",
   BLOGS: "blogs",
   WHY_CHOOSE_US: "whyChooseuse",
+  SEO: "SEO",
 
   //header text
   HEADER_TEXT: "/headers/",
@@ -121,6 +124,9 @@ const Constants = Object.freeze({
 
   //meeting
   MEETING: "/meeting/",
+
+  //seo
+  SEO: "/seo_tags/",
 });
 
 export default Constants;
