@@ -2,8 +2,9 @@ import api from "@/utility/api";
 import Constants from "@/utility/Constants";
 import { Check, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
-export default function Pricing() {
+export default function Pricing({ seo }) {
   const [headerText, setHeaderText] = useState(null);
   const [tagline, setTagline] = useState(null);
   const [pricingPlans, setPricingPlans] = useState([]);
@@ -31,49 +32,58 @@ export default function Pricing() {
   }, []);
 
   return (
-    <section className="py-20 bg-gray-100 dark:bg-gray-800">
-      <div className="container mx-auto px-4">
-        {headerText && (
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
-            {headerText}
-          </h2>
-        )}
-        {tagline && (
-          <p className="text-xl text-center mb-12 text-gray-600 dark:text-gray-400">
-            {tagline}
-          </p>
-        )}
+    <>
+      {seo && (
+        <Helmet>
+          <title>{seo.title}</title>
+          <meta name="description" content={seo.description} />
+          <meta name="keywords" content={seo.keywords} />
+        </Helmet>
+      )}
+      <section className="py-20 bg-gray-100 dark:bg-gray-800">
+        <div className="container mx-auto px-4">
+          {headerText && (
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+              {headerText}
+            </h2>
+          )}
+          {tagline && (
+            <p className="text-xl text-center mb-12 text-gray-600 dark:text-gray-400">
+              {tagline}
+            </p>
+          )}
 
-        <div className="flex flex-wrap justify-center gap-4 lg:gap-8">
-          {pricingPlans.map((plan) => (
-            <PricingCard
-              key={plan.ID}
-              price={new Intl.NumberFormat("en-IN", {
-                style: "currency",
-                currency: plan.CURRENCY_TYPE,
-              }).format(plan.PRICE)}
-              name={plan.PLAN_TYPE}
-              description={plan.PRICE_TAGLINE}
-              features={[
-                ...(plan.FEATURES_INCLUDED
-                  ? plan.FEATURES_INCLUDED.split(", ").map((feature) => ({
-                      text: feature,
-                      included: true,
-                    }))
-                  : []),
-                ...(plan.FEATURES_EXCLUDED
-                  ? plan.FEATURES_EXCLUDED.split(", ").map((feature) => ({
-                      text: feature,
-                      included: false,
-                    }))
-                  : []),
-              ]}
-              highlighted={plan.HIGHLIGHTED_PLAN === "yes"}
-            />
-          ))}
+          <div className="flex flex-wrap justify-center gap-4 lg:gap-8">
+            {pricingPlans.map((plan) => (
+              <PricingCard
+                key={plan.ID}
+                price={new Intl.NumberFormat("en-IN", {
+                  style: "currency",
+                  currency: plan.CURRENCY_TYPE,
+                }).format(plan.PRICE)}
+                name={plan.PLAN_TYPE}
+                description={plan.PRICE_TAGLINE}
+                features={[
+                  ...(plan.FEATURES_INCLUDED
+                    ? plan.FEATURES_INCLUDED.split(", ").map((feature) => ({
+                        text: feature,
+                        included: true,
+                      }))
+                    : []),
+                  ...(plan.FEATURES_EXCLUDED
+                    ? plan.FEATURES_EXCLUDED.split(", ").map((feature) => ({
+                        text: feature,
+                        included: false,
+                      }))
+                    : []),
+                ]}
+                highlighted={plan.HIGHLIGHTED_PLAN === "yes"}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 

@@ -61,7 +61,7 @@ function App() {
   });
   const [showDarkMode, setShowDarkMode] = useState(true);
   const [pages, setPages] = useState([]);
-
+  const [seoDetails, setSEODetails] = useState([]);
   const isAuthenticated = () => {
     return sessionStorage.getItem("isAuthenticated") !== null;
   };
@@ -108,7 +108,7 @@ function App() {
   }, [isDarkMode]);
 
   useEffect(() => {
-    async function fetchRenderComponents(params) {
+    async function fetchRenderComponents() {
       const response = await api.getPathDetails();
       if (response.length > 0) {
         setPages(response);
@@ -116,7 +116,17 @@ function App() {
         setPages([]);
       }
     }
+
+    async function fetchSEODetails() {
+      const response = await api.getSEODetails();
+      if (response.length > 0) {
+        setSEODetails(response);
+      } else {
+        setSEODetails([]);
+      }
+    }
     fetchRenderComponents();
+    fetchSEODetails();
   }, []);
 
   return (

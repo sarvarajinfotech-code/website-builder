@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import api from "@/utility/api";
 import { Check } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
-export default function Footer() {
-  const navigate = useNavigate();
-
+export default function Footer({ seo }) {
   const [email, setEmail] = useState("");
   const [footerTagline, setFooterTagline] = useState(null);
   const [showNewsletter, setShowNewsletter] = useState(false);
@@ -95,109 +93,118 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="bg-gray-900 text-gray-300 py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
-          <div className="col-span-1 md:col-span-2">
-            <a
-              href="/"
-              className="text-purple-500 text-3xl font-bold mb-4 inline-block"
-            >
-              <img
-                src={logo}
-                alt="logo"
-                className="w-auto h-auto max-w-[150px] max-h-[60px] object-contain"
-              />
-            </a>
-            {footerTagline && <p className="mb-4 text-sm">{footerTagline}</p>}
-            <div className="flex space-x-4">
-              {mediaDetails.map((media) => {
-                const link = media.LINK.startsWith("http")
-                  ? media.LINK
-                  : `https://${media.LINK}`;
-                return (
-                  <a
-                    key={media.ID}
-                    href={link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-purple-600 p-2 w-10 h-10 rounded-lg mb-4 flex items-center justify-center text-white transition-transform transform hover:scale-110 hover:bg-purple-700 cursor-pointer"
-                  >
-                    <div
-                      dangerouslySetInnerHTML={{ __html: media.SVG_ICON }}
-                      className="w-full h-full flex items-center justify-center"
-                    ></div>
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-          {sections.map((section, index) => (
-            <div key={index}>
-              <h3 className="text-lg font-semibold mb-4">{section.title}</h3>
-              <ul className="space-y-2 text-sm">
-                {section.links.map((link, linkIndex) => (
-                  <li key={linkIndex}>
-                    <a href={link.link} className="hover:text-white">
-                      {link.name}
+    <>
+      {seo && (
+        <Helmet>
+          <title>{seo.title}</title>
+          <meta name="description" content={seo.description} />
+          <meta name="keywords" content={seo.keywords} />
+        </Helmet>
+      )}
+      <footer className="bg-gray-900 text-gray-300 py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+            <div className="col-span-1 md:col-span-2">
+              <a
+                href="/"
+                className="text-purple-500 text-3xl font-bold mb-4 inline-block"
+              >
+                <img
+                  src={logo}
+                  alt="logo"
+                  className="w-auto h-auto max-w-[150px] max-h-[60px] object-contain"
+                />
+              </a>
+              {footerTagline && <p className="mb-4 text-sm">{footerTagline}</p>}
+              <div className="flex space-x-4">
+                {mediaDetails.map((media) => {
+                  const link = media.LINK.startsWith("http")
+                    ? media.LINK
+                    : `https://${media.LINK}`;
+                  return (
+                    <a
+                      key={media.ID}
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-purple-600 p-2 w-10 h-10 rounded-lg mb-4 flex items-center justify-center text-white transition-transform transform hover:scale-110 hover:bg-purple-700 cursor-pointer"
+                    >
+                      <div
+                        dangerouslySetInnerHTML={{ __html: media.SVG_ICON }}
+                        className="w-full h-full flex items-center justify-center"
+                      ></div>
                     </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        {showNewsletter && (
-          <div className="border-t border-gray-800 pt-8 mt-8">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-              <div className="mb-4 md:mb-0">
-                {newslettHeaderText && (
-                  <h3 className="text-lg font-semibold mb-2">
-                    {newslettHeaderText}
-                  </h3>
-                )}
-                {newsletterTagline && (
-                  <p className="text-sm text-gray-400">{newsletterTagline}</p>
-                )}
+                  );
+                })}
               </div>
-              <form onSubmit={handleSubmit} className="w-full md:w-auto">
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="bg-gray-800 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-64"
-                    required
-                  />
-                  <button
-                    type="submit"
-                    className={`${
-                      submissionSuccess ? "bg-green-600" : "bg-purple-600"
-                    } text-white px-4 py-2 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-auto`}
-                  >
-                    {submissionSuccess ? (
-                      <div className="flex items-center">
-                        <Check className="mr-2" />
-                        Subscribed
-                      </div>
-                    ) : (
-                      "Subscribe"
-                    )}
-                  </button>
-                </div>
-              </form>
             </div>
+            {sections.map((section, index) => (
+              <div key={index}>
+                <h3 className="text-lg font-semibold mb-4">{section.title}</h3>
+                <ul className="space-y-2 text-sm">
+                  {section.links.map((link, linkIndex) => (
+                    <li key={linkIndex}>
+                      <a href={link.link} className="hover:text-white">
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
-        )}
 
-        {copyRightText && (
-          <div className="flex items-center justify-center mt-8 pt-8 border-t border-gray-800">
-            <p className="text-sm text-gray-400">{copyRightText}</p>
-          </div>
-        )}
-      </div>
-    </footer>
+          {showNewsletter && (
+            <div className="border-t border-gray-800 pt-8 mt-8">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div className="mb-4 md:mb-0">
+                  {newslettHeaderText && (
+                    <h3 className="text-lg font-semibold mb-2">
+                      {newslettHeaderText}
+                    </h3>
+                  )}
+                  {newsletterTagline && (
+                    <p className="text-sm text-gray-400">{newsletterTagline}</p>
+                  )}
+                </div>
+                <form onSubmit={handleSubmit} className="w-full md:w-auto">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      className="bg-gray-800 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-64"
+                      required
+                    />
+                    <button
+                      type="submit"
+                      className={`${
+                        submissionSuccess ? "bg-green-600" : "bg-purple-600"
+                      } text-white px-4 py-2 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-auto`}
+                    >
+                      {submissionSuccess ? (
+                        <div className="flex items-center">
+                          <Check className="mr-2" />
+                          Subscribed
+                        </div>
+                      ) : (
+                        "Subscribe"
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {copyRightText && (
+            <div className="flex items-center justify-center mt-8 pt-8 border-t border-gray-800">
+              <p className="text-sm text-gray-400">{copyRightText}</p>
+            </div>
+          )}
+        </div>
+      </footer>
+    </>
   );
 }

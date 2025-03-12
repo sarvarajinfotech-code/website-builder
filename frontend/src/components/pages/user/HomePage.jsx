@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import api from "@/utility/api";
 import FloatingIcon from "./Floating";
+import { Helmet } from "react-helmet-async";
 
 export default function HomePage({
   isDarkMode,
@@ -13,6 +14,7 @@ export default function HomePage({
   setShowDarkMode,
   setIsDarkMode,
   children,
+  seo,
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [logo, setLogo] = useState("");
@@ -55,20 +57,29 @@ export default function HomePage({
   }, []);
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? "dark" : ""}`}>
-      <Banner />
-      <Navbar
-        isDarkMode={isDarkMode}
-        toggleDarkMode={toggleDarkMode}
-        showDarkMode={showDarkMode}
-        toggleMenu={toggleMenu}
-        isMenuOpen={isMenuOpen}
-        logo={logo}
-      />
-      {children}
-      <FloatingIcon />
+    <>
+      {seo && (
+        <Helmet>
+          <title>{seo.title}</title>
+          <meta name="description" content={seo.description} />
+          <meta name="keywords" content={seo.keywords} />
+        </Helmet>
+      )}
+      <div className={`min-h-screen ${isDarkMode ? "dark" : ""}`}>
+        <Banner />
+        <Navbar
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+          showDarkMode={showDarkMode}
+          toggleMenu={toggleMenu}
+          isMenuOpen={isMenuOpen}
+          logo={logo}
+        />
+        {children}
+        <FloatingIcon />
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 }
