@@ -982,6 +982,17 @@ const api = {
     }
   },
 
+  getBlogDetailsById: async (id) => {
+    try {
+      const response = await axios.get(
+        `${Constants.BASE_URL}${Constants.BLOGS_PAGE}${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error while getting the Blog data", error);
+    }
+  },
+
   saveBlogDetails: async (formdata) => {
     try {
       const response = await axios.post(

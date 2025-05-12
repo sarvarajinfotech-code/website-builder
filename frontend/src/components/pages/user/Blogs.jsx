@@ -11,8 +11,10 @@ import api from "@/utility/api";
 import Constants from "@/utility/Constants";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router-dom";
 
 export default function BlogSection({ seo }) {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const [headerText, setHeaderText] = useState("");
@@ -124,14 +126,23 @@ export default function BlogSection({ seo }) {
                     <p className="text-sm font-medium text-purple-600">
                       {post.CATEGORY}
                     </p>
-                    <a href="#" className="block mt-2">
+                    <div
+                      onClick={() => navigate(`/blogs/${post.ID}`)}
+                      className="block mt-2 cursor-pointer"
+                    >
                       <p className="text-xl font-semibold text-gray-900 dark:text-white">
                         {post.BLOG_NAME}
                       </p>
-                      <p className="mt-3 text-base text-gray-500 dark:text-gray-400">
-                        {post.BLOG_DESCRIPTION}
-                      </p>
-                    </a>
+                      <p
+                        className="mt-3 text-base text-gray-500 dark:text-gray-300"
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            post.BLOG_DESCRIPTION.length > 100
+                              ? `${post.BLOG_DESCRIPTION.substring(0, 100)}...`
+                              : post.BLOG_DESCRIPTION,
+                        }}
+                      ></p>
+                    </div>
                   </div>
                   <div className="mt-6 flex items-center">
                     <div className="flex-shrink-0">
@@ -147,7 +158,7 @@ export default function BlogSection({ seo }) {
                       <p className="text-sm font-medium text-purple-600">
                         {post.AUTHOR_NAME}
                       </p>
-                      <div className="flex space-x-1 text-sm text-gray-500 dark:text-gray-400">
+                      <div className="flex space-x-1 text-sm text-gray-500 dark:text-gray-300">
                         <time dateTime={post.CREATED_DATE}>
                           {new Date(post.CREATED_DATE).toLocaleDateString(
                             "en-US",

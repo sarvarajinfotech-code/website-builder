@@ -53,6 +53,7 @@ import LoginPage from "./components/pages/admin/Login";
 import ResetPassword from "./components/pages/admin/ResetPassword";
 import PageNotFound from "./components/pages/admin/PageNotfound";
 import SEO from "./components/pages/admin/SEO";
+import Blog from "./components/pages/user/Blog";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -312,6 +313,19 @@ function App() {
               setIsDarkMode={setIsDarkMode}
             >
               <UserBlog />
+            </ClientHomePage>
+          }
+        />
+        <Route
+          path="/blogs/:id"
+          element={
+            <ClientHomePage
+              isDarkMode={isDarkMode}
+              showDarkMode={showDarkMode}
+              setShowDarkMode={setShowDarkMode}
+              setIsDarkMode={setIsDarkMode}
+            >
+              <Blog />
             </ClientHomePage>
           }
         />

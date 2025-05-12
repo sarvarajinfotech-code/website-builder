@@ -5,21 +5,25 @@ from app.models.page_model import PageModel
 def create_page(db: Session, page_name: str, content_header: str, content: str):
     new_page = PageModel(
         PAGE_NAME=page_name,
-        CONTENT_HEADER=content_header,
-        CONTENT=content
+        CONTENT_HEADER=content_header
     )
+    new_page.set_content(content)  # Compress and set content
     db.add(new_page)
     db.commit()
     db.refresh(new_page)
-    return new_page
+    return new_page.to_dict()  # Return dictionary with decompressed content
 
 # Get Page by PAGE_NAME
 def get_page(db: Session, page_name: str):
-    return db.query(PageModel).filter(PageModel.PAGE_NAME == page_name).first()
+    page = db.query(PageModel).filter(PageModel.PAGE_NAME == page_name).first()
+    if page:
+        return page.to_dict()  # Return dictionary with decompressed content
+    return None
 
 # Get all Pages
 def get_all_pages(db: Session):
-    return db.query(PageModel).all()
+    pages = db.query(PageModel).all()
+    return [page.to_dict() for page in pages]  # Return list of dictionaries
 
 # Update Page by ID
 def update_page(db: Session, page_id: int, page_name: str, content_header: str, content: str):
@@ -27,7 +31,7 @@ def update_page(db: Session, page_id: int, page_name: str, content_header: str, 
     if page:
         page.PAGE_NAME = page_name
         page.CONTENT_HEADER = content_header
-        page.CONTENT = content
+        page.set_content(content)  # Compress and set content
         db.commit()
         db.refresh(page)
         return page

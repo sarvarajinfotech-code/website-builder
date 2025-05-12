@@ -26,6 +26,16 @@ import EmptyState from "./commons/EmptyState";
 import { DataTable } from "./commons/DataTable";
 import { useToast } from "@/hooks/use-toast";
 
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [{ align: ["right", "center", "justify"] }],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["link", "image"],
+  ],
+};
+
 export default function DynamicPage() {
   const { toast } = useToast();
 
@@ -285,6 +295,7 @@ export default function DynamicPage() {
           <div className="space-y-2" style={{ height: "300px" }}>
             <Label htmlFor="content">Content</Label>
             <ReactQuill
+              modules={modules}
               value={content}
               onChange={setContent}
               placeholder="Write your content here..."

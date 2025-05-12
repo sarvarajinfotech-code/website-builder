@@ -31,6 +31,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import ReactQuill from "react-quill"; // Rich text editor
+import "react-quill/dist/quill.snow.css"; // Quill styles
 
 export default function Blogs() {
   const { toast } = useToast();
@@ -404,6 +406,16 @@ export default function Blogs() {
     fetchBlogCategories();
   }, []);
 
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ align: ["right", "center", "justify"] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image"],
+    ],
+  };
+
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
       <Tabs
@@ -458,7 +470,7 @@ export default function Blogs() {
           {showForm && (
             <form
               onSubmit={handleSubmit}
-              className="space-y-6 max-w-md mx-auto"
+              className="space-y-6 max-w-lg mx-auto"
             >
               <div className="space-y-2">
                 <Label htmlFor="blogName">Blog Name</Label>
@@ -490,14 +502,22 @@ export default function Blogs() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
+              <div
+                className="space-y-2"
+                style={{ height: "500px", width: "100%" }}
+              >
                 <Label htmlFor="blogDescription">Blog Description</Label>
-                <Textarea
-                  id="blogDescription"
-                  name="blogDescription"
-                  placeholder="Enter blog description"
+                <ReactQuill
+                  modules={modules}
                   value={formData.blogDescription}
-                  onChange={handleInputChange}
+                  onChange={(value) =>
+                    handleInputChange({
+                      target: { name: "blogDescription", value },
+                    })
+                  }
+                  placeholder="Enter blog description"
+                  theme="snow"
+                  style={{ height: "80%" }}
                 />
               </div>
               <div className="space-y-2">

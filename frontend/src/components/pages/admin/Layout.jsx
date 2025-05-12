@@ -372,7 +372,7 @@ export default function Layout() {
             <Outlet />
           </main>
           <footer className="bg-white border-t py-4 text-center text-sm p-4">
-            © 2023 Proudly created with www.provendigitalsolution.com | made in
+            © 2025 Proudly created with www.provendigitalsolution.com | made in
             India with ❤️
           </footer>
         </div>

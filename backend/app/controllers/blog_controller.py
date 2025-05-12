@@ -37,13 +37,13 @@ async def create_new_blog(
     new_blog = create_blog(db, blog_name, blog_description, author_name, "",category)
     
    # Save the uploaded author's image and generate the image path
-    author_image_path = save_file(file, f"blog_author_{new_blog.ID}.png")
+    author_image_path = save_file(file, f"blog_author_{new_blog['ID']}.png")
 
      # update blog in the database
-    new_blog = update_blog(db, new_blog.ID, blog_name, blog_description, author_name, "/"+author_image_path,category)
+    new_blog = update_blog(db, new_blog['ID'], blog_name, blog_description, author_name, "/"+author_image_path,category)
 
 
-    return {"detail": "Blog created successfully", "blog_id": new_blog.ID}
+    return {"detail": "Blog created successfully", "blog_id": new_blog['ID']}
 
 # Get blog by ID
 @router.get("/blogs/{blog_id}")
@@ -74,7 +74,7 @@ async def update_blog_entry(
         raise HTTPException(status_code=404, detail="Blog not found")
 
     # Use the existing image path if no new image is uploaded
-    author_image_path = blog.AUTHOR_IMAGE
+    author_image_path = blog['AUTHOR_IMAGE']
     if file:
         author_image_path = save_file(file, f"blog_author_{blog_id}.png")
 
@@ -96,6 +96,6 @@ async def delete_blog_entry(blog_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Blog not found")
 
     # Optionally delete the author's image file from the public folder
-    delete_file(blog.AUTHOR_IMAGE)
+    delete_file(blog['AUTHOR_IMAGE'])
 
     return {"detail": "Blog deleted successfully"}
