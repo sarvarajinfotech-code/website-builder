@@ -1,13 +1,13 @@
-version: '3.8'
+version: "3.8"
 
 services:
   frontend:
     build: ./frontend
     container_name: react-container
     ports:
-      - "3001:5173"   # React app served by Nginx on port 3000
+      - "3001:5173" # React app served by Nginx on port 3000
     volumes:
-      - ./frontend/dist:/usr/share/nginx/html  # Mount dist folder for React container
+      - ./frontend/dist:/usr/share/nginx/html # Mount dist folder for React container
     networks:
       - my-network
 
@@ -15,9 +15,9 @@ services:
     build: ./backend
     container_name: fastapi-container
     ports:
-      - "8001:8000"  # FastAPI app runs on port 8000
+      - "8001:8000" # FastAPI app runs on port 8000
     volumes:
-      - ./frontend/dist:/app/dist  # Mount dist folder from React to FastAPI container
+      - ./frontend/dist:/app/dist # Mount dist folder from React to FastAPI container
     networks:
       - my-network
 

@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Read the upload folder path from the environment variables
-UPLOAD_FOLDER = "/home/babu_reddy/Videos/Personal Projects/client projects/websitebuilder/frontend/public"
+UPLOAD_FOLDER = os.environ.get("PUBLIC_FOLDER_PATH", "/app/media")
 
 def save_file(file: UploadFile, file_name: str) -> str:
     """
@@ -48,7 +48,7 @@ def delete_file(file_path: str) -> None:
     """
     try:
         # Log the file path being deleted
-        file_path = UPLOAD_FOLDER+file_path
+        file_path = os.path.join(UPLOAD_FOLDER, file_path.lstrip("/"))
         print(f"Attempting to delete file: {file_path}")
 
         if os.path.exists(file_path):

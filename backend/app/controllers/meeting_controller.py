@@ -14,18 +14,26 @@ router = APIRouter()
 
 # Pydantic model for Meeting input
 class MeetingCreate(BaseModel):
-    show_meeting: bool
-    button_text: str
-    meeting_link: str
+    show_calendly: bool = False
+    calendly_link: str = None
+    show_whatsapp: bool = False
+    whatsapp_number: str = None
+    show_tawkto: bool = False
+    tawkto_property_id: str = None
+    button_text: str = None
 
 # Create a new Meeting entry
 @router.post("/meeting/")
 async def create_new_meeting(meeting: MeetingCreate, db: Session = Depends(get_db)):
     return create_meeting(
         db,
-        meeting.show_meeting,
-        meeting.button_text,
-        meeting.meeting_link
+        meeting.show_calendly,
+        meeting.calendly_link,
+        meeting.show_whatsapp,
+        meeting.whatsapp_number,
+        meeting.show_tawkto,
+        meeting.tawkto_property_id,
+        meeting.button_text
     )
 
 # Get a Meeting entry by ID
@@ -47,9 +55,13 @@ async def update_meeting_entry(meeting_id: int, meeting: MeetingCreate, db: Sess
     updated_meeting = update_meeting(
         db,
         meeting_id,
-        meeting.show_meeting,
-        meeting.button_text,
-        meeting.meeting_link
+        meeting.show_calendly,
+        meeting.calendly_link,
+        meeting.show_whatsapp,
+        meeting.whatsapp_number,
+        meeting.show_tawkto,
+        meeting.tawkto_property_id,
+        meeting.button_text
     )
     if not updated_meeting:
         raise HTTPException(status_code=404, detail="Meeting entry not found")
