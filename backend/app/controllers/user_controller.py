@@ -12,6 +12,8 @@ load_dotenv()
 
 router = APIRouter()
 
+REACT_PUBLIC_FOLDER = "/home/babu_reddy/Videos/Personal Projects/vijay/websitebuilder/frontend/public"
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 

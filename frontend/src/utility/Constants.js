@@ -1,11 +1,8 @@
-import SEO from "@/components/pages/admin/SEO";
-
 const API_HOST = import.meta.env.VITE_APP_API_HOST;
 const API_PORT = import.meta.env.VITE_APP_API_PORT;
 
 const Constants = Object.freeze({
   BASE_URL: `${API_HOST}:${API_PORT}`,
-  // BASE_URL: `${API_HOST}`,
 
   //pages
   CLIENT_PAGE: "client",

@@ -1,12 +1,20 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-# from config import settings
+from dotenv import load_dotenv
 
-DATABASE_URL = "mysql+pymysql://vijay:vijay1234@localhost:1433/website_builder"
-# DATABASE_URL = "mysql+pymysql://provolqc_babu:Babureddys%401@localhost:3306/provolqc_websitebuilder"
-# DATABASE_URL = "postgresql://postgres.tjopfivhrqypjpatvlvz:Babureddys%401@aws-0-ap-south-1.pooler.supabase.com:6543/postgres?sslmode=require"
-# DATABASE_URL = f"mysql+pymysql://app_user:your_password@82.180.147.140:3306/my_app_db"
+# Load environment variables from .env file
+load_dotenv()
+
+# Construct DATABASE_URL from environment variables
+DB_USER = os.environ.get("DB_USER")
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
+DB_HOST = os.environ.get("DB_HOST")
+DB_PORT = os.environ.get("DB_PORT")
+DB_NAME = os.environ.get("DB_NAME")
+
+DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

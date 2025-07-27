@@ -1,26 +1,48 @@
 version: "3.8"
 
 services:
-  frontend:
-    build: ./frontend
-    container_name: react-container
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "3001:5173" # React app served by Nginx on port 3000
+      - "3306:3306"
     volumes:
-      - ./frontend/dist:/usr/share/nginx/html # Mount dist folder for React container
+      - mysql-data:/var/lib/mysql
     networks:
-      - my-network
+      - app-network
 
   backend:
     build: ./backend
-    container_name: fastapi-container
+    container_name: websitebuilder-backend
     ports:
-      - "8001:8000" # FastAPI app runs on port 8000
+      - "8000:8000"
     volumes:
-      - ./frontend/dist:/app/dist # Mount dist folder from React to FastAPI container
+      - shared-public:/app/frontend-public
+    depends_on:
+      - mysql
     networks:
-      - my-network
+      - app-network
+
+  frontend:
+    build: ./frontend
+    container_name: websitebuilder-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - shared-public:/app/public
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
+  shared-public:
 
 networks:
-  my-network:
-    driver: bridge
+  app-network:
+    driver: host

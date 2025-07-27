@@ -1,14 +1,24 @@
-# Use an Nginx image to serve the static files
-FROM nginx:alpine
+FROM node:18
 
-# Copy the custom nginx.conf
-COPY nginx.conf /etc/nginx/nginx.conf
+WORKDIR /app
 
-# Copy the build files into the Nginx HTML directory
-COPY dist /usr/share/nginx/html
+COPY package.json package-lock.json ./
+RUN npm install
 
-# Expose port 3000
+COPY . .
+
 EXPOSE 5173
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "run", "dev"]
+FROM node:18
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev", "--", "--host"]

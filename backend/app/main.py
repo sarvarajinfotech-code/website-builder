@@ -33,14 +33,20 @@ from app.controllers import mail_controller
 from app.controllers import authentication_controller
 from app.controllers import meeting_controller
 from app.controllers import seo_tags_controller
-from app.utils.database import engine, Base
+from app.utils.database import engine, Base, SessionLocal
+from app.models.user_model import create_default_user
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
+# Create default user after tables are created
+with SessionLocal() as session:
+    create_default_user(session)
+
 app = FastAPI()
 
-origins =['*']
+origins = ['*']
+
 
 app.add_middleware(
     CORSMiddleware,

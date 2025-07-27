@@ -110,19 +110,24 @@ export default function Dashboard() {
     async function fetchHomePageDetails() {
       try {
         const response = await api.getHomePageDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Home Page Sliding Images"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Home Page Sliding Images"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Home Page Sliding Images"
+              ? { ...stat, value: 0 }
+              : stat
+          )
+        );
         console.error("Error fetching Home Page details:", error);
       }
     }
@@ -130,19 +135,22 @@ export default function Dashboard() {
     async function fetchTotalClients() {
       try {
         const response = await api.getClientDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Clients"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Clients"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Clients" ? { ...stat, value: 0 } : stat
+          )
+        );
         console.error("Error fetching Client details:", error);
       }
     }
@@ -150,19 +158,22 @@ export default function Dashboard() {
     async function fetchTotalTeam() {
       try {
         const response = await api.getTeamDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Team Members"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Team Members"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Team Members" ? { ...stat, value: 0 } : stat
+          )
+        );
         console.error("Error fetching Team details:", error);
       }
     }
@@ -170,19 +181,22 @@ export default function Dashboard() {
     async function fetchTotalTestimonials() {
       try {
         const response = await api.getTestimonialsDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Testimonials"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Testimonials"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Testimonials" ? { ...stat, value: 0 } : stat
+          )
+        );
         console.error("Error fetching Testimonials details:", error);
       }
     }
@@ -190,19 +204,22 @@ export default function Dashboard() {
     async function fetchTotalPricePlans() {
       try {
         const response = await api.getPricingPlanDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Pricing Plans"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Pricing Plans"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Pricing Plans" ? { ...stat, value: 0 } : stat
+          )
+        );
         console.error("Error fetching Pricing Plan details:", error);
       }
     }
@@ -210,19 +227,22 @@ export default function Dashboard() {
     async function fetchTotalPrices() {
       try {
         const response = await api.getPricingDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Prices"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Prices"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Prices" ? { ...stat, value: 0 } : stat
+          )
+        );
         console.error("Error fetching Pricing details:", error);
       }
     }
@@ -230,19 +250,24 @@ export default function Dashboard() {
     async function fetchTotalProductCategories() {
       try {
         const response = await api.getProductCategoryDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Product Categories"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Product Categories"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Product Categories"
+              ? { ...stat, value: 0 }
+              : stat
+          )
+        );
         console.error("Error fetching Product Category details:", error);
       }
     }
@@ -250,19 +275,22 @@ export default function Dashboard() {
     async function fetchTotalProducts() {
       try {
         const response = await api.getProductDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Products"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Products"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Products" ? { ...stat, value: 0 } : stat
+          )
+        );
         console.error("Error fetching Product details:", error);
       }
     }
@@ -270,19 +298,24 @@ export default function Dashboard() {
     async function fetchTotalServiceCategories() {
       try {
         const response = await api.getServiceCategoryDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Service Categories"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Service Categories"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Service Categories"
+              ? { ...stat, value: 0 }
+              : stat
+          )
+        );
         console.error("Error fetching Service Category details:", error);
       }
     }
@@ -290,19 +323,22 @@ export default function Dashboard() {
     async function fetchTotalServices() {
       try {
         const response = await api.getServiceDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Services"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Services"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Services" ? { ...stat, value: 0 } : stat
+          )
+        );
         console.error("Error fetching Service details:", error);
       }
     }
@@ -310,19 +346,24 @@ export default function Dashboard() {
     async function fetchTotalBlogCategories() {
       try {
         const response = await api.getBlogCategoryDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Blog Categories"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Blog Categories"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Blog Categories"
+              ? { ...stat, value: 0 }
+              : stat
+          )
+        );
         console.error("Error fetching Blog Category details:", error);
       }
     }
@@ -330,19 +371,22 @@ export default function Dashboard() {
     async function fetchTotalBlogs() {
       try {
         const response = await api.getBlogDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Blogs"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Blogs"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Blogs" ? { ...stat, value: 0 } : stat
+          )
+        );
         console.error("Error fetching Blog details:", error);
       }
     }
@@ -350,19 +394,22 @@ export default function Dashboard() {
     async function fetchTotalFAQ() {
       try {
         const response = await api.getFAQDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total FAQ's"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total FAQ's"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total FAQ's" ? { ...stat, value: 0 } : stat
+          )
+        );
         console.error("Error fetching FAQ details:", error);
       }
     }
@@ -370,19 +417,22 @@ export default function Dashboard() {
     async function fetchTotalDynamicPages() {
       try {
         const response = await api.getPageDetails();
-        if (Array.isArray(response) && response.length > 0) {
-          setStats((prev) =>
-            prev.map((stat) =>
-              stat.title === "Total Dynamic Pages"
-                ? {
-                    ...stat,
-                    value: response.length,
-                  }
-                : stat
-            )
-          );
-        }
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Dynamic Pages"
+              ? {
+                  ...stat,
+                  value: Array.isArray(response) ? response.length : 0,
+                }
+              : stat
+          )
+        );
       } catch (error) {
+        setStats((prev) =>
+          prev.map((stat) =>
+            stat.title === "Total Dynamic Pages" ? { ...stat, value: 0 } : stat
+          )
+        );
         console.error("Error fetching Page details:", error);
       }
     }
