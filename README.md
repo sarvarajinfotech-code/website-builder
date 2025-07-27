@@ -10,7 +10,7 @@ Follow these steps to run the application:
 
 ```sh
 git clone https://github.com/babure/website-builder.git
-cd "client projects/websitebuilder"
+cd website-builder
 ```
 
 ### 2. Give Execute Permission to Wait Script
